@@ -1,0 +1,106 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+ext {
+    secrets = [
+            hockeyAppIdUsa  : keyProperty("HOCKEY_APP_ID_USA"),
+            hockeyAppIdChina: keyProperty("HOCKEY_APP_ID_CHINA"),
+    ]
+}
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.robotemi.welcomingbtob"
+        minSdkVersion 23
+        targetSdkVersion 28
+        versionCode globalVersionCode
+        versionName globalVersionName
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+            versionNameSuffix "-DEBUG"
+            testCoverageEnabled false
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro', 'proguard-rules-test.pro'
+        }
+
+        release {
+            signingConfig signingConfigs.debug
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            useProguard true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("../secrets/platformLuckyStar.keystore")
+            storePassword keyProperty("STORE_PASSWORD")
+            keyAlias keyProperty("KEY_ALIAS")
+            keyPassword keyProperty("KEY_PASSWORD")
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+//    productFlavors {
+//        usa {
+//            versionNameSuffix "-USA"
+//            applicationIdSuffix ".usa"
+//            dimension "country"
+//
+//            manifestPlaceholders = [HOCKEYAPP_APP_ID: secrets.hockeyAppIdUsa]
+//        }
+//        china {
+//            versionNameSuffix "-CHINA"
+//            applicationIdSuffix ".china"
+//            dimension "country"
+//
+//            manifestPlaceholders = [HOCKEYAPP_APP_ID: secrets.hockeyAppIdChina]
+//        }
+//    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation libs.timber
+    implementation libs.rxKotlin2
+    implementation libs.rxAndroid2
+    // Koin for Android
+    implementation 'org.koin:koin-android:2.0.1'
+    // or Koin for Lifecycle scoping
+    implementation 'org.koin:koin-androidx-scope:2.0.1'
+    implementation libs.dagger
+    annotationProcessor proc.dagger
+    kapt "com.google.dagger:dagger-compiler:2.21"
+    kapt "com.google.dagger:dagger-android-processor:2.21"
+    implementation libs.recyclerView
+    implementation libs.mosby
+    implementation libs.roundedImage
+    implementation libs.picasso
+    implementation files('src/sdk-china-debug.aar')
+}

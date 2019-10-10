@@ -1,0 +1,151 @@
+/*
+ Copyright (C) 2015 Vanniktech - Niklas Baudy
+ Licensed under the Apache License, Version 2.0
+*/
+
+apply plugin: Generation
+
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.testing.jacoco.tasks.JacocoReport
+
+class Generation implements Plugin<Project> {
+    @Override
+    void apply(final Project rootProject) {
+        rootProject.extensions.create('junitJacoco', JunitJacocoExtension)
+
+        final def hasSubProjects = rootProject.subprojects.size() > 0
+
+        if (hasSubProjects) {
+            rootProject.subprojects { subProject ->
+                afterEvaluate {
+                    final def extension = rootProject.junitJacoco
+
+                    addJacoco(subProject, extension)
+                }
+            }
+        } else {
+            rootProject.afterEvaluate {
+                final def extension = rootProject.junitJacoco
+
+                addJacoco(rootProject, extension)
+            }
+        }
+    }
+
+    protected static boolean addJacoco(final Project subProject, final JunitJacocoExtension extension) {
+        if (!shouldIgnore(subProject, extension)) {
+            addJacocoAndroid(subProject, extension)
+            return true
+        }
+
+        return false
+    }
+
+    private static void addJacocoAndroid(final Project subProject, final JunitJacocoExtension extension) {
+        subProject.plugins.apply('jacoco')
+
+        subProject.jacoco {
+            toolVersion extension.jacocoVersion
+        }
+
+        final def buildTypes = subProject.android.buildTypes.collect { type -> type.name }
+        final def productFlavors = subProject.android.productFlavors.collect { flavor -> flavor.name }
+
+        // When no product flavors defined, use empty
+        if (!productFlavors) productFlavors.add('')
+
+        subProject.android.applicationVariants.all { variant ->
+            def productFlavorName = variant.getFlavorName()
+            def buildTypeName = variant.getBaseName().split("-")[1]
+
+            def sourceName, sourcePath
+            if (!productFlavorName) {
+                sourceName = sourcePath = "${buildTypeName}"
+            } else {
+                sourceName = "${productFlavorName}${buildTypeName.capitalize()}"
+                sourcePath = "${productFlavorName}/${buildTypeName}"
+            }
+            final def testTaskName = "test${sourceName.capitalize()}UnitTest"
+            final def taskName = "jacocoTestReport${sourceName.capitalize()}"
+
+            subProject.task(taskName, type: JacocoReport, dependsOn: testTaskName) {
+                group = 'Reporting'
+                description = "Generate Jacoco coverage reports after running ${sourceName} tests."
+
+                reports {
+                    xml {
+                        enabled = true
+                        destination "${subProject.buildDir}/reports/jacoco/${sourceName}/jacoco.xml"
+                    }
+                    html {
+                        enabled = true
+                        destination "${subProject.buildDir}/reports/jacoco/${sourceName}"
+                    }
+                }
+
+                classDirectories = subProject.fileTree(
+                        dir: "${subProject.buildDir}/intermediates/classes/${sourcePath}",
+                        excludes: getExcludes(extension)
+                )
+
+                final def coverageSourceDirs = [
+                        "src/main/java",
+                        "src/$buildTypeName/java"
+                ]
+
+                if (productFlavorName) {
+                    coverageSourceDirs.add("src/$productFlavorName/java")
+                }
+
+                additionalSourceDirs = subProject.files(coverageSourceDirs)
+                sourceDirectories = subProject.files(coverageSourceDirs)
+                executionData = subProject.files("${subProject.buildDir}/jacoco/${testTaskName}.exec")
+            }
+
+            subProject.check.dependsOn "${taskName}"
+        }
+    }
+
+    static List<String> getExcludes(final JunitJacocoExtension extension) {
+        extension.excludes == null ? ['**/R.class',
+                                      '**/R$*.class',
+                                      '**/*$$*',
+                                      '**/*$ViewInjector*.*',
+                                      '**/*$ViewBinder*.*',
+                                      '**/BuildConfig.*',
+                                      '**/Manifest*.*',
+                                      '**/*$Lambda$*.*', // Jacoco can not handle several "$" in class name.
+                                      '**/*Dagger*.*', // Dagger auto-generated code.
+                                      '**/*MembersInjector*.*', // Dagger auto-generated code.
+                                      '**/*_Provide*Factory*.*', // Dagger auto-generated code.
+                                      '**/*$JsonObjectMapper.*', // LoganSquare auto-generated code.
+                                      '**/*$inlined$*.*', // Kotlin specific, Jacoco can not handle several "$" in class name.
+                                      '**/*$Icepick.*' // Icepick auto-generated code.
+        ] : extension.excludes
+    }
+
+    private static boolean shouldIgnore(final Project project, final JunitJacocoExtension extension) {
+        return extension.ignoreProjects?.contains(project.name)
+    }
+}
+
+class JunitJacocoExtension {
+    /**
+     * define the version of jacoco which should be used
+     * @since 0.3.0
+     */
+    String jacocoVersion = '0.7.2.201409121644'
+
+    /**
+     * subprojects that should be ignored
+     * @since 0.3.0
+     */
+    String[] ignoreProjects = []
+
+    /**
+     * Patterns of files that should be ignored
+     * @since 0.5.0
+     */
+    List<String> excludes = null
+}

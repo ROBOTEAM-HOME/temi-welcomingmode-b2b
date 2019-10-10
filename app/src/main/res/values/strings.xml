@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Welcoming Mode B2B</string>
+    <string name="welcome">Welcome</string>
+    <string name="greeting">Hello</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="feature_walk">WALK</string>
+    <string name="feature_play">PLAY</string>
+    <string name="feature_call">CALL</string>
+    <string name="feature_take_photo">Take a selfie</string>
+    <string name="feature_follow">Follow me</string>
+    <string name="feature_play_music">Play music</string>
+    <string name="sub_title_play">Try out temi\'s best features</string>
+    <string name="sub_title_call">Want to talk to sales?</string>
+    <string name="sub_title_walk">Select your destination</string>
+</resources>
