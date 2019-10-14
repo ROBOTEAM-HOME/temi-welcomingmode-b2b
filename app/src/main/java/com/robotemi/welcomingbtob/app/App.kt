@@ -1,32 +1,29 @@
 package com.robotemi.welcomingbtob.app
 
 import android.app.Application
-import android.content.Context
-import com.robotemi.welcomingbtob.injection.AppComponent
-import com.robotemi.welcomingbtob.injection.DaggerAppComponent
+import org.koin.android.ext.android.inject
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidFileProperties
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.dsl.module
 
 class App : Application() {
 
-    lateinit var appComponent: AppComponent
+    private val appModule = module {
+        single { DebugMetricsHelper() }
+    }
+
+    private val debugMetricsHelper: DebugMetricsHelper by inject()
 
     override fun onCreate() {
         super.onCreate()
-        appComponent.getDebugMetricsHelper().init(this)
-
-//        startKoin {
-//            androidLogger()
-//            androidContext(this@App)
-//            androidFileProperties()
-//        }
-    }
-
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(base)
-        this.appComponent = DaggerAppComponent
-            .builder()
-            .build()
-
-        appComponent.inject(this)
-
+        startKoin {
+            androidLogger()
+            androidContext(this@App)
+            androidFileProperties()
+            modules(appModule)
+        }
+        debugMetricsHelper.init()
     }
 }

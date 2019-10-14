@@ -1,7 +1,5 @@
 package com.robotemi.welcomingbtob
 
-import com.robotemi.sdk.listeners.OnWelcomingModeStatusChangedListener
-
 interface IActivityCallback {
     fun setCloseVisibility(isVisible: Boolean)
 

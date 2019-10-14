@@ -58,6 +58,9 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         isDetected: Boolean
     ) {
         Timber.d("onWelcomingModeStatusChanged(Double, Double, Boolean) (angle=$angle, distance=$distance, isDetected=$isDetected)")
+        robot.hideTopBar()
+//        robot.stopMovement()
+//        robot.toggleWelcomingMode(true)
         if (isDetected) {
             removeFragment()
             textViewGreeting.visibility = View.VISIBLE
@@ -157,7 +160,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         val fragments = supportFragmentManager.fragments
         frameLayout.visibility = View.GONE
         for (fragment in fragments) {
-            supportFragmentManager.beginTransaction().remove(fragment).commit()
+            supportFragmentManager.beginTransaction().remove(fragment).commitAllowingStateLoss()
         }
     }
 
