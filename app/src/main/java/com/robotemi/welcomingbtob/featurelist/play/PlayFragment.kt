@@ -1,5 +1,6 @@
 package com.robotemi.welcomingbtob.featurelist.play
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,9 +10,18 @@ import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter
 import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
+import com.robotemi.welcomingbtob.utils.Constants
 import kotlinx.android.synthetic.main.fragment_feature_list.*
+import java.lang.StringBuilder
 
 class PlayFragment : FeatureListFragment() {
+    companion object {
+        private const val SKILL_PACKAGE_CAMERA = "com.roboteam.teamy.camera"
+
+        private const val SKILL_PACKAGE_MUSIC = "com.roboteam.teamy.iheart"
+
+        fun newInstance() = PlayFragment()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,21 +58,32 @@ class PlayFragment : FeatureListFragment() {
     fun handleAction(name: String) {
         when (name) {
             getString(R.string.feature_take_photo) -> {
-                // TODO Add judgement for judging the language version of the Launcher
-                val intent =
-                    context?.packageManager?.getLaunchIntentForPackage("com.roboteam.teamy.camera.china")
-                startActivity(intent)
+                startSkill(SKILL_PACKAGE_CAMERA)
             }
             getString(R.string.feature_follow) -> Robot.getInstance().beWithMe()
             getString(R.string.feature_play_music) -> {
-//                val intent =
-//                    context?.packageManager?.getLaunchIntentForPackage("com.roboteam.teamy.iheart.usa")
-//                startActivity(intent)
+//                if (Robot.getInstance().wakeupWord == Constants.WAKEUP_WORD_DING_DANG) {
+//                    return
+//                }
+                startSkill(SKILL_PACKAGE_MUSIC)
             }
         }
     }
 
-    companion object {
-        fun newInstance() = PlayFragment()
+    private fun startSkill(packageNameWithoutSuffix: String) {
+        val wakeupWord = Robot.getInstance().wakeupWord
+        val packageName = StringBuilder(packageNameWithoutSuffix)
+        if (wakeupWord == Constants.WAKEUP_WORD_ALEXA || wakeupWord == Constants.WAKEUP_WORD_HEY_TEMI) {
+            packageName.append(Constants.SUFFIX_USA)
+        } else {
+            packageName.append(Constants.SUFFIX_CHINA)
+        }
+        val intent = context?.packageManager?.getLaunchIntentForPackage(packageName.toString())
+        intent?.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
+        if(intent == null) {
+            return
+        }
+        startActivity(intent)
     }
+
 }
