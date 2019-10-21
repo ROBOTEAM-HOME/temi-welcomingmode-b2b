@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import com.robotemi.sdk.Robot
 import com.robotemi.sdk.listeners.OnRobotReadyListener
 import com.robotemi.sdk.listeners.OnWelcomingModeStatusChangedListener
+import com.robotemi.sdk.listeners.OnWelcomingModeStatusChangedListener.ACTIVE
+import com.robotemi.sdk.listeners.OnWelcomingModeStatusChangedListener.IDLE
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -24,20 +26,16 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
 
     private lateinit var robot: Robot
 
-    private var mIsDetected = false
-
     private var disposableTapRightCorner: Disposable = Disposables.disposed()
 
-    private var disposableAsr: Disposable = Disposables.disposed()
+    private var disposableAction: Disposable = Disposables.disposed()
 
     private var disposableScreenSaver: Disposable = Disposables.disposed()
 
     override fun toggleActivityClickListener(enable: Boolean) {
         if (enable) {
             constraintLayoutParent.setOnClickListener {
-                startFragment(
-                    FeatureListFragment.newInstance()
-                )
+                startFragment(FeatureListFragment.newInstance())
             }
         } else {
             constraintLayoutParent.setOnClickListener(null)
@@ -48,35 +46,26 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         if (enable) {
             robot.addOnWelcomingModeStatusChangedListener(this)
         } else {
-            robot.removeWelcomingModeStatusChangedListener(this)
+            robot.removeOnWelcomingModeStatusChangedListener(this)
         }
     }
 
-    override fun onWelcomingModeStatusChanged(
-        angle: Double,
-        distance: Double,
-        isDetected: Boolean
-    ) {
-        Timber.d("onWelcomingModeStatusChanged(Double, Double, Boolean) (angle=$angle, distance=$distance, isDetected=$isDetected)")
+    override fun onWelcomingModeStatusChanged(status: String) {
+        Timber.d("onWelcomingModeStatusChanged(String) (status=$status)")
         robot.hideTopBar()
-//        robot.stopMovement()
-//        robot.toggleWelcomingMode(true)
-        if (isDetected) {
-            removeFragment()
-            textViewGreeting.visibility = View.VISIBLE
-            if (isDetected == mIsDetected) {
-                return
+        when (status) {
+            ACTIVE -> {
+                removeFragment()
+                textViewGreeting.visibility = View.VISIBLE
+                disposableAction.dispose()
+                disposableAction = Observable.timer(2, TimeUnit.SECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe { startFragment(FeatureListFragment.newInstance()) }
             }
-            mIsDetected = true
-            disposableAsr.dispose()
-            disposableAsr = Observable.timer(2, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { robot.triggerWakeup() }
-        } else {
-            mIsDetected = false
-            textViewGreeting.visibility = View.GONE
-            removeFragment()
-            disposableAsr.dispose()
+            IDLE -> {
+                resetUI()
+                disposableAction.dispose()
+            }
         }
     }
 
@@ -90,7 +79,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
             val activityInfo =
                 packageManager.getActivityInfo(componentName, PackageManager.GET_META_DATA)
             robot.onStart(activityInfo)
-            robot.toggleWelcomingMode(true)
             robot.hideTopBar()
         }
     }
@@ -113,7 +101,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         imageButtonClose.setOnClickListener {
             startFragment(FeatureListFragment.newInstance())
             imageButtonClose.visibility = View.GONE
-            robot.toggleWelcomingMode(true)
         }
     }
 
@@ -124,24 +111,23 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     override fun onResume() {
         super.onResume()
         robot.hideTopBar()
-        robot.toggleWelcomingMode(true)
         robot.addOnRobotReadyListener(this)
         robot.addOnWelcomingModeStatusChangedListener(this)
         toggleActivityClickListener(true)
         startTimerForScreenSaver()
+        resetUI()
     }
 
     override fun onPause() {
         super.onPause()
-        robot.toggleWelcomingMode(false)
         robot.removeOnRobotReadyListener(this)
-        robot.removeWelcomingModeStatusChangedListener(this)
-        mIsDetected = false
+        robot.removeOnWelcomingModeStatusChangedListener(this)
+
         if (!disposableScreenSaver.isDisposed) {
             disposableScreenSaver.dispose()
         }
-        if (!disposableAsr.isDisposed) {
-            disposableAsr.dispose()
+        if (!disposableAction.isDisposed) {
+            disposableAction.dispose()
         }
         if (!disposableTapRightCorner.isDisposed) {
             disposableTapRightCorner.dispose()
@@ -149,11 +135,12 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     }
 
     private fun startFragment(fragment: Fragment) {
-        toggleWelcomingModeListener(false)
-        robot.toggleWelcomingMode(false)
         textViewGreeting.visibility = View.GONE
         frameLayout.visibility = View.VISIBLE
-        supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment)
+            .commitAllowingStateLoss()
+        startTimerForScreenSaver()
+        disposableAction.dispose()
     }
 
     private fun removeFragment() {
@@ -162,11 +149,17 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         for (fragment in fragments) {
             supportFragmentManager.beginTransaction().remove(fragment).commitAllowingStateLoss()
         }
+        stopTimerForScreenSaver()
+    }
+
+    private fun resetUI() {
+        textViewGreeting.visibility = View.GONE
+        removeFragment()
     }
 
     private fun startTimerForScreenSaver() {
         stopTimerForScreenSaver()
-        disposableScreenSaver = Completable.timer(10, TimeUnit.SECONDS)
+        disposableScreenSaver = Completable.timer(20, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { removeFragment() }
     }
@@ -175,11 +168,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         if (!disposableScreenSaver.isDisposed) {
             disposableScreenSaver.dispose()
         }
-    }
-
-    override fun onUserInteraction() {
-        super.onUserInteraction()
-        startTimerForScreenSaver()
     }
 
 }

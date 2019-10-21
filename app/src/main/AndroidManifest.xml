@@ -15,11 +15,11 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <meta-data
-            android:name="com.robotemi.sdk.metadata.SKILL"
+            android:name="@string/metadata_skill"
             android:value="@string/app_name" />
 
         <meta-data
-            android:name="com.robotemi.sdk.metadata.KIOSK"
+            android:name="@string/metadata_kiosk"
             android:value="TRUE" />
 
         <activity

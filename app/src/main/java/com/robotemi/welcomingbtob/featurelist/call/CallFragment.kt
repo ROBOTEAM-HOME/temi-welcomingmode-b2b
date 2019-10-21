@@ -41,7 +41,10 @@ class CallFragment : FeatureListFragment() {
             object : FeatureListAdapter<UserInfo>(context!!, R.layout.include_call_card, featureList) {
                 override fun convert(holder: ViewHolder, userInfo: UserInfo) {
                     holder.setText(R.id.textViewName, userInfo.name)
-                    Picasso.get().load(userInfo.picUrl).into(holder.getView(R.id.imageViewAvatar) as ImageView)
+                    Picasso.get()
+                        .load(userInfo.picUrl)
+                        .placeholder(R.drawable.ic_video_call_avatar_placeholder)
+                        .into(holder.getView(R.id.imageViewAvatar) as ImageView)
                     holder.setOnClickListener(
                         R.id.linearLayout,
                         View.OnClickListener { handleAction(userInfo) })
@@ -53,10 +56,6 @@ class CallFragment : FeatureListFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         setCloseVisibility(false)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
     fun handleAction(userInfo: UserInfo) {

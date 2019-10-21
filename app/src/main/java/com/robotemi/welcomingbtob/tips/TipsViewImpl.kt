@@ -12,6 +12,7 @@ import android.widget.RelativeLayout
 import com.robotemi.sdk.Robot
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.utils.AnimationUtils
+import com.robotemi.welcomingbtob.utils.Constants
 
 class TipsViewImpl : RelativeLayout {
 
@@ -33,10 +34,6 @@ class TipsViewImpl : RelativeLayout {
 
     companion object {
         const val TAG: String = "TipsViewImpl"
-
-        private const val ALEXA = "Alexa"
-
-        private const val TEMI = "Hey temi"
     }
 
     private lateinit var viewFlipper: AdapterViewFlipper
@@ -50,11 +47,10 @@ class TipsViewImpl : RelativeLayout {
     private val flipperIntervalTimeout: Int = 10000
 
     private fun loadTips() {
-        val wakeupAssistant: String = Robot.getInstance().wakeupWord
-        val tips: List<String> = if (ALEXA == wakeupAssistant) {
-            resources.getStringArray(R.array.tips_alexa).asList()
-        } else {
-            resources.getStringArray(R.array.tips_temi).asList()
+        val tips: List<String> = when (Robot.getInstance().wakeupWord) {
+            Constants.WAKEUP_WORD_ALEXA -> resources.getStringArray(R.array.tips_alexa).asList()
+            Constants.WAKEUP_WORD_DING_DANG -> resources.getStringArray(R.array.tips_dingdang).asList()
+            else -> resources.getStringArray(R.array.tips_temi).asList()
         }
         adapter.updateList(tips)
     }

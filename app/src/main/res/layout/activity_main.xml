@@ -23,6 +23,7 @@
         android:paddingBottom="21dp"
         android:src="@drawable/ic_close"
         android:visibility="gone"
+        android:tint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -39,7 +39,11 @@ open class FeatureListFragment : Fragment() {
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator!!.changeDuration = 0
-        val featureList: List<String> = arrayOf("WALK", "CALL", "PLAY").asList()
+        val featureList: List<String> = arrayOf(
+            getString(R.string.feature_walk),
+            getString(R.string.feature_call),
+            getString(R.string.feature_play)
+        ).asList()
         val adapter =
             object :
                 FeatureListAdapter<String>(context!!, R.layout.item_feature_card, featureList) {
@@ -57,15 +61,11 @@ open class FeatureListFragment : Fragment() {
         super.onResume()
         tipsViewFlipper.start()
         robot.hideTopBar()
-        robot.toggleWelcomingMode(false)
-        toggleWelcomingModeListener(false)
         toggleActivityClickListener(false)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        robot.toggleWelcomingMode(true)
-        toggleWelcomingModeListener(true)
         toggleActivityClickListener(true)
     }
 
@@ -95,11 +95,7 @@ open class FeatureListFragment : Fragment() {
         activityCallback.setCloseVisibility(isVisible)
     }
 
-    protected fun toggleWelcomingModeListener(enable: Boolean) {
-        activityCallback.toggleWelcomingModeListener(enable)
-    }
-
-    protected fun toggleActivityClickListener(enable: Boolean) {
+    private fun toggleActivityClickListener(enable: Boolean) {
         activityCallback.toggleActivityClickListener(enable)
     }
 
