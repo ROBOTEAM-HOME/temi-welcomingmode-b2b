@@ -1,14 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-
-ext {
-    secrets = [
-            hockeyAppIdUsa  : keyProperty("HOCKEY_APP_ID_USA"),
-            hockeyAppIdChina: keyProperty("HOCKEY_APP_ID_CHINA"),
-    ]
-}
 
 android {
     compileSdkVersion 28
@@ -16,8 +8,8 @@ android {
         applicationId "com.robotemi.welcomingbtob"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode globalVersionCode
-        versionName globalVersionName
+        versionCode 1
+        versionName '1.0.0'
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -48,9 +40,13 @@ android {
     signingConfigs {
         debug {
             storeFile file("../secrets/platformLuckyStar.keystore")
-            storePassword keyProperty("STORE_PASSWORD")
-            keyAlias keyProperty("KEY_ALIAS")
-            keyPassword keyProperty("KEY_PASSWORD")
+            Properties properties = new Properties()
+            FileInputStream fileInputStream = new FileInputStream("$project.rootDir/secrets/secret.properties")
+            properties.load(fileInputStream)
+            storePassword properties.getProperty("StorePassword")
+            keyAlias properties.getProperty("KeyAlias")
+            keyPassword properties.getProperty("KeyPassword")
+            fileInputStream.close()
         }
     }
 
@@ -58,23 +54,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-//    productFlavors {
-//        usa {
-//            versionNameSuffix "-USA"
-//            applicationIdSuffix ".usa"
-//            dimension "country"
-//
-//            manifestPlaceholders = [HOCKEYAPP_APP_ID: secrets.hockeyAppIdUsa]
-//        }
-//        china {
-//            versionNameSuffix "-CHINA"
-//            applicationIdSuffix ".china"
-//            dimension "country"
-//
-//            manifestPlaceholders = [HOCKEYAPP_APP_ID: secrets.hockeyAppIdChina]
-//        }
-//    }
 }
 
 dependencies {
@@ -87,16 +66,16 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation libs.timber
-    implementation libs.rxKotlin2
-    implementation libs.rxAndroid2
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     // Koin for Android
     implementation 'org.koin:koin-android:2.0.1'
     // or Koin for Lifecycle scoping
     implementation 'org.koin:koin-androidx-scope:2.0.1'
-    implementation libs.recyclerView
-    implementation libs.mosby
-    implementation libs.roundedImage
-    implementation libs.picasso
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'com.hannesdorfmann.mosby:mvp:2.0.1'
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation files('src/sdk-china-debug.aar')
 }
