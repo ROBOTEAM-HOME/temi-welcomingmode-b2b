@@ -41,10 +41,12 @@ android {
         debug {
             storeFile file("../secrets/platformLuckyStar.keystore")
             Properties properties = new Properties()
-            properties.load(new FileInputStream("$project.rootDir/secrets/secret.properties"))
+            FileInputStream fileInputStream = new FileInputStream("$project.rootDir/secrets/secret.properties")
+            properties.load(fileInputStream)
             storePassword properties.getProperty("StorePassword")
             keyAlias properties.getProperty("KeyAlias")
             keyPassword properties.getProperty("KeyPassword")
+            fileInputStream.close()
         }
     }
 
