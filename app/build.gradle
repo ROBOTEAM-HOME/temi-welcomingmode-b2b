@@ -3,13 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-ext {
-    secrets = [
-            hockeyAppIdUsa  : keyProperty("HOCKEY_APP_ID_USA"),
-            hockeyAppIdChina: keyProperty("HOCKEY_APP_ID_CHINA"),
-    ]
-}
-
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -45,36 +38,10 @@ android {
         }
     }
 
-    signingConfigs {
-        debug {
-            storeFile file("../secrets/platformLuckyStar.keystore")
-            storePassword keyProperty("STORE_PASSWORD")
-            keyAlias keyProperty("KEY_ALIAS")
-            keyPassword keyProperty("KEY_PASSWORD")
-        }
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-//    productFlavors {
-//        usa {
-//            versionNameSuffix "-USA"
-//            applicationIdSuffix ".usa"
-//            dimension "country"
-//
-//            manifestPlaceholders = [HOCKEYAPP_APP_ID: secrets.hockeyAppIdUsa]
-//        }
-//        china {
-//            versionNameSuffix "-CHINA"
-//            applicationIdSuffix ".china"
-//            dimension "country"
-//
-//            manifestPlaceholders = [HOCKEYAPP_APP_ID: secrets.hockeyAppIdChina]
-//        }
-//    }
 }
 
 dependencies {
