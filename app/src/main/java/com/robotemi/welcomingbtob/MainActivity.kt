@@ -54,19 +54,23 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         Timber.d("onWelcomingModeStatusChanged(String) (status=$status)")
         robot.hideTopBar()
         when (status) {
-            ACTIVE -> {
-                removeFragment()
-                textViewGreeting.visibility = View.VISIBLE
-                disposableAction.dispose()
-                disposableAction = Observable.timer(2, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { startFragment(FeatureListFragment.newInstance()) }
-            }
-            IDLE -> {
-                resetUI()
-                disposableAction.dispose()
-            }
+            ACTIVE -> handleActive()
+            IDLE -> handleIdle()
         }
+    }
+
+    private fun handleActive() {
+        removeFragment()
+        textViewGreeting.visibility = View.VISIBLE
+        disposableAction.dispose()
+        disposableAction = Observable.timer(2, TimeUnit.SECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { startFragment(FeatureListFragment.newInstance()) }
+    }
+
+    private fun handleIdle() {
+        resetUI()
+        disposableAction.dispose()
     }
 
     override fun setCloseVisibility(isVisible: Boolean) {
