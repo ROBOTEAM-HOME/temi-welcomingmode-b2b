@@ -15,7 +15,7 @@ import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
 import com.robotemi.welcomingbtob.featurelist.call.CallFragment
 import com.robotemi.welcomingbtob.featurelist.play.PlayFragment
 import com.robotemi.welcomingbtob.featurelist.walk.WalkFragment
-import kotlinx.android.synthetic.main.fragment_feature_list.*
+import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
 
 open class FeatureListFragment : Fragment() {
 

@@ -9,7 +9,7 @@ import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter
 import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
-import kotlinx.android.synthetic.main.fragment_feature_list.*
+import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
 
 class WalkFragment : FeatureListFragment() {
 
@@ -53,7 +53,6 @@ class WalkFragment : FeatureListFragment() {
     fun handleAction(name: String) {
         Robot.getInstance().goTo(name)
     }
-
 
     companion object {
         fun newInstance() = WalkFragment()

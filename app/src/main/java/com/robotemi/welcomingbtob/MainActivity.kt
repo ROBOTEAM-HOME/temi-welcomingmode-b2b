@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     }
 
     private fun handleActive() {
-        removeFragment()
+        removeFragments()
         textViewGreeting.visibility = View.VISIBLE
         disposableAction.dispose()
         disposableAction = Observable.timer(2, TimeUnit.SECONDS)
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         disposableAction.dispose()
     }
 
-    private fun removeFragment() {
+    private fun removeFragments() {
         val fragments = supportFragmentManager.fragments
         frameLayout.visibility = View.GONE
         for (fragment in fragments) {
@@ -158,20 +158,25 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
 
     private fun resetUI() {
         textViewGreeting.visibility = View.GONE
-        removeFragment()
+        removeFragments()
     }
 
     private fun startTimerForScreenSaver() {
         stopTimerForScreenSaver()
         disposableScreenSaver = Completable.timer(20, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { removeFragment() }
+            .subscribe { removeFragments() }
     }
 
     private fun stopTimerForScreenSaver() {
         if (!disposableScreenSaver.isDisposed) {
             disposableScreenSaver.dispose()
         }
+    }
+
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        robot.stopMovement()
     }
 
 }

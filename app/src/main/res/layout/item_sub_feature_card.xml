@@ -5,7 +5,7 @@
     android:layout_width="346dp"
     android:layout_height="225dp"
     android:layout_marginStart="20dp"
-    android:background="@drawable/tile"
+    android:background="@drawable/selector_feature_card"
     android:gravity="center">
 
     <TextView

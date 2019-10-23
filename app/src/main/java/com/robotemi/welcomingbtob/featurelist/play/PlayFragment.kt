@@ -2,7 +2,9 @@ package com.robotemi.welcomingbtob.featurelist.play
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.robotemi.sdk.Robot
@@ -11,7 +13,7 @@ import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter
 import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
 import com.robotemi.welcomingbtob.utils.Constants
-import kotlinx.android.synthetic.main.fragment_feature_list.*
+import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
 import java.lang.StringBuilder
 
 class PlayFragment : FeatureListFragment() {
@@ -21,6 +23,13 @@ class PlayFragment : FeatureListFragment() {
         private const val SKILL_PACKAGE_MUSIC = "com.roboteam.teamy.iheart"
 
         fun newInstance() = PlayFragment()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_sub_feature_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
