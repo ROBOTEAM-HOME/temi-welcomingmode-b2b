@@ -18,13 +18,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     OnWelcomingModeStatusChangedListener, IActivityCallback {
 
-    private lateinit var robot: Robot
+    private val robot: Robot by inject()
 
     private var disposableTapRightCorner: Disposable = Disposables.disposed()
 
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     }
 
     private fun handleActive() {
-        removeFragment()
+        removeFragments()
         textViewGreeting.visibility = View.VISIBLE
         disposableAction.dispose()
         disposableAction = Observable.timer(2, TimeUnit.SECONDS)
@@ -90,7 +91,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        robot = Robot.getInstance()
         btnOpenHomeList.setOnTouchListener { _, event ->
             if (event?.action == MotionEvent.ACTION_DOWN) {
                 disposableTapRightCorner.dispose()
@@ -147,7 +147,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         disposableAction.dispose()
     }
 
-    private fun removeFragment() {
+    private fun removeFragments() {
         val fragments = supportFragmentManager.fragments
         frameLayout.visibility = View.GONE
         for (fragment in fragments) {
@@ -158,20 +158,25 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
 
     private fun resetUI() {
         textViewGreeting.visibility = View.GONE
-        removeFragment()
+        removeFragments()
     }
 
     private fun startTimerForScreenSaver() {
         stopTimerForScreenSaver()
         disposableScreenSaver = Completable.timer(20, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { removeFragment() }
+            .subscribe { removeFragments() }
     }
 
     private fun stopTimerForScreenSaver() {
         if (!disposableScreenSaver.isDisposed) {
             disposableScreenSaver.dispose()
         }
+    }
+
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        robot.stopMovement()
     }
 
 }
