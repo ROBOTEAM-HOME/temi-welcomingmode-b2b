@@ -50,6 +50,21 @@ android {
         }
     }
 
+    flavorDimensions "country"
+
+    productFlavors {
+        usa {
+            versionNameSuffix "-USA"
+            applicationIdSuffix ".usa"
+            dimension "country"
+        }
+        china {
+            versionNameSuffix "-CHINA"
+            applicationIdSuffix ".china"
+            dimension "country"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -77,5 +92,6 @@ dependencies {
     implementation 'com.hannesdorfmann.mosby:mvp:2.0.1'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation files('src/sdk-china-debug.aar')
+    chinaImplementation files('src/sdk-china-debug.aar')
+    usaImplementation files('src/sdk-usa-debug.aar')
 }
