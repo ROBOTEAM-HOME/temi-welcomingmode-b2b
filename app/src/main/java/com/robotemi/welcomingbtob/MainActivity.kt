@@ -178,5 +178,4 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         super.onUserInteraction()
         robot.stopMovement()
     }
-
 }

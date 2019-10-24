@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:paddingStart="47dp"
-        android:paddingTop="21dp"
+        android:paddingTop="47dp"
         android:paddingEnd="47dp"
         android:paddingBottom="21dp"
         android:src="@drawable/ic_close"

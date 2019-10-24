@@ -1,73 +1,40 @@
 package com.robotemi.welcomingbtob.featurelist.play
 
 import android.content.Intent
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.robotemi.welcomingbtob.R
-import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
-import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter
+import com.robotemi.welcomingbtob.featurelist.FeatureBaseFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
 import com.robotemi.welcomingbtob.utils.Constants
 import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
 
-class PlayFragment : FeatureListFragment() {
-    companion object {
-        private const val SKILL_PACKAGE_CAMERA = "com.roboteam.teamy.camera"
+class PlayFragment : FeatureBaseFragment() {
 
-        private const val SKILL_PACKAGE_MUSIC = "com.roboteam.teamy.iheart"
+    override fun getLayoutResId() = R.layout.fragment_sub_feature_list
 
-        fun newInstance() = PlayFragment()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_sub_feature_list, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun configureTextViews() {
         textViewTitle.text = getString(R.string.feature_play)
         textViewSubtitle.text = getString(R.string.sub_title_play)
-        val layoutManager = LinearLayoutManager(context)
-        layoutManager.orientation = RecyclerView.HORIZONTAL
-        recyclerView.layoutManager = layoutManager
-        recyclerView.setHasFixedSize(true)
-        recyclerView.itemAnimator!!.changeDuration = 0
-        val featureList: List<String> = resources.getStringArray(R.array.feature_play).asList()
-        val adapter =
-            object :
-                FeatureListAdapter<String>(context!!, R.layout.item_sub_feature_card, featureList) {
-                override fun convert(holder: ViewHolder, name: String) {
-                    holder.setText(R.id.textViewName, name)
-                    holder.setOnClickListener(
-                        R.id.linearLayout,
-                        View.OnClickListener { handleAction(name) })
-                }
-            }
-        recyclerView.adapter = adapter
+    }
+
+    override fun getFeatureList() = resources.getStringArray(R.array.feature_play).asList()
+
+    override fun handleAction(name: Any) {
+        when (name as String) {
+            getString(R.string.feature_take_photo) -> startSkill(SKILL_PACKAGE_CAMERA)
+            getString(R.string.feature_follow) -> robot.beWithMe()
+            getString(R.string.feature_play_music) -> startSkill(SKILL_PACKAGE_MUSIC)
+        }
+    }
+
+    override fun getCardLayoutId() = R.layout.item_sub_feature_card
+
+    override fun handleListMedia(featureObj: Any, holder: ViewHolder) {
+        holder.setText(R.id.textViewName, featureObj as CharSequence)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         setCloseVisibility(false)
-    }
-
-    fun handleAction(name: String) {
-        when (name) {
-            getString(R.string.feature_take_photo) -> {
-                startSkill(SKILL_PACKAGE_CAMERA)
-            }
-            getString(R.string.feature_follow) -> robot.beWithMe()
-            getString(R.string.feature_play_music) -> {
-                startSkill(SKILL_PACKAGE_MUSIC)
-            }
-        }
     }
 
     private fun startSkill(packageNameWithoutSuffix: String) {
@@ -86,4 +53,11 @@ class PlayFragment : FeatureListFragment() {
         startActivity(intent)
     }
 
+    companion object {
+        private const val SKILL_PACKAGE_CAMERA = "com.roboteam.teamy.camera"
+
+        private const val SKILL_PACKAGE_MUSIC = "com.roboteam.teamy.iheart"
+
+        fun newInstance() = PlayFragment()
+    }
 }
