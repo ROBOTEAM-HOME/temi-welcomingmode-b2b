@@ -16,12 +16,13 @@ import com.robotemi.welcomingbtob.featurelist.call.CallFragment
 import com.robotemi.welcomingbtob.featurelist.play.PlayFragment
 import com.robotemi.welcomingbtob.featurelist.walk.WalkFragment
 import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
+import org.koin.android.ext.android.inject
 
 open class FeatureListFragment : Fragment() {
 
     private val activityCallback by lazy { context as IActivityCallback }
 
-    private lateinit var robot: Robot
+    protected val robot: Robot by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +33,6 @@ open class FeatureListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        robot = Robot.getInstance()
         textViewSubtitle.text = getString(R.string.welcome)
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = RecyclerView.HORIZONTAL

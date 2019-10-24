@@ -1,6 +1,7 @@
 package com.robotemi.welcomingbtob.app
 
 import android.app.Application
+import com.robotemi.sdk.Robot
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
@@ -12,6 +13,7 @@ class App : Application() {
 
     private val appModule = module {
         single { DebugMetricsHelper() }
+        single { Robot.getInstance() }
     }
 
     private val debugMetricsHelper: DebugMetricsHelper by inject()

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.robotemi.sdk.Robot
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter
@@ -69,7 +68,7 @@ class PlayFragment : FeatureListFragment() {
             getString(R.string.feature_take_photo) -> {
                 startSkill(SKILL_PACKAGE_CAMERA)
             }
-            getString(R.string.feature_follow) -> Robot.getInstance().beWithMe()
+            getString(R.string.feature_follow) -> robot.beWithMe()
             getString(R.string.feature_play_music) -> {
 //                if (Robot.getInstance().wakeupWord == Constants.WAKEUP_WORD_DING_DANG) {
 //                    return
@@ -80,7 +79,7 @@ class PlayFragment : FeatureListFragment() {
     }
 
     private fun startSkill(packageNameWithoutSuffix: String) {
-        val wakeupWord = Robot.getInstance().wakeupWord
+        val wakeupWord = robot.wakeupWord
         val packageName = StringBuilder(packageNameWithoutSuffix)
         if (wakeupWord == Constants.WAKEUP_WORD_ALEXA || wakeupWord == Constants.WAKEUP_WORD_HEY_TEMI) {
             packageName.append(Constants.SUFFIX_USA)

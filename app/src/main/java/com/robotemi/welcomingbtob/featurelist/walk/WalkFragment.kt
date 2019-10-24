@@ -38,7 +38,7 @@ class WalkFragment : FeatureListFragment() {
                 }
             }
         recyclerView.adapter = adapter
-        Robot.getInstance().addOnLocationsUpdatedListener { locations ->
+        robot.addOnLocationsUpdatedListener { locations ->
             featureList.clear()
             featureList.addAll(locations!!.toList())
             adapter.notifyDataSetChanged()

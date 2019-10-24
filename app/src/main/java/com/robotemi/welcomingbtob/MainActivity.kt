@@ -18,13 +18,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     OnWelcomingModeStatusChangedListener, IActivityCallback {
 
-    private lateinit var robot: Robot
+    private val robot: Robot by inject()
 
     private var disposableTapRightCorner: Disposable = Disposables.disposed()
 
@@ -90,7 +91,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        robot = Robot.getInstance()
         btnOpenHomeList.setOnTouchListener { _, event ->
             if (event?.action == MotionEvent.ACTION_DOWN) {
                 disposableTapRightCorner.dispose()
