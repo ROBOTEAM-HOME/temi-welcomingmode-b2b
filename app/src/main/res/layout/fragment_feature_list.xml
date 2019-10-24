@@ -13,12 +13,12 @@
         android:shadowColor="#80000000"
         android:shadowDy="2"
         android:shadowRadius="2"
-        tools:text="Select your destination"
         android:textColor="@color/white"
         android:textSize="33sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Select your destination" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

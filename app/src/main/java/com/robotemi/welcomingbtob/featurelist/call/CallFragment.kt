@@ -30,7 +30,7 @@ class CallFragment : FeatureBaseFragment() {
         holder.setText(R.id.textViewName, userInfo.name)
         Picasso.get()
             .load(userInfo.picUrl)
-            .placeholder(R.drawable.ic_placeholder)
+            .placeholder(R.drawable.ic_user)
             .into(holder.getView(R.id.imageViewAvatar) as ImageView)
     }
 

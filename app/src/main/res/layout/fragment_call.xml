@@ -9,16 +9,15 @@
         android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="70sp"
-        android:textColor="@color/white"
-        android:gravity="center_horizontal"
-        tools:text="WALK"
-        android:textStyle="bold"
         android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:gravity="center_horizontal"
+        android:textColor="@color/white"
+        android:textSize="70sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        tools:text="CALL" />
 
     <TextView
         android:id="@+id/textViewSubtitle"
@@ -28,12 +27,12 @@
         android:shadowColor="#80000000"
         android:shadowDy="2"
         android:shadowRadius="2"
-        tools:text="Select your destination"
         android:textColor="@color/white"
         android:textSize="33sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Want to talk to sales" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
