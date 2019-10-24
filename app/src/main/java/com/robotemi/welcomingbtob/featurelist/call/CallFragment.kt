@@ -5,18 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.robotemi.sdk.Robot
 import com.robotemi.sdk.UserInfo
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter
 import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_feature_list.*
+import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
 
 class CallFragment : FeatureListFragment() {
 
@@ -36,9 +33,10 @@ class CallFragment : FeatureListFragment() {
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator!!.changeDuration = 0
-        val featureList: List<UserInfo> = arrayOf(Robot.getInstance().adminInfo!!).asList()
+        val featureList: List<UserInfo> = arrayOf(robot.adminInfo!!).asList()
         val adapter =
-            object : FeatureListAdapter<UserInfo>(context!!, R.layout.include_call_card, featureList) {
+            object :
+                FeatureListAdapter<UserInfo>(context!!, R.layout.include_call_card, featureList) {
                 override fun convert(holder: ViewHolder, userInfo: UserInfo) {
                     holder.setText(R.id.textViewName, userInfo.name)
                     Picasso.get()
@@ -59,7 +57,7 @@ class CallFragment : FeatureListFragment() {
     }
 
     fun handleAction(userInfo: UserInfo) {
-        Robot.getInstance().startTelepresence(userInfo.name, userInfo.userId)
+        robot.startTelepresence(userInfo.name, userInfo.userId)
     }
 
     companion object {

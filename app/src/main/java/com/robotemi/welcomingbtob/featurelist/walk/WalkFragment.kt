@@ -1,19 +1,27 @@
 package com.robotemi.welcomingbtob.featurelist.walk
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.robotemi.sdk.Robot
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter
 import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
-import kotlinx.android.synthetic.main.fragment_feature_list.*
+import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
 
 class WalkFragment : FeatureListFragment() {
 
     private var featureList = mutableListOf<String>()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_sub_feature_list, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,9 +32,7 @@ class WalkFragment : FeatureListFragment() {
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator!!.changeDuration = 0
-        featureList.clear()
-        featureList.addAll(Robot.getInstance().locations)
-        featureList = Robot.getInstance().locations
+        featureList = robot.locations
         val adapter =
             object :
                 FeatureListAdapter<String>(context!!, R.layout.item_sub_feature_card, featureList) {
@@ -38,7 +44,7 @@ class WalkFragment : FeatureListFragment() {
                 }
             }
         recyclerView.adapter = adapter
-        Robot.getInstance().addOnLocationsUpdatedListener { locations ->
+        robot.addOnLocationsUpdatedListener { locations ->
             featureList.clear()
             featureList.addAll(locations!!.toList())
             adapter.notifyDataSetChanged()
@@ -51,9 +57,8 @@ class WalkFragment : FeatureListFragment() {
     }
 
     fun handleAction(name: String) {
-        Robot.getInstance().goTo(name)
+        robot.goTo(name)
     }
-
 
     companion object {
         fun newInstance() = WalkFragment()

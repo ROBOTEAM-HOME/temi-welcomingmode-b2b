@@ -15,13 +15,14 @@ import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
 import com.robotemi.welcomingbtob.featurelist.call.CallFragment
 import com.robotemi.welcomingbtob.featurelist.play.PlayFragment
 import com.robotemi.welcomingbtob.featurelist.walk.WalkFragment
-import kotlinx.android.synthetic.main.fragment_feature_list.*
+import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
+import org.koin.android.ext.android.inject
 
 open class FeatureListFragment : Fragment() {
 
     private val activityCallback by lazy { context as IActivityCallback }
 
-    private lateinit var robot: Robot
+    protected val robot: Robot by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,18 +33,13 @@ open class FeatureListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        robot = Robot.getInstance()
         textViewSubtitle.text = getString(R.string.welcome)
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = RecyclerView.HORIZONTAL
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator!!.changeDuration = 0
-        val featureList: List<String> = arrayOf(
-            getString(R.string.feature_walk),
-            getString(R.string.feature_call),
-            getString(R.string.feature_play)
-        ).asList()
+        val featureList: List<String> = resources.getStringArray(R.array.feature).asList()
         val adapter =
             object :
                 FeatureListAdapter<String>(context!!, R.layout.item_feature_card, featureList) {
@@ -71,15 +67,9 @@ open class FeatureListFragment : Fragment() {
 
     private fun handleAction(name: String) {
         when (name) {
-            getString(R.string.feature_walk) -> {
-                goToFragment(WalkFragment.newInstance())
-            }
-            getString(R.string.feature_call) -> {
-                goToFragment(CallFragment.newInstance())
-            }
-            getString(R.string.feature_play) -> {
-                goToFragment(PlayFragment.newInstance())
-            }
+            getString(R.string.feature_walk) -> goToFragment(WalkFragment.newInstance())
+            getString(R.string.feature_call) -> goToFragment(CallFragment.newInstance())
+            getString(R.string.feature_play) -> goToFragment(PlayFragment.newInstance())
         }
     }
 
@@ -87,7 +77,6 @@ open class FeatureListFragment : Fragment() {
         setCloseVisibility(true)
         val fragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
-        fragmentTransaction.addToBackStack("feature_list")
         fragmentTransaction.commit()
     }
 
