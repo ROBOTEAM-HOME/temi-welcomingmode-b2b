@@ -2,6 +2,7 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="@style/SkillTheme">
+        <item name="fontFamily">@font/open_sans</item>
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
