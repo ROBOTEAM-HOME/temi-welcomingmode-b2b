@@ -27,4 +27,16 @@
         <item>“叮当叮当， 现在几点？”</item>
         <item>“叮当叮当， 拍照”</item>
     </string-array>
+
+    <string-array name="feature_play">
+        <item>@string/feature_take_photo</item>
+        <item>@string/feature_follow</item>
+        <item>@string/feature_play_music</item>
+    </string-array>
+
+    <string-array name="feature">
+        <item>@string/feature_walk</item>
+        <item>@string/feature_call</item>
+        <item>@string/feature_play</item>
+    </string-array>
 </resources>

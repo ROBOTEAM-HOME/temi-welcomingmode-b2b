@@ -39,11 +39,7 @@ open class FeatureListFragment : Fragment() {
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator!!.changeDuration = 0
-        val featureList: List<String> = arrayOf(
-            getString(R.string.feature_walk),
-            getString(R.string.feature_call),
-            getString(R.string.feature_play)
-        ).asList()
+        val featureList: List<String> = resources.getStringArray(R.array.feature).asList()
         val adapter =
             object :
                 FeatureListAdapter<String>(context!!, R.layout.item_feature_card, featureList) {
@@ -71,15 +67,9 @@ open class FeatureListFragment : Fragment() {
 
     private fun handleAction(name: String) {
         when (name) {
-            getString(R.string.feature_walk) -> {
-                goToFragment(WalkFragment.newInstance())
-            }
-            getString(R.string.feature_call) -> {
-                goToFragment(CallFragment.newInstance())
-            }
-            getString(R.string.feature_play) -> {
-                goToFragment(PlayFragment.newInstance())
-            }
+            getString(R.string.feature_walk) -> goToFragment(WalkFragment.newInstance())
+            getString(R.string.feature_call) -> goToFragment(CallFragment.newInstance())
+            getString(R.string.feature_play) -> goToFragment(PlayFragment.newInstance())
         }
     }
 
@@ -87,7 +77,6 @@ open class FeatureListFragment : Fragment() {
         setCloseVisibility(true)
         val fragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, fragment)
-        fragmentTransaction.addToBackStack("feature_list")
         fragmentTransaction.commit()
     }
 

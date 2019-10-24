@@ -13,7 +13,6 @@ import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter
 import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
 import com.robotemi.welcomingbtob.utils.Constants
 import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
-import java.lang.StringBuilder
 
 class PlayFragment : FeatureListFragment() {
     companion object {
@@ -40,11 +39,7 @@ class PlayFragment : FeatureListFragment() {
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator!!.changeDuration = 0
-        val featureList: List<String> = arrayOf(
-            getString(R.string.feature_take_photo),
-            getString(R.string.feature_follow),
-            getString(R.string.feature_play_music)
-        ).asList()
+        val featureList: List<String> = resources.getStringArray(R.array.feature_play).asList()
         val adapter =
             object :
                 FeatureListAdapter<String>(context!!, R.layout.item_sub_feature_card, featureList) {
@@ -70,9 +65,6 @@ class PlayFragment : FeatureListFragment() {
             }
             getString(R.string.feature_follow) -> robot.beWithMe()
             getString(R.string.feature_play_music) -> {
-//                if (Robot.getInstance().wakeupWord == Constants.WAKEUP_WORD_DING_DANG) {
-//                    return
-//                }
                 startSkill(SKILL_PACKAGE_MUSIC)
             }
         }
@@ -88,7 +80,7 @@ class PlayFragment : FeatureListFragment() {
         }
         val intent = context?.packageManager?.getLaunchIntentForPackage(packageName.toString())
         intent?.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
-        if(intent == null) {
+        if (intent == null) {
             return
         }
         startActivity(intent)
