@@ -15,7 +15,6 @@ android {
     }
     buildTypes {
         debug {
-            signingConfig signingConfigs.debug
             versionNameSuffix "-DEBUG"
             testCoverageEnabled false
             debuggable true
@@ -27,26 +26,12 @@ android {
         }
 
         release {
-            signingConfig signingConfigs.debug
             debuggable false
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    signingConfigs {
-        debug {
-            storeFile file("../secrets/platformLuckyStar.keystore")
-            Properties properties = new Properties()
-            FileInputStream fileInputStream = new FileInputStream("$project.rootDir/secrets/secret.properties")
-            properties.load(fileInputStream)
-            storePassword properties.getProperty("StorePassword")
-            keyAlias properties.getProperty("KeyAlias")
-            keyPassword properties.getProperty("KeyPassword")
-            fileInputStream.close()
         }
     }
 
@@ -77,5 +62,5 @@ dependencies {
     implementation 'com.hannesdorfmann.mosby:mvp:2.0.1'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation files('src/sdk-china-debug.aar')
+    implementation files('src/sdk-usa-debug.aar')
 }
