@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.robotemi.sdk.Robot
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter
@@ -33,9 +32,7 @@ class WalkFragment : FeatureListFragment() {
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator!!.changeDuration = 0
-        featureList.clear()
-        featureList.addAll(Robot.getInstance().locations)
-        featureList = Robot.getInstance().locations
+        featureList = robot.locations
         val adapter =
             object :
                 FeatureListAdapter<String>(context!!, R.layout.item_sub_feature_card, featureList) {
@@ -60,7 +57,7 @@ class WalkFragment : FeatureListFragment() {
     }
 
     fun handleAction(name: String) {
-        Robot.getInstance().goTo(name)
+        robot.goTo(name)
     }
 
     companion object {
