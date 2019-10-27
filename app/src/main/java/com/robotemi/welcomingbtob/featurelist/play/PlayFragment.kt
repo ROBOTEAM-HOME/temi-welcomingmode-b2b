@@ -18,8 +18,8 @@ class PlayFragment : FeatureBaseFragment() {
 
     override fun getFeatureList() = resources.getStringArray(R.array.feature_play).asList()
 
-    override fun handleAction(name: Any) {
-        when (name as String) {
+    override fun handleAction(featureObj: Any) {
+        when (featureObj as String) {
             getString(R.string.feature_take_photo) -> startSkill(SKILL_PACKAGE_CAMERA)
             getString(R.string.feature_follow) -> robot.beWithMe()
             getString(R.string.feature_play_music) -> startSkill(SKILL_PACKAGE_MUSIC)
@@ -40,7 +40,9 @@ class PlayFragment : FeatureBaseFragment() {
     private fun startSkill(packageNameWithoutSuffix: String) {
         val wakeupWord = robot.wakeupWord
         val packageName = StringBuilder(packageNameWithoutSuffix)
-        if (wakeupWord == Constants.WAKEUP_WORD_ALEXA || wakeupWord == Constants.WAKEUP_WORD_HEY_TEMI) {
+        if (wakeupWord.toLowerCase() == Constants.WAKEUP_WORD_ALEXA.toLowerCase()
+            || wakeupWord.toLowerCase() == Constants.WAKEUP_WORD_HEY_TEMI.toLowerCase()
+        ) {
             packageName.append(Constants.SUFFIX_USA)
         } else {
             packageName.append(Constants.SUFFIX_CHINA)

@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayoutParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/constraintLayoutParent"
     tools:context=".MainActivity">
 
     <ImageButton
@@ -17,8 +17,8 @@
         android:paddingEnd="47dp"
         android:paddingBottom="21dp"
         android:src="@drawable/ic_close"
-        android:visibility="gone"
         android:tint="@color/white"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

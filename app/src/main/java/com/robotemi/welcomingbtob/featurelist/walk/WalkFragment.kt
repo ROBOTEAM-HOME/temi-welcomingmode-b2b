@@ -1,9 +1,7 @@
 package com.robotemi.welcomingbtob.featurelist.walk
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureBaseFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
@@ -23,8 +21,8 @@ class WalkFragment : FeatureBaseFragment() {
 
     override fun getCardLayoutId() = R.layout.item_sub_feature_card
 
-    override fun handleAction(name: Any) {
-        robot.goTo(name as String)
+    override fun handleAction(featureObj: Any) {
+        robot.goTo(featureObj as String)
     }
 
     override fun handleListMedia(featureObj: Any, holder: ViewHolder) {

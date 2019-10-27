@@ -66,7 +66,10 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         disposableAction.dispose()
         disposableAction = Observable.timer(2, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { startFragment(FeatureListFragment.newInstance()) }
+            .subscribe {
+                startFragment(FeatureListFragment.newInstance())
+                constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
+            }
     }
 
     private fun handleIdle() {
@@ -105,6 +108,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         imageButtonClose.setOnClickListener {
             startFragment(FeatureListFragment.newInstance())
             imageButtonClose.visibility = View.GONE
+            constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
         }
     }
 
@@ -158,6 +162,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
 
     private fun resetUI() {
         textViewGreeting.visibility = View.GONE
+        constraintLayoutParent.setBackgroundResource(0)
         removeFragments()
     }
 
