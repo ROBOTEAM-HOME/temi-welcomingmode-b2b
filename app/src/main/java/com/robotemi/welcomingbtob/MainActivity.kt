@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         removeFragments()
         textViewGreeting.visibility = View.VISIBLE
         disposableAction.dispose()
-        disposableAction = Observable.timer(2, TimeUnit.SECONDS)
+        disposableAction = Completable.timer(2, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 startFragment(FeatureListFragment.newInstance())
@@ -122,8 +122,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         robot.addOnRobotReadyListener(this)
         robot.addOnWelcomingModeStatusChangedListener(this)
         toggleActivityClickListener(true)
-        startTimerForScreenSaver()
-        resetUI()
     }
 
     override fun onPause() {
@@ -147,7 +145,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         frameLayout.visibility = View.VISIBLE
         supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment)
             .commitAllowingStateLoss()
-        startTimerForScreenSaver()
         disposableAction.dispose()
     }
 
@@ -164,13 +161,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         textViewGreeting.visibility = View.GONE
         constraintLayoutParent.setBackgroundResource(0)
         removeFragments()
-    }
-
-    private fun startTimerForScreenSaver() {
-        stopTimerForScreenSaver()
-        disposableScreenSaver = Completable.timer(20, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { removeFragments() }
     }
 
     private fun stopTimerForScreenSaver() {
