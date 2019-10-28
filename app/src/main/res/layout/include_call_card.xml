@@ -9,8 +9,8 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/imageViewAvatar"
-        android:layout_width="411dp"
-        android:layout_height="358dp"
+        android:layout_width="410dp"
+        android:layout_height="347dp"
         android:layout_marginStart="4dp"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +23,7 @@
         android:id="@+id/textViewName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:textColor="@color/white"
         android:textSize="25sp"
