@@ -2,7 +2,6 @@ package com.robotemi.welcomingbtob
 
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -13,7 +12,6 @@ import com.robotemi.sdk.listeners.OnWelcomingModeStatusChangedListener.ACTIVE
 import com.robotemi.sdk.listeners.OnWelcomingModeStatusChangedListener.IDLE
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
@@ -26,8 +24,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     OnWelcomingModeStatusChangedListener, IActivityCallback {
 
     private val robot: Robot by inject()
-
-    private var disposableTapRightCorner: Disposable = Disposables.disposed()
 
     private var disposableAction: Disposable = Disposables.disposed()
 
@@ -94,16 +90,9 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        btnOpenHomeList.setOnTouchListener { _, event ->
-            if (event?.action == MotionEvent.ACTION_DOWN) {
-                disposableTapRightCorner.dispose()
-                disposableTapRightCorner = Observable.timer(5, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe { robot.showAppList() }
-            } else if (event?.action == MotionEvent.ACTION_UP) {
-                disposableTapRightCorner.dispose()
-            }
-            false
+        btnOpenHomeList.setOnLongClickListener {
+            robot.showAppList()
+            true
         }
         imageButtonClose.setOnClickListener {
             startFragment(FeatureListFragment.newInstance())
@@ -134,9 +123,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         }
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
-        }
-        if (!disposableTapRightCorner.isDisposed) {
-            disposableTapRightCorner.dispose()
         }
     }
 
