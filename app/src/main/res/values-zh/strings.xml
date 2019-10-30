@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Welcoming Mode B2B</string>
+    <string name="welcome">欢迎</string>
+    <string name="greeting">你好</string>
+
+    <string name="feature_walk">前往</string>
+    <string name="feature_play">更多</string>
+    <string name="feature_call">电话</string>
+    <string name="feature_take_photo">拍照</string>
+    <string name="feature_follow">跟随</string>
+    <string name="feature_stop_follow">停止跟随</string>
+    <string name="feature_play_music">音乐</string>
+    <string name="sub_title_play">试一下temi的最佳功能</string>
+    <string name="sub_title_call">想和销售人员谈谈吗？</string>
+    <string name="sub_title_walk">选择您的目的地</string>
+
+    <string name="top_bar_searching_text">正在搜索</string>
+    <string name="top_bar_following_text">正在跟随</string>
+    <string name="top_bar_obstacle_detected_text">障碍物</string>
+</resources>
