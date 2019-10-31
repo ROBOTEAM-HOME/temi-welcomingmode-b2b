@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
 
     private fun handleActive() {
         removeFragments()
+        constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
         textViewGreeting.visibility = View.VISIBLE
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
@@ -93,7 +94,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 startFragment(FeatureListFragment.newInstance())
-                constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
             }
     }
 
