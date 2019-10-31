@@ -1,5 +1,4 @@
-package com.robotemi.welcomingbtob.tips;
-
+package com.robotemi.welcomingbtob.tips
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -32,10 +31,6 @@ class TipsViewImpl : RelativeLayout {
         init()
     }
 
-    companion object {
-        const val TAG: String = "TipsViewImpl"
-    }
-
     private lateinit var viewFlipper: AdapterViewFlipper
 
     private lateinit var leftOutAnimator: ObjectAnimator
@@ -57,7 +52,7 @@ class TipsViewImpl : RelativeLayout {
 
     override fun onWindowFocusChanged(hasWindowFocus: Boolean) {
         if (hasWindowFocus) {
-            loadTips();
+            loadTips()
             AnimationUtils.animate(
                 viewFlipper,
                 R.animator.tips_flipper_slide_in,
@@ -66,7 +61,7 @@ class TipsViewImpl : RelativeLayout {
                         viewFlipper.inAnimation = rightInAnimator
                         viewFlipper.outAnimation = leftOutAnimator
                     }
-                });
+                })
         }
     }
 
