@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     override fun toggleActivityClickListener(enable: Boolean) {
         if (enable) {
             constraintLayoutParent.setOnClickListener {
+                constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
                 startFragment(FeatureListFragment.newInstance())
             }
         } else {
