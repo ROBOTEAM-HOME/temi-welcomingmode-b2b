@@ -28,10 +28,14 @@ class CallFragment : FeatureBaseFragment() {
     override fun handleListMedia(featureObj: Any, holder: ViewHolder) {
         val userInfo = featureObj as UserInfo
         holder.setText(R.id.textViewName, userInfo.name)
-        Picasso.get()
-            .load(userInfo.picUrl)
-            .placeholder(R.drawable.ic_user)
-            .into(holder.getView(R.id.imageViewAvatar) as ImageView)
+        if (userInfo.picUrl.isNullOrEmpty()) {
+            (holder.getView(R.id.imageViewAvatar) as ImageView).setImageResource(R.drawable.ic_user)
+        } else {
+            Picasso.get()
+                .load(userInfo.picUrl)
+                .placeholder(R.drawable.ic_user)
+                .into(holder.getView(R.id.imageViewAvatar) as ImageView)
+        }
     }
 
     override fun onDestroyView() {
