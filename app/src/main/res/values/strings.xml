@@ -17,4 +17,5 @@
     <string name="top_bar_searching_text">Searching</string>
     <string name="top_bar_following_text">Following</string>
     <string name="top_bar_obstacle_detected_text">Obstacle</string>
+    <string name="top_bar_hello_text">Hello</string>
 </resources>

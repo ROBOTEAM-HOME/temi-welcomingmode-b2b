@@ -17,4 +17,6 @@
     <string name="top_bar_searching_text">正在搜索</string>
     <string name="top_bar_following_text">正在跟随</string>
     <string name="top_bar_obstacle_detected_text">障碍物</string>
+    <string name="top_bar_hello_text">Hello</string>
+
 </resources>

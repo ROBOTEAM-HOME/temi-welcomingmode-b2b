@@ -32,13 +32,13 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
 
     override fun onBeWithMeStatusChanged(status: String?) {
         Timber.d("onBeWithMeStatusChanged(String) (status=$status)")
-        relativeLayoutTop.visibility = View.VISIBLE
         if (!disposableTopUpdating.isDisposed) {
             disposableTopUpdating.dispose()
         }
         disposableTopUpdating = Completable.complete()
             .delay(500, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnComplete { relativeLayoutTop.visibility = View.VISIBLE }
             .subscribe {
                 when (status) {
                     OnBeWithMeStatusChangedListener.ABORT -> relativeLayoutTop.visibility =
@@ -96,6 +96,8 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
             .subscribe {
                 startFragment(FeatureListFragment.newInstance())
             }
+        relativeLayoutTop.visibility = View.VISIBLE
+        textViewTop.text = getString(R.string.top_bar_hello_text)
     }
 
     private fun handleIdle() {
@@ -178,6 +180,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
 
     private fun resetUI() {
         textViewGreeting.visibility = View.GONE
+        relativeLayoutTop.visibility = View.GONE
         constraintLayoutParent.setBackgroundResource(0)
         removeFragments()
     }
@@ -185,5 +188,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     override fun onUserInteraction() {
         super.onUserInteraction()
         robot.stopMovement()
+        relativeLayoutTop.visibility = View.GONE
     }
 }
