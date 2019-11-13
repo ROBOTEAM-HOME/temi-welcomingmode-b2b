@@ -20,8 +20,11 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), OnRobotReadyListener,
-    OnWelcomingModeStatusChangedListener, OnBeWithMeStatusChangedListener, IActivityCallback,
+    OnBeWithMeStatusChangedListener, IActivityCallback,
     OnDetectionStateChangedListener, OnConstraintBeWithStatusChangedListener {
+    override fun toggleWelcomingModeListener(enable: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private val robot: Robot by inject()
 
@@ -65,29 +68,12 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         }
     }
 
-    override fun toggleWelcomingModeListener(enable: Boolean) {
-        if (enable) {
-            robot.addOnWelcomingModeStatusChangedListener(this)
-        } else {
-            robot.removeOnWelcomingModeStatusChangedListener(this)
-        }
-    }
-
     override fun onDetectionStateChanged(isDetected: Boolean) {
         if (isDetected) handleActive() else handleIdle()
     }
 
     override fun onConstraintBeWithStatusChanged(isConstraint: Boolean) {
         if (isConstraint) showConstraintLabel() else hideConstraintLabel()
-    }
-
-    override fun onWelcomingModeStatusChanged(status: String) {
-        Timber.d("onWelcomingModeStatusChanged(String) (status=$status)")
-        robot.hideTopBar()
-        when (status) {
-            ACTIVE -> handleActive()
-            IDLE -> handleIdle()
-        }
     }
 
     private fun handleActive() {
