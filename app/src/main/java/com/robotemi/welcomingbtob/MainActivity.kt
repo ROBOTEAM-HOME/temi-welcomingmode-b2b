@@ -6,9 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.robotemi.sdk.Robot
-import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener
-import com.robotemi.sdk.listeners.OnRobotReadyListener
-import com.robotemi.sdk.listeners.OnWelcomingModeStatusChangedListener
+import com.robotemi.sdk.listeners.*
 import com.robotemi.sdk.listeners.OnWelcomingModeStatusChangedListener.ACTIVE
 import com.robotemi.sdk.listeners.OnWelcomingModeStatusChangedListener.IDLE
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
@@ -22,7 +20,8 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), OnRobotReadyListener,
-    OnWelcomingModeStatusChangedListener, OnBeWithMeStatusChangedListener, IActivityCallback {
+    OnWelcomingModeStatusChangedListener, OnBeWithMeStatusChangedListener, IActivityCallback,
+    OnDetectionStateChangedListener, OnConstraintBeWithStatusChangedListener {
 
     private val robot: Robot by inject()
 
@@ -74,6 +73,14 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         }
     }
 
+    override fun onDetectionStateChanged(isDetected: Boolean) {
+        if (isDetected) handleActive() else handleIdle()
+    }
+
+    override fun onConstraintBeWithStatusChanged(isConstraint: Boolean) {
+        if (isConstraint) showConstraintLabel() else hideConstraintLabel()
+    }
+
     override fun onWelcomingModeStatusChanged(status: String) {
         Timber.d("onWelcomingModeStatusChanged(String) (status=$status)")
         robot.hideTopBar()
@@ -96,8 +103,15 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
             .subscribe {
                 startFragment(FeatureListFragment.newInstance())
             }
+    }
+
+    private fun showConstraintLabel() {
         relativeLayoutTop.visibility = View.VISIBLE
         textViewTop.text = getString(R.string.top_bar_hello_text)
+    }
+
+    private fun hideConstraintLabel() {
+        relativeLayoutTop.visibility = View.GONE
     }
 
     private fun handleIdle() {
@@ -144,7 +158,8 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         super.onResume()
         robot.hideTopBar()
         robot.addOnRobotReadyListener(this)
-        robot.addOnWelcomingModeStatusChangedListener(this)
+        robot.addOnDetectionStateChangedListener(this)
+        robot.addOnConstraintBeWithStatusChangedListener(this)
         robot.addOnBeWithMeStatusChangedListener(this)
         toggleActivityClickListener(true)
     }
@@ -152,7 +167,8 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     override fun onPause() {
         super.onPause()
         robot.removeOnRobotReadyListener(this)
-        robot.removeOnWelcomingModeStatusChangedListener(this)
+        robot.removeOnDetectionStateChangedListener(this)
+        robot.removeOnConstraintBeWithStatusChangedListener(this)
         robot.removeOnBeWithMeStatusChangedListener(this)
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
@@ -180,7 +196,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
 
     private fun resetUI() {
         textViewGreeting.visibility = View.GONE
-        relativeLayoutTop.visibility = View.GONE
         constraintLayoutParent.setBackgroundResource(0)
         removeFragments()
     }
