@@ -63,6 +63,6 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     // select the SDK variant
-    implementation 'com.robotemi:sdk-usa:0.10.45'
+    implementation 'com.robotemi:sdk-usa:0.10.49'
 //    implementation 'com.robotemi:sdk-china:0.10.45'
 }
