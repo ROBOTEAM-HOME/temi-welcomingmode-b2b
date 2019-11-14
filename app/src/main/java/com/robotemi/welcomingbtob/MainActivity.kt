@@ -6,9 +6,10 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.robotemi.sdk.Robot
-import com.robotemi.sdk.listeners.*
-import com.robotemi.sdk.listeners.OnWelcomingModeStatusChangedListener.ACTIVE
-import com.robotemi.sdk.listeners.OnWelcomingModeStatusChangedListener.IDLE
+import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener
+import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener
+import com.robotemi.sdk.listeners.OnRobotReadyListener
+import com.robotemi.sdk.listeners.OnUserInteractionChangedListener
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,12 +20,8 @@ import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity(), OnRobotReadyListener,
-    OnBeWithMeStatusChangedListener, IActivityCallback,
-    OnDetectionStateChangedListener, OnConstraintBeWithStatusChangedListener {
-    override fun toggleWelcomingModeListener(enable: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatusChangedListener,
+    IActivityCallback, OnConstraintBeWithStatusChangedListener, OnUserInteractionChangedListener {
 
     private val robot: Robot by inject()
 
@@ -68,8 +65,12 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         }
     }
 
-    override fun onDetectionStateChanged(isDetected: Boolean) {
-        if (isDetected) handleActive() else handleIdle()
+    override fun onUserInteraction(isInteracting: Boolean) {
+        if (isInteracting) handleActive() else handleIdle()
+    }
+
+    override fun toggleWelcomingModeListener(enable: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onConstraintBeWithStatusChanged(isConstraint: Boolean) {
@@ -144,7 +145,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
         super.onResume()
         robot.hideTopBar()
         robot.addOnRobotReadyListener(this)
-        robot.addOnDetectionStateChangedListener(this)
+        robot.addOnUserInteractionChangedListener(this)
         robot.addOnConstraintBeWithStatusChangedListener(this)
         robot.addOnBeWithMeStatusChangedListener(this)
         toggleActivityClickListener(true)
@@ -153,7 +154,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener,
     override fun onPause() {
         super.onPause()
         robot.removeOnRobotReadyListener(this)
-        robot.removeOnDetectionStateChangedListener(this)
+        robot.removeOnUserInteractionChangedListener(this)
         robot.removeOnConstraintBeWithStatusChangedListener(this)
         robot.removeOnBeWithMeStatusChangedListener(this)
         if (!disposableAction.isDisposed) {
