@@ -12,11 +12,11 @@ import org.koin.dsl.module
 class App : Application() {
 
     private val appModule = module {
-        single { DebugMetricsHelper() }
+        single { MetricsHelper() }
         single { Robot.getInstance() }
     }
 
-    private val debugMetricsHelper: DebugMetricsHelper by inject()
+    private val metricsHelper: MetricsHelper by inject()
 
     override fun onCreate() {
         super.onCreate()
@@ -26,6 +26,6 @@ class App : Application() {
             androidFileProperties()
             modules(appModule)
         }
-        debugMetricsHelper.init()
+        metricsHelper.init(this)
     }
 }
