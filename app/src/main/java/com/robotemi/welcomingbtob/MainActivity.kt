@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
 
     private var disposableTopUpdating: Disposable = Disposables.disposed()
 
-    override fun onBeWithMeStatusChanged(status: String?) {
+    override fun onBeWithMeStatusChanged(status: String) {
         Timber.d("onBeWithMeStatusChanged(String) (status=$status)")
         if (!disposableTopUpdating.isDisposed) {
             disposableTopUpdating.dispose()

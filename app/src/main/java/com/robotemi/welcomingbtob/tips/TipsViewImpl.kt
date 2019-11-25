@@ -42,12 +42,12 @@ class TipsViewImpl : RelativeLayout {
     private val flipperIntervalTimeout: Int = 10000
 
     private fun loadTips() {
-        val tips: List<String> = when (Robot.getInstance().wakeupWord) {
+        val tips: List<String> = when (Robot.getInstance()?.wakeupWord) {
             Constants.WAKEUP_WORD_ALEXA -> resources.getStringArray(R.array.tips_alexa).asList()
             Constants.WAKEUP_WORD_DING_DANG -> resources.getStringArray(R.array.tips_dingdang).asList()
             else -> resources.getStringArray(R.array.tips_temi).asList()
         }
-        Robot.getInstance().hideTopBar()
+        Robot.getInstance()?.hideTopBar()
         adapter.updateList(tips)
     }
 
