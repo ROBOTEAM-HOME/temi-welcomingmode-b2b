@@ -4,9 +4,9 @@ import android.content.Intent
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
-import com.robotemi.sdk.NlpResult
 import com.robotemi.sdk.constants.SdkConstants
 import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener
+import com.robotemi.sdk.voice.NlpResult
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureBaseFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter
@@ -42,7 +42,7 @@ class PlayFragment : FeatureBaseFragment(), OnBeWithMeStatusChangedListener {
         return featureList
     }
 
-    override fun onBeWithMeStatusChanged(status: String?) {
+    override fun onBeWithMeStatusChanged(status: String) {
         when (status) {
             OnBeWithMeStatusChangedListener.ABORT -> {
                 featureList[1] = getString(R.string.feature_follow)
