@@ -47,6 +47,7 @@ class TipsViewImpl : RelativeLayout {
             Constants.WAKEUP_WORD_DING_DANG -> resources.getStringArray(R.array.tips_dingdang).asList()
             else -> resources.getStringArray(R.array.tips_temi).asList()
         }
+        Robot.getInstance().hideTopBar()
         adapter.updateList(tips)
     }
 
