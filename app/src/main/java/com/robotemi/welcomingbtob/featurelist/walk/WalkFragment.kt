@@ -34,7 +34,7 @@ class WalkFragment : FeatureBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        robot.addOnLocationsUpdatedListener(object :OnLocationsUpdatedListener {
+        robot.addOnLocationsUpdatedListener(object : OnLocationsUpdatedListener {
             override fun onLocationsUpdated(locations: List<String>) {
                 featureList.clear()
                 featureList.addAll(locations.toList())
