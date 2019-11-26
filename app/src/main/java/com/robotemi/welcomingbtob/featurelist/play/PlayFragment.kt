@@ -104,9 +104,11 @@ class PlayFragment : FeatureBaseFragment(), OnBeWithMeStatusChangedListener {
         }
         val intent = context?.packageManager?.getLaunchIntentForPackage(packageName.toString())
         intent?.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
-        if (nlpResult != null) {
-            intent?.putExtra(SdkConstants.EXTRA_NLP_RESULT, nlpResult)
-        }
+        // This will cause other skills to fail to deserialize and crash
+        // So do NOT use NlpResult.class until the SDK of other skills is upgraded to the latest version
+//        if (nlpResult != null) {
+//            intent?.putExtra(SdkConstants.EXTRA_NLP_RESULT, nlpResult)
+//        }
         if (intent == null) {
             return
         }

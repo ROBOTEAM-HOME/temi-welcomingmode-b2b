@@ -8,8 +8,8 @@ android {
         applicationId "com.robotemi.welcomingbtob"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 1
-        versionName '1.0.0'
+        versionCode globalVersionCode
+        versionName globalVersionName
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

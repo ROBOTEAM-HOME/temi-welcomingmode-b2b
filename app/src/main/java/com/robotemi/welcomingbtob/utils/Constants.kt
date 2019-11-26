@@ -8,6 +8,8 @@ class Constants {
 
         const val WAKEUP_WORD_DING_DANG = "DingDang"
 
+        const val WAKEUP_WORD_XIAO_MEI = "XiaoMei"
+
         const val SUFFIX_USA = ".usa"
 
         const val SUFFIX_CHINA = ".china"

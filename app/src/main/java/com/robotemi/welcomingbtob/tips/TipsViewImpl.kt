@@ -45,6 +45,7 @@ class TipsViewImpl : RelativeLayout {
         val tips: List<String> = when (Robot.getInstance()?.wakeupWord) {
             Constants.WAKEUP_WORD_ALEXA -> resources.getStringArray(R.array.tips_alexa).asList()
             Constants.WAKEUP_WORD_DING_DANG -> resources.getStringArray(R.array.tips_dingdang).asList()
+            Constants.WAKEUP_WORD_XIAO_MEI -> resources.getStringArray(R.array.tips_xiaomei).asList()
             else -> resources.getStringArray(R.array.tips_temi).asList()
         }
         Robot.getInstance()?.hideTopBar()
