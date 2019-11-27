@@ -2,6 +2,7 @@ package com.robotemi.welcomingbtob
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -217,5 +218,13 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
         robot.hideTopBar()
         robot.stopMovement()
         relativeLayoutTop.visibility = View.GONE
+    }
+
+    override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
+        return if (event?.keyCode == KeyEvent.KEYCODE_BACK) {
+            true
+        } else {
+            super.dispatchKeyEvent(event)
+        }
     }
 }
