@@ -18,4 +18,6 @@
     <string name="top_bar_following_text">Following</string>
     <string name="top_bar_obstacle_detected_text">Obstacle</string>
     <string name="top_bar_hello_text">Hello</string>
+
+    <string name="location_home_base">Home base</string>
 </resources>

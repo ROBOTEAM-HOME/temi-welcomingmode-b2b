@@ -86,10 +86,14 @@ class PlayFragment : FeatureBaseFragment(), OnBeWithMeStatusChangedListener {
         robot.addOnBeWithMeStatusChangedListener(this)
     }
 
+    override fun onPause() {
+        super.onPause()
+        robot.removeOnBeWithMeStatusChangedListener(this)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         setCloseVisibility(false)
-        robot.removeOnBeWithMeStatusChangedListener(this)
     }
 
     private fun startSkill(packageNameWithoutSuffix: String, nlpResult: NlpResult?) {

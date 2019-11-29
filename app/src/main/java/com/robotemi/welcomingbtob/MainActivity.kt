@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
     }
 
     override fun onUserInteraction(isInteracting: Boolean) {
+        Timber.i("onUserInteraction, isInteracting=$isInteracting")
         robot.hideTopBar()
         if (isInteracting) handleActive() else handleIdle()
     }
@@ -76,6 +77,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
     }
 
     override fun onConstraintBeWithStatusChanged(isConstraint: Boolean) {
+        Timber.i("onConstraintBeWithStatusChanged, isConstraint=${isConstraint}")
         robot.hideTopBar()
         if (isConstraint) showConstraintLabel() else hideConstraintLabel()
     }
@@ -154,11 +156,11 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
         robot.addOnBeWithMeStatusChangedListener(this)
         toggleActivityClickListener(true)
         pollingForHidingTopBar()
+        startFragment(FeatureListFragment.newInstance())
     }
 
     override fun onPause() {
         super.onPause()
-        robot.showTopBar()
         robot.removeOnRobotReadyListener(this)
         robot.removeOnUserInteractionChangedListener(this)
         robot.removeOnConstraintBeWithStatusChangedListener(this)
@@ -172,6 +174,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
         if (!disposableHideTopBar.isDisposed) {
             disposableHideTopBar.dispose()
         }
+        robot.showTopBar()
     }
 
     private fun startFragment(fragment: Fragment) {

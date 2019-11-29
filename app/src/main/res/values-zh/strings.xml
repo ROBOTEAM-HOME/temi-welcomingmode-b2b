@@ -19,4 +19,5 @@
     <string name="top_bar_obstacle_detected_text">障碍物</string>
     <string name="top_bar_hello_text">你好</string>
 
+    <string name="location_home_base">充电桩</string>
 </resources>
