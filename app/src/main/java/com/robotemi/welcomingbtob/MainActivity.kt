@@ -156,7 +156,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
         robot.addOnBeWithMeStatusChangedListener(this)
         toggleActivityClickListener(true)
         pollingForHidingTopBar()
-        startFragment(FeatureListFragment.newInstance())
     }
 
     override fun onPause() {

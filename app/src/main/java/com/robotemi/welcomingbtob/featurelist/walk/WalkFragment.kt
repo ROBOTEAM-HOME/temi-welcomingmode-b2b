@@ -24,6 +24,9 @@ class WalkFragment : FeatureBaseFragment(), OnLocationsUpdatedListener {
     override fun getCardLayoutId() = R.layout.item_sub_feature_card
 
     override fun handleAction(featureObj: Any) {
+        if (featureObj == getString(R.string.location_home_base)) {
+            robot.goTo(HOME_BASE_FROM_ROBOX)
+        }
         robot.goTo(featureObj as String)
     }
 
