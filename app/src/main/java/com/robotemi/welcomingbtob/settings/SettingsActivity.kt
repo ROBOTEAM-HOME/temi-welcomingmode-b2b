@@ -20,6 +20,11 @@ class SettingsActivity : AppCompatActivity(), IActivityCallback {
         imageButtonBack.setOnClickListener { finish() }
     }
 
+    override fun onResume() {
+        super.onResume()
+        robot.stopMovement()
+    }
+
     override fun startFragment(fragment: Fragment) {
         if (fragment is ConfigurationFragment) {
             supportFragmentManager

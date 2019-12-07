@@ -34,7 +34,7 @@ class CustomGreeterFragment : Fragment() {
             close()
         })
         editTextGreeterMessage.setText(customizeGreeter)
-        textViewMessageCounter.text = (25 - customizeGreeter.length).toString()
+        textViewMessageCounter.text = (MAX_LENGTH - customizeGreeter.length).toString()
         editTextGreeterMessage.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
 
@@ -42,11 +42,13 @@ class CustomGreeterFragment : Fragment() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 Timber.d("Settings-custom: $s")
-                textViewMessageCounter.text = (25 - s!!.length).toString()
+                textViewMessageCounter.text = (MAX_LENGTH - s!!.length).toString()
                 if (s.isNotEmpty()) {
                     activityCallback.setEnableOfDone(true)
+                    textViewAlert.visibility = View.GONE
                 } else {
                     activityCallback.setEnableOfDone(false)
+                    textViewAlert.visibility = View.VISIBLE
                 }
             }
         })
@@ -71,6 +73,7 @@ class CustomGreeterFragment : Fragment() {
     }
 
     companion object {
+        private const val MAX_LENGTH = 12
         fun newInstance() = CustomGreeterFragment()
     }
 

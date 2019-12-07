@@ -34,6 +34,9 @@ class ConfigurationFragment : Fragment() {
             override fun onToggle(on: Boolean) {
                 val settings = getSettings()
                 settings.isUsingGreeterUser = on
+                if (!on) {
+                    settings.isUsingVoiceGreeter = false
+                }
                 saveSettings(settings)
             }
         })

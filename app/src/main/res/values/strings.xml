@@ -37,6 +37,7 @@
     <string name="settings_voice_greeter">Voice Greeter</string>
     <string name="settings_open_app_list">Open app list</string>
     <string name="custom_input_hint">INPUT TEXT</string>
-    <string name="custom_max_length" translatable="false">25</string>
+    <string name="custom_max_length" translatable="false">12</string>
+    <string name="custom_alert">Message can’t be empty</string>
 
 </resources>

@@ -30,12 +30,12 @@
             android:ellipsize="end"
             android:hint="@string/custom_input_hint"
             android:inputType="text"
-            android:maxLength="25"
+            android:maxLength="12"
             android:maxLines="1"
             android:textColor="@color/white"
             android:textColorHint="@color/gray5a"
             android:textSize="36sp"
-            tools:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈" />
+            tools:text="欢迎来到temi" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewMessageCounter"
@@ -49,4 +49,16 @@
             android:textColor="@color/gray200"
             android:textSize="30sp" />
     </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:lines="1"
+        android:text="@string/custom_alert"
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/input_container"
+        app:layout_constraintTop_toBottomOf="@+id/input_container" />
 </LinearLayout>
