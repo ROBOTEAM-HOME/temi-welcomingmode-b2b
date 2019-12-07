@@ -27,14 +27,14 @@
 
     <string name="custom_toggle_off">关闭</string>
     <string name="custom_toggle_on">打开</string>
-    <string name="settings_greet_user">欢迎用户</string>
+    <string name="settings_greet_user">和用户打招呼</string>
     <string name="settings_greet_user_description">当有人站在temi前面时，它会识别出来并通过显示文本的方式向用户打招呼</string>
-    <string name="settings_default_message">默认欢迎语</string>
+    <string name="settings_default_message">默认招呼语</string>
     <string name="settings_custom">自定义</string>
-    <string name="settings_custom_description">(自定义欢迎语)</string>
+    <string name="settings_custom_description">(自定义招呼语)</string>
     <string name="settings_default_message_description">(你好)</string>
-    <string name="settings_voice_greeter_description">打开之后temi也会用语音欢迎</string>
-    <string name="settings_voice_greeter">语音欢迎</string>
+    <string name="settings_voice_greeter_description">打开之后temi也会用语音打招呼</string>
+    <string name="settings_voice_greeter">语音打招呼</string>
     <string name="settings_open_app_list">打开应用列表</string>
     <string name="custom_input_hint">输入文本</string>
 </resources>
