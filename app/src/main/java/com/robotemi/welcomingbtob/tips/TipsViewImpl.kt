@@ -84,7 +84,6 @@ class TipsViewImpl : RelativeLayout {
                 tips.add("“叮当叮当，今天天气”")
             }
         }
-        Robot.getInstance().hideTopBar()
         tips.shuffle()
         adapter.updateList(tips)
     }

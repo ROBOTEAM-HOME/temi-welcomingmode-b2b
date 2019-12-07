@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
 
     override fun onUserInteraction(isInteracting: Boolean) {
         Timber.i("onUserInteraction, isInteracting=$isInteracting")
-        robot.hideTopBar()
         if (isInteracting) handleActive() else handleIdle()
     }
 
@@ -98,12 +97,10 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
 
     override fun onRobotReady(isReady: Boolean) {
         Timber.d("onRobotReady(Boolean) (isReady=%b)", isReady)
-        robot.hideTopBar()
         if (isReady) {
             val activityInfo =
                 packageManager.getActivityInfo(componentName, PackageManager.GET_META_DATA)
             robot.onStart(activityInfo)
-            robot.hideTopBar()
         }
     }
 
@@ -127,11 +124,9 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
 
     override fun onResume() {
         super.onResume()
-        robot.hideTopBar()
         robot.addOnRobotReadyListener(this)
         robot.addOnUserInteractionChangedListener(this)
         toggleActivityClickListener(true)
-        pollingForHidingTopBar()
     }
 
     override fun onPause() {
@@ -143,9 +138,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         }
         if (!disposableTopUpdating.isDisposed) {
             disposableTopUpdating.dispose()
-        }
-        if (!disposableHideTopBar.isDisposed) {
-            disposableHideTopBar.dispose()
         }
     }
 
@@ -171,26 +163,8 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         removeFragments()
     }
 
-    private var disposableHideTopBar: Disposable = Disposables.disposed()
-
-    private fun pollingForHidingTopBar() {
-        if (!disposableHideTopBar.isDisposed) {
-            disposableHideTopBar.dispose()
-        }
-        Timber.d("Start polling for hideTopBar..")
-        disposableHideTopBar = Completable.timer(5, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Timber.d("hideTopBar under polling..")
-                robot.hideTopBar()
-                pollingForHidingTopBar()
-            }
-    }
-
     override fun onUserInteraction() {
         super.onUserInteraction()
-        robot.hideTopBar()
         robot.stopMovement()
     }
 
