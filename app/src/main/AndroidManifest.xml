@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.robotemi.welcomingbtob">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".app.App"
@@ -17,11 +17,9 @@
         <meta-data
             android:name="@string/metadata_skill"
             android:value="@string/app_name" />
-
         <meta-data
             android:name="@string/metadata_visibility"
             android:value="FALSE" />
-
         <meta-data
             android:name="@string/metadata_kiosk"
             android:value="TRUE" />
@@ -36,6 +34,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.robotemi.welcomingbtob
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.KeyEvent
@@ -11,7 +12,10 @@ import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener
 import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener
 import com.robotemi.sdk.listeners.OnRobotReadyListener
 import com.robotemi.sdk.listeners.OnUserInteractionChangedListener
+import com.robotemi.sdk.voice.TtsRequest
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
+import com.robotemi.welcomingbtob.settings.SettingsActivity
+import com.robotemi.welcomingbtob.settings.SettingsModel
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -84,13 +88,29 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
 
     private fun handleActive() {
         removeFragments()
+        val settingsModel = SettingsModel.getSettings(this)
+        var delay = 0L
+        val greetMessage =
+            if (settingsModel.isUsingDefaultMessage || settingsModel.customMessage.isEmpty()) {
+                settingsModel.defaultMessage
+            } else {
+                settingsModel.customMessage
+            }
+        if (settingsModel.isUsingGreeterUser) {
+            textViewGreeting.text = greetMessage
+            textViewGreeting.visibility = View.VISIBLE
+            delay = 2L
+        }
+        if (settingsModel.isUsingVoiceGreeter) {
+            robot.cancelAllTtsRequests()
+            robot.speak(TtsRequest.create(greetMessage, false))
+        }
         constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
-        textViewGreeting.visibility = View.VISIBLE
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
         }
         disposableAction.dispose()
-        disposableAction = Completable.timer(2, TimeUnit.SECONDS)
+        disposableAction = Completable.timer(delay, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 startFragment(FeatureListFragment.newInstance())
@@ -133,7 +153,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         btnOpenHomeList.setOnLongClickListener {
-            robot.showAppList()
+            startActivity(Intent(this, SettingsActivity::class.java))
             true
         }
         imageButtonClose.setOnClickListener {
@@ -173,7 +193,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
         if (!disposableHideTopBar.isDisposed) {
             disposableHideTopBar.dispose()
         }
-        robot.showTopBar()
     }
 
     private fun startFragment(fragment: Fragment) {

@@ -60,6 +60,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
     // Koin for Android
     implementation 'org.koin:koin-android:2.0.1'
     // or Koin for Lifecycle scoping

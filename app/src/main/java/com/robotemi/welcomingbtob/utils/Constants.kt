@@ -13,5 +13,8 @@ class Constants {
         const val SUFFIX_USA = ".usa"
 
         const val SUFFIX_CHINA = ".china"
+
+        const val PREF_KEY_SETTINGS = "pref_settings"
+
     }
 }

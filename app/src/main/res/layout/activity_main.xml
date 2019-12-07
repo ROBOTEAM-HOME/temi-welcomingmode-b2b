@@ -33,15 +33,20 @@
     <TextView
         android:id="@+id/textViewGreeting"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:ellipsize="end"
         android:gravity="center"
-        android:text="@string/greeting"
+        android:letterSpacing="0.06"
+        android:maxLines="3"
+        android:padding="50dp"
         android:textColor="@color/white"
         android:textSize="120sp"
         android:textStyle="bold"
-        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈" />
 
     <LinearLayout
         android:id="@+id/relativeLayoutTop"
