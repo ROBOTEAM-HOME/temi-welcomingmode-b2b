@@ -2,6 +2,7 @@
     <string name="app_name">欢迎模式B2B</string>
     <string name="welcome">欢迎</string>
     <string name="greeting">你好</string>
+    <string name="admin">管理员</string>
 
     <string name="fragment_config">欢迎模式技能配置</string>
     <string name="fragment_custom_greeter">自定义用户欢迎语</string>

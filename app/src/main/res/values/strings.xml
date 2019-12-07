@@ -2,6 +2,7 @@
     <string name="app_name">Welcoming Mode B2B</string>
     <string name="welcome">Welcome</string>
     <string name="greeting">Hello</string>
+    <string name="admin">Admin</string>
 
     <string name="fragment_config">Welcoming skill configuration</string>
     <string name="fragment_custom_greeter">Customize User Greeter Text message </string>
