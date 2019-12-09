@@ -33,52 +33,20 @@
     <TextView
         android:id="@+id/textViewGreeting"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:ellipsize="end"
         android:gravity="center"
-        android:text="@string/greeting"
+        android:letterSpacing="0.06"
+        android:maxLines="3"
+        android:padding="50dp"
         android:textColor="@color/white"
         android:textSize="120sp"
-        android:textStyle="bold"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <LinearLayout
-        android:id="@+id/relativeLayoutTop"
-        android:layout_width="310dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="7dp"
-        android:background="@drawable/ic_label"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imageViewTop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_welcoming"
-            android:tint="@color/white"
-            tools:visibility="visible" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewTop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="15dp"
-            android:ellipsize="end"
-            android:lines="1"
-            android:text="@string/top_bar_searching_text"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            tools:text="Following" />
-
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈" />
 
     <FrameLayout
         android:id="@+id/frameLayout"

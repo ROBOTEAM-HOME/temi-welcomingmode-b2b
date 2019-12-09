@@ -4,9 +4,8 @@ import android.content.Intent
 import android.view.View
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
-import com.robotemi.sdk.constants.SdkConstants
+import com.robotemi.sdk.NlpResult
 import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener
-import com.robotemi.sdk.voice.NlpResult
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureBaseFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter

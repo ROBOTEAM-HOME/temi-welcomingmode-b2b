@@ -1,6 +1,7 @@
 package com.robotemi.welcomingbtob.app
 
 import android.app.Application
+import com.google.gson.Gson
 import com.robotemi.sdk.Robot
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
@@ -14,6 +15,7 @@ class App : Application() {
     private val appModule = module {
         single { MetricsHelper() }
         single { Robot.getInstance() }
+        single { Gson() }
     }
 
     private val metricsHelper: MetricsHelper by inject()

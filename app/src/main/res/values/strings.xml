@@ -2,6 +2,10 @@
     <string name="app_name">Welcoming Mode B2B</string>
     <string name="welcome">Welcome</string>
     <string name="greeting">Hello</string>
+    <string name="admin">Admin</string>
+
+    <string name="fragment_config">Welcoming skill configuration</string>
+    <string name="fragment_custom_greeter">Customize User Greeter Text message </string>
 
     <string name="feature_walk">WALK</string>
     <string name="feature_play">PLAY</string>
@@ -20,4 +24,20 @@
     <string name="top_bar_hello_text">Hello</string>
 
     <string name="location_home_base">Home base</string>
+    <string name="settings_done">DONE</string>
+    <string name="custom_toggle_off">OFF</string>
+    <string name="custom_toggle_on">ON</string>
+    <string name="settings_greet_user">Greet User</string>
+    <string name="settings_greet_user_description">temi will recognize when a person is in front of it and greet its’ user with a displayed message</string>
+    <string name="settings_default_message">Default message</string>
+    <string name="settings_custom">Custom</string>
+    <string name="settings_custom_description">(Customize the displayed message text)</string>
+    <string name="settings_default_message_description">(Hello)</string>
+    <string name="settings_voice_greeter_description">When enabled temi will also greet by voice</string>
+    <string name="settings_voice_greeter">Voice Greeter</string>
+    <string name="settings_open_app_list">Open app list</string>
+    <string name="custom_input_hint">INPUT TEXT</string>
+    <string name="custom_max_length" translatable="false">12</string>
+    <string name="custom_alert">Message can’t be empty</string>
+
 </resources>

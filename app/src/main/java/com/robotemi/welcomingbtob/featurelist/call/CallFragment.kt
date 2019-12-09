@@ -16,7 +16,14 @@ class CallFragment : FeatureBaseFragment() {
         textViewSubtitle.text = getString(R.string.sub_title_call)
     }
 
-    override fun getFeatureList() = arrayOf(robot.adminInfo!!).asList()
+    override fun getFeatureList(): List<Any> {
+        val adminInfo = robot.adminInfo
+        return if (adminInfo == null) {
+            emptyList()
+        } else {
+            arrayOf(adminInfo).asList()
+        }
+    }
 
     override fun handleAction(featureObj: Any) {
         val userInfo = featureObj as UserInfo

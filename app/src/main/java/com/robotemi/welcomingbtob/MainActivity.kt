@@ -1,5 +1,6 @@
 package com.robotemi.welcomingbtob
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.KeyEvent
@@ -7,11 +8,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.robotemi.sdk.Robot
-import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener
-import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener
+import com.robotemi.sdk.TtsRequest
 import com.robotemi.sdk.listeners.OnRobotReadyListener
 import com.robotemi.sdk.listeners.OnUserInteractionChangedListener
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
+import com.robotemi.welcomingbtob.settings.SettingsActivity
+import com.robotemi.welcomingbtob.settings.SettingsModel
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -21,39 +23,14 @@ import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
-class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatusChangedListener,
-    IActivityCallback, OnConstraintBeWithStatusChangedListener, OnUserInteractionChangedListener {
+class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallback,
+    OnUserInteractionChangedListener {
 
     private val robot: Robot by inject()
 
     private var disposableAction: Disposable = Disposables.disposed()
 
     private var disposableTopUpdating: Disposable = Disposables.disposed()
-
-    override fun onBeWithMeStatusChanged(status: String) {
-        Timber.d("onBeWithMeStatusChanged(String) (status=$status)")
-        if (!disposableTopUpdating.isDisposed) {
-            disposableTopUpdating.dispose()
-        }
-        disposableTopUpdating = Completable.complete()
-            .delay(500, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnComplete { relativeLayoutTop.visibility = View.VISIBLE }
-            .subscribe {
-                when (status) {
-                    OnBeWithMeStatusChangedListener.ABORT -> relativeLayoutTop.visibility =
-                        View.GONE
-                    OnBeWithMeStatusChangedListener.SEARCH,
-                    OnBeWithMeStatusChangedListener.START -> textViewTop.text =
-                        getString(R.string.top_bar_searching_text)
-                    OnBeWithMeStatusChangedListener.TRACK,
-                    OnBeWithMeStatusChangedListener.CALCULATING -> textViewTop.text =
-                        getString(R.string.top_bar_following_text)
-                    OnBeWithMeStatusChangedListener.OBSTACLE_DETECTED -> textViewTop.text =
-                        getString(R.string.top_bar_obstacle_detected_text)
-                }
-            }
-    }
 
     override fun toggleActivityClickListener(enable: Boolean) {
         if (enable) {
@@ -68,7 +45,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
 
     override fun onUserInteraction(isInteracting: Boolean) {
         Timber.i("onUserInteraction, isInteracting=$isInteracting")
-        robot.hideTopBar()
         if (isInteracting) handleActive() else handleIdle()
     }
 
@@ -76,34 +52,35 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onConstraintBeWithStatusChanged(isConstraint: Boolean) {
-        Timber.i("onConstraintBeWithStatusChanged, isConstraint=${isConstraint}")
-        robot.hideTopBar()
-        if (isConstraint) showConstraintLabel() else hideConstraintLabel()
-    }
-
     private fun handleActive() {
         removeFragments()
+        val settingsModel = SettingsModel.getSettings(this)
+        var delay = 0L
+        val greetMessage =
+            if (settingsModel.isUsingDefaultMessage || settingsModel.customMessage.isEmpty()) {
+                settingsModel.defaultMessage
+            } else {
+                settingsModel.customMessage
+            }
+        if (settingsModel.isUsingGreeterUser) {
+            textViewGreeting.text = greetMessage
+            textViewGreeting.visibility = View.VISIBLE
+            delay = 2L
+        }
+        if (settingsModel.isUsingVoiceGreeter) {
+            robot.cancelAllTtsRequests()
+            robot.speak(TtsRequest.create(greetMessage, false))
+        }
         constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
-        textViewGreeting.visibility = View.VISIBLE
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
         }
         disposableAction.dispose()
-        disposableAction = Completable.timer(2, TimeUnit.SECONDS)
+        disposableAction = Completable.timer(delay, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 startFragment(FeatureListFragment.newInstance())
             }
-    }
-
-    private fun showConstraintLabel() {
-        relativeLayoutTop.visibility = View.VISIBLE
-        textViewTop.text = getString(R.string.top_bar_hello_text)
-    }
-
-    private fun hideConstraintLabel() {
-        relativeLayoutTop.visibility = View.GONE
     }
 
     private fun handleIdle() {
@@ -120,12 +97,10 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
 
     override fun onRobotReady(isReady: Boolean) {
         Timber.d("onRobotReady(Boolean) (isReady=%b)", isReady)
-        robot.hideTopBar()
         if (isReady) {
             val activityInfo =
                 packageManager.getActivityInfo(componentName, PackageManager.GET_META_DATA)
             robot.onStart(activityInfo)
-            robot.hideTopBar()
         }
     }
 
@@ -133,7 +108,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         btnOpenHomeList.setOnLongClickListener {
-            robot.showAppList()
+            startActivity(Intent(this, SettingsActivity::class.java))
             true
         }
         imageButtonClose.setOnClickListener {
@@ -149,31 +124,21 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
 
     override fun onResume() {
         super.onResume()
-        robot.hideTopBar()
         robot.addOnRobotReadyListener(this)
         robot.addOnUserInteractionChangedListener(this)
-        robot.addOnConstraintBeWithStatusChangedListener(this)
-        robot.addOnBeWithMeStatusChangedListener(this)
         toggleActivityClickListener(true)
-        pollingForHidingTopBar()
     }
 
     override fun onPause() {
         super.onPause()
         robot.removeOnRobotReadyListener(this)
         robot.removeOnUserInteractionChangedListener(this)
-        robot.removeOnConstraintBeWithStatusChangedListener(this)
-        robot.removeOnBeWithMeStatusChangedListener(this)
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
         }
         if (!disposableTopUpdating.isDisposed) {
             disposableTopUpdating.dispose()
         }
-        if (!disposableHideTopBar.isDisposed) {
-            disposableHideTopBar.dispose()
-        }
-        robot.showTopBar()
     }
 
     private fun startFragment(fragment: Fragment) {
@@ -198,28 +163,9 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
         removeFragments()
     }
 
-    private var disposableHideTopBar: Disposable = Disposables.disposed()
-
-    private fun pollingForHidingTopBar() {
-        if (!disposableHideTopBar.isDisposed) {
-            disposableHideTopBar.dispose()
-        }
-        Timber.d("Start polling for hideTopBar..")
-        disposableHideTopBar = Completable.timer(5, TimeUnit.SECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                Timber.d("hideTopBar under polling..")
-                robot.hideTopBar()
-                pollingForHidingTopBar()
-            }
-    }
-
     override fun onUserInteraction() {
         super.onUserInteraction()
-        robot.hideTopBar()
         robot.stopMovement()
-        relativeLayoutTop.visibility = View.GONE
     }
 
     override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
