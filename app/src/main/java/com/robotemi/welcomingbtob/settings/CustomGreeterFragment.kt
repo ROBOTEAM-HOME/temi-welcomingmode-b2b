@@ -25,14 +25,16 @@ class CustomGreeterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val customizeGreeter = getSettings().customMessage
-        activityCallback.setTitle(getString(R.string.fragment_custom_greeter))
-        activityCallback.setVisibilityOfDone(true)
-        activityCallback.setBackClickListener(View.OnClickListener { close() })
-        activityCallback.setEnableOfDone(customizeGreeter.isNotEmpty())
-        activityCallback.setDoneClickListener(View.OnClickListener {
-            saveCustomizeGreeterMessage(editTextGreeterMessage.text.toString())
-            close()
-        })
+        activityCallback.apply {
+            setTitle(getString(R.string.fragment_custom_greeter))
+            setVisibilityOfDone(true)
+            setBackClickListener(View.OnClickListener { close() })
+            setEnableOfDone(customizeGreeter.isNotEmpty())
+            setDoneClickListener(View.OnClickListener {
+                saveCustomizeGreeterMessage(editTextGreeterMessage.text.toString())
+                close()
+            })
+        }
         editTextGreeterMessage.setText(customizeGreeter)
         textViewMessageCounter.text = (MAX_LENGTH - customizeGreeter.length).toString()
         editTextGreeterMessage.addTextChangedListener(object : TextWatcher {
@@ -60,9 +62,7 @@ class CustomGreeterFragment : Fragment() {
         saveSettings(settings)
     }
 
-    private fun getSettings(): SettingsModel {
-        return SettingsModel.getSettings(context!!)
-    }
+    private fun getSettings() = SettingsModel.getSettings(context!!)
 
     private fun saveSettings(settingsModel: SettingsModel) {
         SettingsModel.saveSettings(context!!, settingsModel, null)

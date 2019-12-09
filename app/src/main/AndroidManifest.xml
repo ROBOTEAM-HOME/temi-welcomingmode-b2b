@@ -36,10 +36,10 @@
 
             <meta-data
                 android:name="com.robotemi.sdk.metadata.UI_MODE"
-                android:value="1" />
+                android:value="@integer/metadata_ui_mode_fullscreen" />
             <meta-data
                 android:name="com.robotemi.sdk.metadata.UI_FLAG"
-                android:value="1" />
+                android:value="@integer/metadata_ui_flag_hide_top_bar" />
         </activity>
 
         <activity
@@ -47,10 +47,10 @@
             android:screenOrientation="landscape">
             <meta-data
                 android:name="com.robotemi.sdk.metadata.UI_MODE"
-                android:value="1" />
+                android:value="@integer/metadata_ui_mode_fullscreen" />
             <meta-data
                 android:name="com.robotemi.sdk.metadata.UI_FLAG"
-                android:value="1" />
+                android:value="@integer/metadata_ui_flag_hide_top_bar" />
         </activity>
     </application>
 

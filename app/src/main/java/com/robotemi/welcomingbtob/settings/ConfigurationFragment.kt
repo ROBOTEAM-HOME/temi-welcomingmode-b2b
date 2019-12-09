@@ -26,9 +26,11 @@ class ConfigurationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activityCallback.setTitle(getString(R.string.fragment_config))
-        activityCallback.setVisibilityOfDone(false)
-        activityCallback.setBackClickListener(View.OnClickListener { activity?.finish() })
+        activityCallback.apply {
+            setTitle(getString(R.string.fragment_config))
+            setVisibilityOfDone(false)
+            setBackClickListener(View.OnClickListener { activity?.finish() })
+        }
         updateUi(SettingsModel.getSettings(activity!!))
         customToggleGreetUser.setToggleListener(object : CustomToggle.ToggleListener {
             override fun onToggle(on: Boolean) {
@@ -42,21 +44,15 @@ class ConfigurationFragment : Fragment() {
         })
         customToggleVoiceGreeter.setToggleListener(object : CustomToggle.ToggleListener {
             override fun onToggle(on: Boolean) {
-                val settings = getSettings()
-                settings.isUsingVoiceGreeter = on
-                saveSettings(settings)
+                saveSettings(getSettings().apply { isUsingVoiceGreeter = on })
             }
         })
         relativeLayoutDefaultMessage.setOnClickListener {
-            val settings = getSettings()
-            settings.isUsingDefaultMessage = true
-            saveSettings(settings)
+            saveSettings(getSettings().apply { isUsingDefaultMessage = true })
         }
         relativeLayoutCustom.setOnClickListener {
-            val settings = getSettings()
-            settings.isUsingDefaultMessage = false
+            saveSettings(getSettings().apply { isUsingDefaultMessage = false })
             activityCallback.startFragment(CustomGreeterFragment.newInstance())
-            saveSettings(settings)
         }
         textViewOpenAppList.setOnClickListener {
             robot.showAppList()
@@ -84,9 +80,7 @@ class ConfigurationFragment : Fragment() {
         }
     }
 
-    private fun getSettings(): SettingsModel {
-        return SettingsModel.getSettings(context!!)
-    }
+    private fun getSettings() = SettingsModel.getSettings(context!!)
 
     private fun saveSettings(settingsModel: SettingsModel) {
         SettingsModel.saveSettings(
