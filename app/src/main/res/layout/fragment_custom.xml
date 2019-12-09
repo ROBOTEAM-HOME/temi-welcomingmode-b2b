@@ -30,7 +30,7 @@
             android:ellipsize="end"
             android:hint="@string/custom_input_hint"
             android:inputType="text"
-            android:maxLength="12"
+            android:maxLength="24"
             android:maxLines="1"
             android:textColor="@color/white"
             android:textColorHint="@color/gray5a"

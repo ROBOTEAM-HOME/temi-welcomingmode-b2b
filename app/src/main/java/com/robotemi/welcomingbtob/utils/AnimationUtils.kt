@@ -36,7 +36,5 @@ class AnimationUtils {
             animation.setTarget(view)
             return animation
         }
-
     }
-
 }

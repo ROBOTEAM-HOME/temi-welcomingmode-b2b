@@ -14,14 +14,11 @@ abstract class FeatureListAdapter<T> constructor(
         return ViewHolder.get(context, layoutId, parent)
     }
 
-    override fun getItemCount(): Int {
-        return data.size
-    }
+    override fun getItemCount() = data.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         convert(holder, data[position])
     }
 
     abstract fun convert(holder: ViewHolder, t: T)
-
 }

@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import com.robotemi.sdk.NlpResult
+import com.robotemi.sdk.constants.SdkConstants
 import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureBaseFragment
@@ -107,11 +108,9 @@ class PlayFragment : FeatureBaseFragment(), OnBeWithMeStatusChangedListener {
         }
         val intent = context?.packageManager?.getLaunchIntentForPackage(packageName.toString())
         intent?.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME
-        // This will cause other skills to crash due to deserialization failure
-        // So do NOT use NlpResult.class until the SDK of other skills is upgraded to the latest version
-//        if (nlpResult != null) {
-//            intent?.putExtra(SdkConstants.EXTRA_NLP_RESULT, nlpResult)
-//        }
+        if (nlpResult != null) {
+            intent?.putExtra(SdkConstants.EXTRA_NLP_RESULT, nlpResult)
+        }
         if (intent == null) {
             return
         }

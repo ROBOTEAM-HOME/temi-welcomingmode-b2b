@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.robotemi.sdk.Robot
 import com.robotemi.sdk.TtsRequest
+import com.robotemi.sdk.listeners.OnDetectionStateChangedListener
 import com.robotemi.sdk.listeners.OnRobotReadyListener
 import com.robotemi.sdk.listeners.OnUserInteractionChangedListener
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
@@ -24,13 +26,49 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallback,
-    OnUserInteractionChangedListener {
+    OnUserInteractionChangedListener, OnDetectionStateChangedListener {
 
     private val robot: Robot by inject()
 
     private var disposableAction: Disposable = Disposables.disposed()
 
     private var disposableTopUpdating: Disposable = Disposables.disposed()
+
+    private var detectionState = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        btnOpenHomeList.setOnLongClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
+            true
+        }
+        imageButtonClose.setOnClickListener {
+            startFragment(FeatureListFragment.newInstance())
+            imageButtonClose.visibility = View.GONE
+            constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        robot.addOnRobotReadyListener(this)
+        robot.addOnUserInteractionChangedListener(this)
+        robot.addOnDetectionStateChangedListener(this)
+        toggleActivityClickListener(true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        robot.removeOnRobotReadyListener(this)
+        robot.removeOnUserInteractionChangedListener(this)
+        if (!disposableAction.isDisposed) {
+            disposableAction.dispose()
+        }
+        if (!disposableTopUpdating.isDisposed) {
+            disposableTopUpdating.dispose()
+        }
+    }
 
     override fun toggleActivityClickListener(enable: Boolean) {
         if (enable) {
@@ -45,11 +83,52 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
 
     override fun onUserInteraction(isInteracting: Boolean) {
         Timber.i("onUserInteraction, isInteracting=$isInteracting")
-        if (isInteracting) handleActive() else handleIdle()
+        if (isInteracting) {
+            if (!textViewGreeting.isVisible && supportFragmentManager.fragments.count() == 0) {
+                startFragment(FeatureListFragment.newInstance())
+            }
+        } else {
+            handleIdle()
+        }
     }
 
-    override fun toggleWelcomingModeListener(enable: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onDetectionStateChanged(state: Int) {
+        Timber.d("onDetectionStateChanged, state = %d", state)
+        if (state == OnDetectionStateChangedListener.DETECTED && detectionState == OnDetectionStateChangedListener.IDLE) {
+            handleActive()
+        }
+        detectionState = state
+    }
+
+    override fun setCloseVisibility(isVisible: Boolean) {
+        setCloseButtonVisibility(isVisible)
+    }
+
+    override fun onRobotReady(isReady: Boolean) {
+        Timber.d("onRobotReady(Boolean) (isReady=%b)", isReady)
+        if (isReady) {
+            val activityInfo =
+                packageManager.getActivityInfo(componentName, PackageManager.GET_META_DATA)
+            robot.onStart(activityInfo)
+        }
+    }
+
+    override fun onUserInteraction() {
+        Timber.d("onUserInteraction - tap")
+        super.onUserInteraction()
+        robot.stopMovement()
+    }
+
+    override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
+        return if (event?.keyCode == KeyEvent.KEYCODE_BACK) {
+            true
+        } else {
+            super.dispatchKeyEvent(event)
+        }
+    }
+
+    private fun setCloseButtonVisibility(isVisible: Boolean) {
+        imageButtonClose.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     private fun handleActive() {
@@ -91,60 +170,11 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         disposableAction.dispose()
     }
 
-    override fun setCloseVisibility(isVisible: Boolean) {
-        setCloseButtonVisibility(isVisible)
-    }
-
-    override fun onRobotReady(isReady: Boolean) {
-        Timber.d("onRobotReady(Boolean) (isReady=%b)", isReady)
-        if (isReady) {
-            val activityInfo =
-                packageManager.getActivityInfo(componentName, PackageManager.GET_META_DATA)
-            robot.onStart(activityInfo)
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        btnOpenHomeList.setOnLongClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
-            true
-        }
-        imageButtonClose.setOnClickListener {
-            startFragment(FeatureListFragment.newInstance())
-            imageButtonClose.visibility = View.GONE
-            constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
-        }
-    }
-
-    private fun setCloseButtonVisibility(isVisible: Boolean) {
-        imageButtonClose.visibility = if (isVisible) View.VISIBLE else View.GONE
-    }
-
-    override fun onResume() {
-        super.onResume()
-        robot.addOnRobotReadyListener(this)
-        robot.addOnUserInteractionChangedListener(this)
-        toggleActivityClickListener(true)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        robot.removeOnRobotReadyListener(this)
-        robot.removeOnUserInteractionChangedListener(this)
-        if (!disposableAction.isDisposed) {
-            disposableAction.dispose()
-        }
-        if (!disposableTopUpdating.isDisposed) {
-            disposableTopUpdating.dispose()
-        }
-    }
-
     private fun startFragment(fragment: Fragment) {
         textViewGreeting.visibility = View.GONE
         frameLayout.visibility = View.VISIBLE
-        supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.frameLayout, fragment, fragment.javaClass.name)
             .commitAllowingStateLoss()
         disposableAction.dispose()
     }
@@ -161,18 +191,5 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         textViewGreeting.visibility = View.GONE
         constraintLayoutParent.setBackgroundResource(0)
         removeFragments()
-    }
-
-    override fun onUserInteraction() {
-        super.onUserInteraction()
-        robot.stopMovement()
-    }
-
-    override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
-        return if (event?.keyCode == KeyEvent.KEYCODE_BACK) {
-            true
-        } else {
-            super.dispatchKeyEvent(event)
-        }
     }
 }

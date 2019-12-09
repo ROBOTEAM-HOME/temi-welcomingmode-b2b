@@ -113,5 +113,4 @@ class ConfigurationFragment : Fragment() {
     companion object {
         fun newInstance() = ConfigurationFragment()
     }
-
 }
