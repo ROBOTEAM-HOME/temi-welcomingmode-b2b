@@ -42,11 +42,49 @@ class TipsViewImpl : RelativeLayout {
     private val flipperIntervalTimeout: Int = 10000
 
     private fun loadTips() {
-        val tips: List<String> = when (Robot.getInstance().wakeupWord) {
-            Constants.WAKEUP_WORD_ALEXA -> resources.getStringArray(R.array.tips_alexa).asList()
-            Constants.WAKEUP_WORD_DING_DANG -> resources.getStringArray(R.array.tips_dingdang).asList()
-            else -> resources.getStringArray(R.array.tips_temi).asList()
+        val robot = Robot.getInstance()
+        val locationForTips = if (robot.locations.size > 1) {
+            robot.locations[1]
+        } else {
+            context.getString(R.string.location_home_base)
         }
+        val callForTips = if (robot.adminInfo != null) {
+            robot.adminInfo!!.name
+        } else {
+            context.getString(R.string.admin)
+        }
+        val tips = mutableListOf<String>()
+        when (robot.wakeupWord.toLowerCase()) {
+            Constants.WAKEUP_WORD_ALEXA -> {
+                tips.clear()
+                tips.add(String.format("Try “Alexa, tell my temi to go to %s”", locationForTips))
+                tips.add("Try “Alexa, tell my temi to follow me”")
+                tips.add(String.format("Try “Alexa, tell my temi to call %s”", callForTips))
+                tips.add("Try “Alexa, tell my temi to take a selfie”")
+                tips.add("Try “Alexa, tell my temi to take a video”")
+                tips.add("Try “Alexa, tell my temi to take a GIF”")
+            }
+            Constants.WAKEUP_WORD_HEY_TEMI -> {
+                tips.clear()
+                tips.add(String.format("Try “Hey temi, go to %s”", locationForTips))
+                tips.add("Try “Hey temi, follow me”")
+                tips.add(String.format("Try “Hey temi, call %s”", callForTips))
+                tips.add("Try “Hey temi, to take a selfie”")
+                tips.add("Try “Hey temi, to take a video”")
+                tips.add("Try “Hey temi, to take a GIF”")
+                tips.add("Try “Hey temi, play music on iHeart”")
+            }
+            else -> {
+                tips.clear()
+                tips.add(String.format("“叮当叮当，去%s”", locationForTips))
+                tips.add("“叮当叮当，跟着我”")
+                tips.add(String.format("“叮当叮当，打电话给%s”", callForTips))
+                tips.add("“叮当叮当，来张自拍”")
+                tips.add("“叮当叮当，拍视频”")
+                tips.add("“叮当叮当，今天天气”")
+            }
+        }
+        tips.shuffle()
         adapter.updateList(tips)
     }
 

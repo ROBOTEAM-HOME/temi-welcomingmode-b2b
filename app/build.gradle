@@ -8,8 +8,8 @@ android {
         applicationId "com.robotemi.welcomingbtob"
         minSdkVersion 23
         targetSdkVersion 28
-        versionCode 1
-        versionName '1.0.0'
+        versionCode globalVersionCode
+        versionName globalVersionName
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,6 +31,12 @@ android {
             shrinkResources true
             zipAlignEnabled true
             useProguard true
+            Properties properties = new Properties()
+            def propertiesFile = project.rootProject.file('local.properties')
+            if (propertiesFile.exists()) {
+                properties.load(propertiesFile.newDataInputStream())
+            }
+            buildConfigField('String', 'APPCENTER_SECRET', "\"${properties['APPCENTER_SECRET']}\"")
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -54,6 +60,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'com.google.code.gson:gson:2.8.6'
     // Koin for Android
     implementation 'org.koin:koin-android:2.0.1'
     // or Koin for Lifecycle scoping
@@ -61,7 +68,8 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
-
-    // temi SDK
-    implementation 'com.robotemi:sdk:0.10.51.8-SNAPSHOT'
+    implementation 'com.robotemi:sdk:0.10.52'
+    // App Center
+    releaseImplementation 'com.microsoft.appcenter:appcenter-analytics:2.5.0'
+    releaseImplementation 'com.microsoft.appcenter:appcenter-crashes:2.5.0'
 }

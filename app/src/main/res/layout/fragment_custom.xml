@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@color/black"
+    android:orientation="vertical"
+    android:paddingStart="145dp"
+    android:paddingTop="58dp"
+    android:paddingEnd="183dp">
+
+    <LinearLayout
+        android:id="@+id/input_container"
+        android:layout_width="952dp"
+        android:layout_height="99dp"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_input"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editTextGreeterMessage"
+            android:layout_width="0dp"
+            android:layout_height="49dp"
+            android:layout_marginStart="33dp"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:ellipsize="end"
+            android:hint="@string/custom_input_hint"
+            android:inputType="text"
+            android:maxLength="24"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray5a"
+            android:textSize="36sp"
+            tools:text="欢迎来到temi" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewMessageCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="38dp"
+            android:layout_marginEnd="38dp"
+            android:text="@string/custom_max_length"
+            android:textAllCaps="true"
+            android:textColor="@color/gray200"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textViewAlert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:lines="1"
+        android:text="@string/custom_alert"
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/input_container"
+        app:layout_constraintTop_toBottomOf="@+id/input_container" />
+</LinearLayout>

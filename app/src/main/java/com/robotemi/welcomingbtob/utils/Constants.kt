@@ -2,14 +2,17 @@ package com.robotemi.welcomingbtob.utils
 
 class Constants {
     companion object {
-        const val WAKEUP_WORD_ALEXA = "Alexa"
+        const val WAKEUP_WORD_ALEXA = "alexa"
 
-        const val WAKEUP_WORD_HEY_TEMI = "Hey temi"
+        const val WAKEUP_WORD_HEY_TEMI = "hey temi"
 
-        const val WAKEUP_WORD_DING_DANG = "DingDang"
+        const val WAKEUP_WORD_DING_DANG = "dingdang"
 
         const val SUFFIX_USA = ".usa"
 
         const val SUFFIX_CHINA = ".china"
+
+        const val PREF_KEY_SETTINGS = "pref_settings"
+
     }
 }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.robotemi.welcomingbtob">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".app.App"
@@ -17,11 +17,9 @@
         <meta-data
             android:name="@string/metadata_skill"
             android:value="@string/app_name" />
-
         <meta-data
             android:name="@string/metadata_visibility"
             android:value="FALSE" />
-
         <meta-data
             android:name="@string/metadata_kiosk"
             android:value="TRUE" />
@@ -35,6 +33,24 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data
+                android:name="com.robotemi.sdk.metadata.UI_MODE"
+                android:value="@integer/metadata_ui_mode_fullscreen" />
+            <meta-data
+                android:name="com.robotemi.sdk.metadata.UI_FLAG"
+                android:value="@integer/metadata_ui_flag_hide_top_bar" />
+        </activity>
+
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:screenOrientation="landscape">
+            <meta-data
+                android:name="com.robotemi.sdk.metadata.UI_MODE"
+                android:value="@integer/metadata_ui_mode_fullscreen" />
+            <meta-data
+                android:name="com.robotemi.sdk.metadata.UI_FLAG"
+                android:value="@integer/metadata_ui_flag_hide_top_bar" />
         </activity>
     </application>
 

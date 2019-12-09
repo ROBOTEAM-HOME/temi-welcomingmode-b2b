@@ -38,16 +38,6 @@ abstract class FeatureBaseFragment : Fragment() {
         holder: ViewHolder
     )
 
-    open fun getFeatureAdapter() =
-        object : FeatureListAdapter<Any>(context!!, getCardLayoutId(), getFeatureList()) {
-            override fun convert(holder: ViewHolder, featureObj: Any) {
-                handleListMedia(featureObj, holder)
-                holder.setOnClickListener(
-                    R.id.linearLayout,
-                    View.OnClickListener { handleAction(featureObj) })
-            }
-        }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -77,6 +67,16 @@ abstract class FeatureBaseFragment : Fragment() {
         super.onDestroyView()
         toggleActivityClickListener(true)
     }
+
+    open fun getFeatureAdapter() =
+        object : FeatureListAdapter<Any>(context!!, getCardLayoutId(), getFeatureList()) {
+            override fun convert(holder: ViewHolder, featureObj: Any) {
+                handleListMedia(featureObj, holder)
+                holder.setOnClickListener(
+                    R.id.linearLayout,
+                    View.OnClickListener { handleAction(featureObj) })
+            }
+        }
 
     protected fun setCloseVisibility(isVisible: Boolean) {
         activityCallback.setCloseVisibility(isVisible)
