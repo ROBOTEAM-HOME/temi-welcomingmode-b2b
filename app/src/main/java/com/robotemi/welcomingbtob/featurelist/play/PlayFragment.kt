@@ -42,7 +42,7 @@ class PlayFragment : FeatureBaseFragment(), OnBeWithMeStatusChangedListener {
         return featureList
     }
 
-    override fun onBeWithMeStatusChanged(status: String?) {
+    override fun onBeWithMeStatusChanged(status: String) {
         when (status) {
             OnBeWithMeStatusChangedListener.ABORT -> {
                 featureList[1] = getString(R.string.feature_follow)

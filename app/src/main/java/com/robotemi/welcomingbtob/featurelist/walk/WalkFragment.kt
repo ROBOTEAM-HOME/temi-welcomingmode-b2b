@@ -2,6 +2,7 @@ package com.robotemi.welcomingbtob.featurelist.walk
 
 import android.os.Bundle
 import android.view.View
+import com.robotemi.sdk.listeners.OnLocationsUpdatedListener
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureBaseFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
@@ -15,7 +16,7 @@ class WalkFragment : FeatureBaseFragment() {
     }
 
     override fun getFeatureList(): List<String> {
-        featureList = robot.locations
+        featureList = robot.locations.toMutableList()
         return featureList
     }
 
@@ -33,11 +34,13 @@ class WalkFragment : FeatureBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        robot.addOnLocationsUpdatedListener { locations ->
-            featureList.clear()
-            featureList.addAll(locations!!.toList())
-            adapter.notifyDataSetChanged()
-        }
+        robot.addOnLocationsUpdatedListener(object : OnLocationsUpdatedListener {
+            override fun onLocationsUpdated(locations: List<String>) {
+                featureList.clear()
+                featureList.addAll(locations.toList())
+                adapter.notifyDataSetChanged()
+            }
+        })
     }
 
     override fun onDestroyView() {

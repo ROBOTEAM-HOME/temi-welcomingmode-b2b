@@ -6,10 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.robotemi.sdk.Robot
-import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener
-import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener
-import com.robotemi.sdk.listeners.OnRobotReadyListener
-import com.robotemi.sdk.listeners.OnUserInteractionChangedListener
+import com.robotemi.sdk.listeners.*
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,7 +18,8 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatusChangedListener,
-    IActivityCallback, OnConstraintBeWithStatusChangedListener, OnUserInteractionChangedListener {
+    IActivityCallback, OnConstraintBeWithStatusChangedListener, OnUserInteractionChangedListener,
+    OnDetectionStateChangedListener {
 
     private val robot: Robot by inject()
 
@@ -29,7 +27,10 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
 
     private var disposableTopUpdating: Disposable = Disposables.disposed()
 
-    override fun onBeWithMeStatusChanged(status: String?) {
+    private var detectionState = 0
+
+
+    override fun onBeWithMeStatusChanged(status: String) {
         Timber.d("onBeWithMeStatusChanged(String) (status=$status)")
         if (!disposableTopUpdating.isDisposed) {
             disposableTopUpdating.dispose()
@@ -66,11 +67,22 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
     }
 
     override fun onUserInteraction(isInteracting: Boolean) {
-        if (isInteracting) handleActive() else handleIdle()
+        Timber.d("onUserInteraction, isInteracting = %b", isInteracting)
+        if (isInteracting){// && !supportFragmentManager.findFragmentByTag(FeatureListFragment::class.java.name)!!.isVisible){
+            startFragment(FeatureListFragment.newInstance())
+        }
+        else{
+            handleIdle()
+        }
+//        if (isInteracting) handleActive() else handleIdle()
     }
 
-    override fun toggleWelcomingModeListener(enable: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onDetectionStateChanged(state: Int) {
+        Timber.d("onDetectionStateChanged, state = %d", state)
+        if (state == OnDetectionStateChangedListener.DETECTED && detectionState == OnDetectionStateChangedListener.IDLE){
+            handleActive()
+        }
+        detectionState = state
     }
 
     override fun onConstraintBeWithStatusChanged(isConstraint: Boolean) {
@@ -148,6 +160,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
         robot.addOnUserInteractionChangedListener(this)
         robot.addOnConstraintBeWithStatusChangedListener(this)
         robot.addOnBeWithMeStatusChangedListener(this)
+        robot.addOnDetectionStateChangedListener(this)
         toggleActivityClickListener(true)
     }
 
@@ -168,7 +181,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
     private fun startFragment(fragment: Fragment) {
         textViewGreeting.visibility = View.GONE
         frameLayout.visibility = View.VISIBLE
-        supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment)
+        supportFragmentManager.beginTransaction().replace(R.id.frameLayout, fragment, fragment.javaClass.name)
             .commitAllowingStateLoss()
         disposableAction.dispose()
     }
@@ -188,6 +201,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, OnBeWithMeStatus
     }
 
     override fun onUserInteraction() {
+        Timber.d("onUserInteraction - tap")
         super.onUserInteraction()
         robot.stopMovement()
         relativeLayoutTop.visibility = View.GONE
