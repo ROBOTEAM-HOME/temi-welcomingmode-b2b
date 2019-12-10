@@ -62,6 +62,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         super.onPause()
         robot.removeOnRobotReadyListener(this)
         robot.removeOnUserInteractionChangedListener(this)
+        robot.removeDetectionStateChangedListener(this)
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
         }
