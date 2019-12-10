@@ -116,3 +116,11 @@
 ####################################################################################################
 
 -dontwarn kotlinx.**
+
+# temi-sdk
+-keep class com.robotemi.sdk.** { *; }
+-dontwarn androidx.annotation.**
+-dontwarn kotlin.**
+-dontwarn kotlinx.**
+-keepnames class * implements android.os.Parcelable { *; }
+-keepclassmembers class * implements android.os.Parcelable { *; }
