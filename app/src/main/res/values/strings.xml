@@ -41,6 +41,6 @@
     <string name="custom_alert">Message can’t be empty</string>
     <string name="settings_location_announcements">Location Announcements</string>
     <string name="settings_location_announcements_describe">temi will announce that he is going to a location, and when he has arrived</string>
-    <string name="go_to_start_tts">I\'m going to %s</string>
-    <string name="go_to_complete_tts">I\'ve arrived to %s</string>
+    <string name="go_to_start_tts">I\'m going to the %s</string>
+    <string name="go_to_complete_tts">I\'ve arrived at the %s</string>
 </resources>
