@@ -14,5 +14,7 @@ class Constants {
 
         const val PREF_KEY_SETTINGS = "pref_settings"
 
+        const val HOME_BASE_FROM_ROBOX = "home base"
+
     }
 }

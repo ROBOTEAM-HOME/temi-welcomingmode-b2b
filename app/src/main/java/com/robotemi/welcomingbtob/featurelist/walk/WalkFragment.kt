@@ -5,6 +5,7 @@ import com.robotemi.sdk.listeners.OnLocationsUpdatedListener
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureBaseFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
+import com.robotemi.welcomingbtob.utils.Constants.Companion.HOME_BASE_FROM_ROBOX
 import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
 
 class WalkFragment : FeatureBaseFragment(), OnLocationsUpdatedListener {
@@ -73,8 +74,6 @@ class WalkFragment : FeatureBaseFragment(), OnLocationsUpdatedListener {
     }
 
     companion object {
-        const val HOME_BASE_FROM_ROBOX = "home base"
-
         fun newInstance() = WalkFragment()
     }
 }

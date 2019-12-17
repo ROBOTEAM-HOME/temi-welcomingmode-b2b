@@ -11,11 +11,16 @@ import androidx.fragment.app.Fragment
 import com.robotemi.sdk.Robot
 import com.robotemi.sdk.TtsRequest
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener
+import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener
+import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener.Companion.COMPLETE
+import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener.Companion.START
 import com.robotemi.sdk.listeners.OnRobotReadyListener
 import com.robotemi.sdk.listeners.OnUserInteractionChangedListener
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
+import com.robotemi.welcomingbtob.featurelist.walk.WalkFragment
 import com.robotemi.welcomingbtob.settings.SettingsActivity
 import com.robotemi.welcomingbtob.settings.SettingsModel
+import com.robotemi.welcomingbtob.utils.Constants.Companion.HOME_BASE_FROM_ROBOX
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -26,7 +31,8 @@ import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallback,
-    OnUserInteractionChangedListener, OnDetectionStateChangedListener {
+    OnUserInteractionChangedListener, OnDetectionStateChangedListener,
+    OnGoToLocationStatusChangedListener {
 
     private val robot: Robot by inject()
 
@@ -55,6 +61,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         robot.addOnRobotReadyListener(this)
         robot.addOnUserInteractionChangedListener(this)
         robot.addOnDetectionStateChangedListener(this)
+        robot.addOnGoToLocationStatusChangedListener(this)
         toggleActivityClickListener(true)
     }
 
@@ -63,6 +70,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         robot.removeOnRobotReadyListener(this)
         robot.removeOnUserInteractionChangedListener(this)
         robot.removeDetectionStateChangedListener(this)
+        robot.removeOnGoToLocationStatusChangedListener(this)
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
         }
@@ -192,5 +200,27 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         textViewGreeting.visibility = View.GONE
         constraintLayoutParent.setBackgroundResource(0)
         removeFragments()
+    }
+
+    private fun speak(speech: String) {
+        robot.cancelAllTtsRequests()
+        robot.speak(TtsRequest.create(speech, false))
+    }
+
+    override fun onGoToLocationStatusChanged(
+        location: String,
+        status: String,
+        descriptionId: Int,
+        description: String
+    ) {
+        val locationName = if (HOME_BASE_FROM_ROBOX.toLowerCase().trim() == location) {
+            getString(R.string.location_home_base)
+        } else {
+            location
+        }
+        when (status) {
+            START -> speak(String.format(getString(R.string.go_to_start_tts), locationName))
+            COMPLETE -> speak(String.format(getString(R.string.go_to_complete_tts), locationName))
+        }
     }
 }

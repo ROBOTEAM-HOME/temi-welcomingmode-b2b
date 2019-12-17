@@ -38,6 +38,7 @@ class ConfigurationFragment : Fragment() {
                 settings.isUsingGreeterUser = on
                 if (!on) {
                     settings.isUsingVoiceGreeter = false
+                    settings.isUsingLocationAnnouncements = false
                 }
                 saveSettings(settings)
             }
@@ -45,6 +46,11 @@ class ConfigurationFragment : Fragment() {
         customToggleVoiceGreeter.setToggleListener(object : CustomToggle.ToggleListener {
             override fun onToggle(on: Boolean) {
                 saveSettings(getSettings().apply { isUsingVoiceGreeter = on })
+            }
+        })
+        customToggleLocationAnnouncements.setToggleListener(object : CustomToggle.ToggleListener {
+            override fun onToggle(on: Boolean) {
+                saveSettings(getSettings().apply { isUsingLocationAnnouncements = on })
             }
         })
         relativeLayoutDefaultMessage.setOnClickListener {
@@ -75,6 +81,7 @@ class ConfigurationFragment : Fragment() {
             textViewCustomDescription.isEnabled = it.isUsingGreeterUser
             setRadioButtonSrc(radioButtonCustom, !it.isUsingDefaultMessage, it.isUsingGreeterUser)
             customToggleVoiceGreeter.setToggle(it.isUsingVoiceGreeter)
+            customToggleLocationAnnouncements.setToggle(it.isUsingLocationAnnouncements)
             relativeLayoutDefaultMessage.isEnabled = it.isUsingGreeterUser
             relativeLayoutCustom.isEnabled = it.isUsingGreeterUser
         }

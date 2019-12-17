@@ -11,7 +11,8 @@ data class SettingsModel(
     var isUsingDefaultMessage: Boolean = true,
     var defaultMessage: String = "",
     var customMessage: String = "",
-    var isUsingVoiceGreeter: Boolean = false
+    var isUsingVoiceGreeter: Boolean = true,
+    var isUsingLocationAnnouncements: Boolean = true
 ) {
 
     companion object {
@@ -32,7 +33,8 @@ data class SettingsModel(
                         isUsingDefaultMessage = true,
                         defaultMessage = context.getString(R.string.greeting),
                         customMessage = "",
-                        isUsingVoiceGreeter = false
+                        isUsingVoiceGreeter = true,
+                        isUsingLocationAnnouncements = true
                     )
                 )
             )
