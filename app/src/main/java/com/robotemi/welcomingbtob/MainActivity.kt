@@ -20,6 +20,7 @@ import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import com.robotemi.welcomingbtob.featurelist.walk.WalkFragment
 import com.robotemi.welcomingbtob.settings.SettingsActivity
 import com.robotemi.welcomingbtob.settings.SettingsModel
+import com.robotemi.welcomingbtob.utils.Constants.Companion.HOME_BASE_FROM_ROBOX
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -201,38 +202,25 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         removeFragments()
     }
 
+    private fun speak(speech: String) {
+        robot.cancelAllTtsRequests()
+        robot.speak(TtsRequest.create(speech, false))
+    }
+
     override fun onGoToLocationStatusChanged(
         location: String,
         status: String,
         descriptionId: Int,
         description: String
     ) {
-        val locationName = if (WalkFragment.HOME_BASE_FROM_ROBOX.toLowerCase().trim() == location) {
+        val locationName = if (HOME_BASE_FROM_ROBOX.toLowerCase().trim() == location) {
             getString(R.string.location_home_base)
         } else {
             location
         }
         when (status) {
-            START -> {
-                robot.speak(
-                    TtsRequest.create(
-                        String.format(
-                            getString(R.string.go_to_start_tts),
-                            locationName
-                        ), false
-                    )
-                )
-            }
-            COMPLETE -> {
-                robot.speak(
-                    TtsRequest.create(
-                        String.format(
-                            getString(R.string.go_to_complete_tts),
-                            locationName
-                        ), false
-                    )
-                )
-            }
+            START -> speak(String.format(getString(R.string.go_to_start_tts), locationName))
+            COMPLETE -> speak(String.format(getString(R.string.go_to_complete_tts), locationName))
         }
     }
 }
