@@ -59,7 +59,7 @@ class CustomGreeterFragment : Fragment() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     Timber.d("Settings-custom: $s")
                     textViewMessageCounter.text = (MAX_LENGTH - s!!.length).toString()
-                    if (s.isNotEmpty()) {
+                    if (s.isNotBlank()) {
                         activityCallback.setEnableOfDone(true)
                         textViewAlert.visibility = View.GONE
                     } else {
