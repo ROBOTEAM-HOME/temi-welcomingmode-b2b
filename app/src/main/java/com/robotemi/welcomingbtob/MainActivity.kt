@@ -17,7 +17,6 @@ import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener.Companion.
 import com.robotemi.sdk.listeners.OnRobotReadyListener
 import com.robotemi.sdk.listeners.OnUserInteractionChangedListener
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
-import com.robotemi.welcomingbtob.featurelist.walk.WalkFragment
 import com.robotemi.welcomingbtob.settings.SettingsActivity
 import com.robotemi.welcomingbtob.settings.SettingsModel
 import com.robotemi.welcomingbtob.utils.Constants.Companion.HOME_BASE_FROM_ROBOX
@@ -37,8 +36,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
     private val robot: Robot by inject()
 
     private var disposableAction: Disposable = Disposables.disposed()
-
-    private var disposableTopUpdating: Disposable = Disposables.disposed()
 
     private var detectionState = 0
 
@@ -73,9 +70,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         robot.removeOnGoToLocationStatusChangedListener(this)
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
-        }
-        if (!disposableTopUpdating.isDisposed) {
-            disposableTopUpdating.dispose()
         }
     }
 
@@ -163,7 +157,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
         }
-        disposableAction.dispose()
         disposableAction = Completable.timer(delay, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -176,7 +169,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
         }
-        disposableAction.dispose()
     }
 
     private fun startFragment(fragment: Fragment) {
@@ -185,7 +177,9 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         supportFragmentManager.beginTransaction()
             .replace(R.id.frameLayout, fragment, fragment.javaClass.name)
             .commitAllowingStateLoss()
-        disposableAction.dispose()
+        if (!disposableAction.isDisposed) {
+            disposableAction.dispose()
+        }
     }
 
     private fun removeFragments() {

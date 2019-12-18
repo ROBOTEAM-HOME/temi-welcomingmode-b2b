@@ -57,7 +57,11 @@ class ConfigurationFragment : Fragment() {
             saveSettings(getSettings().apply { isUsingDefaultMessage = true })
         }
         relativeLayoutCustom.setOnClickListener {
-            saveSettings(getSettings().apply { isUsingDefaultMessage = false })
+            saveSettings(getSettings().apply {
+                if (customMessage.isNotEmpty()) {
+                    isUsingDefaultMessage = false
+                }
+            })
             activityCallback.startFragment(CustomGreeterFragment.newInstance())
         }
         textViewOpenAppList.setOnClickListener {
