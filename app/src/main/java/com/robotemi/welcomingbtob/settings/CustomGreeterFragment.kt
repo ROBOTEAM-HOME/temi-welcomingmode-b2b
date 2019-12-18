@@ -75,6 +75,7 @@ class CustomGreeterFragment : Fragment() {
     private fun saveCustomizeGreeterMessage(text: String) {
         val settings = getSettings()
         settings.customMessage = text
+        settings.isUsingDefaultMessage = false
         saveSettings(settings)
     }
 

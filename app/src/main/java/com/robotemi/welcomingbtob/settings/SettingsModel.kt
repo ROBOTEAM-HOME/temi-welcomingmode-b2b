@@ -47,6 +47,9 @@ data class SettingsModel(
             settingsModel: SettingsModel,
             callback: ISaveSettingsCallback?
         ) {
+            if (settingsModel.customMessage.isEmpty()) {
+                settingsModel.isUsingDefaultMessage = true
+            }
             val sharedPreferences =
                 context.getSharedPreferences(
                     context.getString(R.string.app_name),
