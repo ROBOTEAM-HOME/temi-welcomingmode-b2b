@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.robotemi.sdk.Robot
 import com.robotemi.sdk.TtsRequest
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener
@@ -113,6 +114,10 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
             val activityInfo =
                 packageManager.getActivityInfo(componentName, PackageManager.GET_META_DATA)
             robot.onStart(activityInfo)
+            val userInfo = robot.adminInfo
+            if (userInfo != null && !userInfo.picUrl.isNullOrEmpty()) {
+                Glide.with(this).load(userInfo.picUrl).preload()
+            }
         }
     }
 
