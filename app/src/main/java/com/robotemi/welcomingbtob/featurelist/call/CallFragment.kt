@@ -1,11 +1,11 @@
 package com.robotemi.welcomingbtob.featurelist.call
 
 import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.robotemi.sdk.UserInfo
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureBaseFragment
 import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
 
 class CallFragment : FeatureBaseFragment() {
@@ -38,7 +38,7 @@ class CallFragment : FeatureBaseFragment() {
         if (userInfo.picUrl.isNullOrEmpty()) {
             (holder.getView(R.id.imageViewAvatar) as ImageView).setImageResource(R.drawable.ic_user)
         } else {
-            Picasso.get()
+            Glide.with(requireContext())
                 .load(userInfo.picUrl)
                 .placeholder(R.drawable.ic_user)
                 .into(holder.getView(R.id.imageViewAvatar) as ImageView)
