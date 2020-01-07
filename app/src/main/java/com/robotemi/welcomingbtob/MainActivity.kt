@@ -202,6 +202,9 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
     }
 
     private fun speak(speech: String) {
+        if (!SettingsModel.getSettings(this).isUsingLocationAnnouncements) {
+            return
+        }
         robot.cancelAllTtsRequests()
         robot.speak(TtsRequest.create(speech, false))
     }
