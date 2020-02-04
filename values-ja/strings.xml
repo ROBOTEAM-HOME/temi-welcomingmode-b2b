@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="app_name">ウェルカムモード B2B</string>
+    <string name="welcome">ようこそ</string>
+    <string name="greeting">こんにちは</string>
+    <string name="admin">管理者</string>
+    <string name="fragment_config">歓迎スキルの構成</string>
+    <string name="fragment_custom_greeter">ユーザーグリーターテキストメッセージのカスタマイズ</string>
+    <string name="feature_walk">歩く</string>
+    <string name="feature_play">再生</string>
+    <string name="feature_call">呼び出し</string>
+    <string name="feature_take_photo">セルフィーを取る</string>
+    <string name="feature_follow">私に付いて来てください</string>
+    <string name="feature_stop_follow">追従モードを停止する</string>
+    <string name="feature_play_music">音楽を再生</string>
+    <string name="sub_title_play">temiの最高の機能をお試しください</string>
+    <string name="sub_title_call">セールスと話したいですか?</string>
+    <string name="sub_title_walk">目的地を選択してください</string>
+    <string name="top_bar_searching_text">サーチ中</string>
+    <string name="top_bar_following_text">追従モード</string>
+    <string name="top_bar_obstacle_detected_text">障害物</string>
+    <string name="top_bar_hello_text">こんにちは</string>
+    <string name="location_home_base">ホームベース</string>
+    <string name="settings_done">完了</string>
+    <string name="custom_toggle_off">オフ</string>
+    <string name="custom_toggle_on">オン</string>
+    <string name="settings_greet_user">ユーザーに挨拶する</string>
+    <string name="settings_greet_user_description">temiは、人がその前にいることを認識し、表示されたメッセージでユーザーに挨拶します。</string>
+    <string name="settings_default_message">デフォルトのメッセージ</string>
+    <string name="settings_custom">カスタム</string>
+    <string name="settings_custom_description">(表示されるメッセージ テキストをカスタマイズする)</string>
+    <string name="settings_default_message_description">（こんにちは）</string>
+    <string name="settings_voice_greeter_description">有効にすると、temiも音声で挨拶します</string>
+    <string name="settings_voice_greeter">ボイスグリーター</string>
+    <string name="settings_open_app_list">アプリリストを開く</string>
+    <string name="custom_input_hint">入力テキスト</string>
+    <string name="custom_alert">メッセージは空にできません</string>
+    <string name="settings_location_announcements">ロケーションのアナウンス</string>
+    <string name="settings_location_announcements_describe">temiは、ロケーションに行くことと、到着したことをアナウンスします</string>
+    <string name="go_to_start_tts">%s に行きます</string>
+    <string name="go_to_complete_tts">%sに到着しました</string>
+</resources>
