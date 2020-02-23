@@ -14,8 +14,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/imageButtonClose"
         android:layout_width="wrap_content"
@@ -34,29 +34,27 @@
         android:id="@+id/imageViewCircleSmall"
         android:layout_width="312dp"
         android:layout_height="312dp"
-        android:src="@drawable/shape_circle_small"
+        android:src="@drawable/shape_circle_hollow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageViewCircleBig"
         android:layout_width="462dp"
         android:layout_height="462dp"
-        android:src="@drawable/shape_circle_small"
+        android:src="@drawable/shape_circle_hollow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageViewVideoCallBg"
         android:layout_width="478dp"
         android:layout_height="478dp"
-        android:src="@drawable/shape_call_circle_bg"
+        android:src="@drawable/shape_call_circle_solid_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,27 +73,26 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="55sp"
-        android:textColor="@color/white"
-        android:lineSpacingExtra="55sp"
-        android:gravity="center_horizontal"
         android:layout_marginTop="33dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="55sp"
         android:text="@string/press_for_assistance"
-        />
+        android:textColor="@color/white"
+        android:textSize="55sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="100sp"
+        android:text="@string/ask_us"
         android:textColor="@color/white"
+        android:textSize="100sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageViewVideoCallBg"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/ask_us"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageViewVideoCallBg" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
