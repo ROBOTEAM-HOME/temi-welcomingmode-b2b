@@ -6,6 +6,8 @@
 
     <string name="fragment_config">Welcoming skill configuration</string>
     <string name="fragment_custom_greeter">Customize User Greeter Text message </string>
+    <string name="fragment_greet_user">Greet User</string>
+    <string name="fragment_custom_voice_greeter">Customize User Greeter Voice message</string>
 
     <string name="feature_walk">WALK</string>
     <string name="feature_play">PLAY</string>
@@ -43,4 +45,16 @@
     <string name="settings_location_announcements_describe">temi will announce that he is going to a location, and when he has arrived</string>
     <string name="go_to_start_tts">I\'m going to the %s</string>
     <string name="go_to_complete_tts">I\'ve arrived at the %s</string>
+    <string name="ask_us">Ask us</string>
+    <string name="press_for_assistance">Press for assistance</string>
+    <string name="settings_call_page_interface">Call page interface</string>
+    <string name="settings_call_page_description">temi will show the call screen when it will recognize the person in front of it</string>
+    <string name="settings_auto_call">Auto call</string>
+    <string name="settings_auto_call_description">When enabled, temi will automatically call its owner after 3 seconds of non-interaction</string>
+    <string name="greet_user_display_message">Display message</string>
+    <string name="greet_user_display_message_description">temi will recognize when a person is in front of it and greet its’ user with a displayed message</string>
+    <string name="greet_user_displayed_message_text">Displayed message text</string>
+    <string name="greet_user_voice_greeting_message">Voice greeting message</string>
+    <string name="greet_user_voice_greeter_description">When enabled temi will also greet by voice</string>
+    <string name="greeter_message_for_video_call">Welcome to temi. Press call button if you need any help</string>
 </resources>

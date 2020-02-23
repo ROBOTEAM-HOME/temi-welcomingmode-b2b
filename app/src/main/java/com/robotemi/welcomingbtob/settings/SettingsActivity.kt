@@ -22,6 +22,7 @@ class SettingsActivity : AppCompatActivity(), IActivityCallback {
 
     override fun onResume() {
         super.onResume()
+        robot.hideTopBar()
         robot.stopMovement()
     }
 
@@ -38,6 +39,22 @@ class SettingsActivity : AppCompatActivity(), IActivityCallback {
                 .addToBackStack(null)
                 .commitAllowingStateLoss()
         }
+    }
+
+    override fun getSettings() = SettingsModel.getSettings(this)
+
+    override fun saveSettings(
+        settingsModel: SettingsModel,
+        callback: (settings: SettingsModel) -> Unit
+    ) {
+        SettingsModel.saveSettings(
+            this,
+            settingsModel,
+            object : SettingsModel.Companion.ISaveSettingsCallback {
+                override fun onComplete() {
+                    callback(settingsModel)
+                }
+            })
     }
 
     override fun setTitle(title: String) {

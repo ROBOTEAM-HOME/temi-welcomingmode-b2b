@@ -27,7 +27,8 @@
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"
+            android:theme="@style/MainActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,17 +42,12 @@
                 android:name="com.robotemi.sdk.metadata.UI_FLAG"
                 android:value="@integer/metadata_ui_flag_hide_top_bar" />
         </activity>
-
         <activity
             android:name=".settings.SettingsActivity"
-            android:screenOrientation="landscape">
-            <meta-data
-                android:name="com.robotemi.sdk.metadata.UI_MODE"
-                android:value="@integer/metadata_ui_mode_fullscreen" />
-            <meta-data
-                android:name="com.robotemi.sdk.metadata.UI_FLAG"
-                android:value="@integer/metadata_ui_flag_hide_top_bar" />
-        </activity>
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".call.CallActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

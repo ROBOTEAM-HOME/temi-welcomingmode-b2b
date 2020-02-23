@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
@@ -20,15 +20,35 @@
             android:text="@string/settings_greet_user"
             android:textColor="@color/white"
             android:textSize="28sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.robotemi.welcomingbtob.widgets.CustomToggle
-            android:id="@+id/customToggleGreetUser"
+        <LinearLayout
+            android:id="@+id/linearLayoutForGreetUserConfig"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/textViewGreetUser"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textViewGreetUser" />
+            app:layout_constraintTop_toTopOf="@id/textViewGreetUser">
+
+            <TextView
+                android:id="@+id/textViewGreetUserToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/custom_toggle_on"
+                android:textColor="@color/color_text_view_toggle_indicator"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="21dp"
+                android:background="@null"
+                android:src="@drawable/ic_next" />
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewGreetUserDescription"
@@ -41,136 +61,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewGreetUser" />
 
-        <RelativeLayout
-            android:id="@+id/relativeLayoutDefaultMessage"
-            android:layout_width="800dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="33dp"
-            android:paddingBottom="38dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewGreetUserDescription">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewDefaultMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/settings_default_message"
-                android:textColor="@color/color_text_view_settings_item"
-                android:textSize="24sp" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewDefaultMessageDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_toEndOf="@id/textViewDefaultMessage"
-                android:text="@string/settings_default_message_description"
-                android:textColor="@color/color_text_view_settings_item_description"
-                android:textSize="24sp"
-                tools:ignore="RelativeOverlap" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/radioButtonDefaultMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                tools:src="@drawable/ic_radio_button_on" />
-        </RelativeLayout>
-
         <View
             android:id="@+id/viewFirst"
             android:layout_width="800dp"
             android:layout_height="1dp"
-            android:background="@color/gray4c"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/relativeLayoutDefaultMessage" />
-
-        <RelativeLayout
-            android:id="@+id/relativeLayoutCustom"
-            android:layout_width="800dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="35dp"
-            android:paddingBottom="35dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewFirst">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewCustom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/settings_custom"
-                android:textColor="@color/color_text_view_settings_item"
-                android:textSize="24sp" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewCustomDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:layout_toEndOf="@id/textViewCustom"
-                android:enabled="true"
-                android:text="@string/settings_custom_description"
-                android:textColor="@color/color_text_view_settings_item_description"
-                android:textSize="24sp"
-                tools:ignore="RelativeOverlap" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/radioButtonCustom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                tools:src="@drawable/ic_radio_button_off" />
-        </RelativeLayout>
-
-        <View
-            android:id="@+id/viewSecond"
-            android:layout_width="800dp"
-            android:layout_height="1dp"
-            android:background="@color/gray4c"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/relativeLayoutCustom" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewVoiceGreeter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
-            android:text="@string/settings_voice_greeter"
-            android:textColor="@color/white"
-            android:textSize="28sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewSecond" />
-
-        <com.robotemi.welcomingbtob.widgets.CustomToggle
-            android:id="@+id/customToggleVoiceGreeter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="104dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textViewVoiceGreeter" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewVoiceGreeterDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/settings_voice_greeter_description"
-            android:textColor="@color/gray200"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewVoiceGreeter" />
-
-        <View
-            android:id="@+id/viewThird"
-            android:layout_width="800dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="38dp"
             android:background="@color/gray4c"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewVoiceGreeterDescription" />
+            app:layout_constraintTop_toBottomOf="@id/textViewGreetUserDescription" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewLocationAnnouncements"
@@ -180,8 +78,9 @@
             android:text="@string/settings_location_announcements"
             android:textColor="@color/white"
             android:textSize="28sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewThird" />
+            app:layout_constraintTop_toBottomOf="@id/viewFirst" />
 
         <com.robotemi.welcomingbtob.widgets.CustomToggle
             android:id="@+id/customToggleLocationAnnouncements"
@@ -203,13 +102,81 @@
             app:layout_constraintTop_toBottomOf="@id/textViewLocationAnnouncements" />
 
         <View
-            android:id="@+id/viewFourth"
+            android:id="@+id/viewSecond"
             android:layout_width="800dp"
             android:layout_height="1dp"
-            android:layout_marginTop="38dp"
+            android:layout_marginTop="35dp"
             android:background="@color/gray4c"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewLocationAnnouncementsDescription" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewCallPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:text="@string/settings_call_page_interface"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewSecond" />
+
+        <com.robotemi.welcomingbtob.widgets.CustomToggle
+            android:id="@+id/customToggleCallPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textViewCallPage" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewCallPageDescription"
+            android:layout_width="604dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/settings_call_page_description"
+            android:textColor="@color/gray200"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewCallPage" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewAutoCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="37dp"
+            android:text="@string/settings_auto_call"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewCallPageDescription" />
+
+        <com.robotemi.welcomingbtob.widgets.CustomToggle
+            android:id="@+id/customToggleAutoCall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textViewAutoCall" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewAutoCallDescription"
+            android:layout_width="604dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/settings_auto_call_description"
+            android:textColor="@color/gray200"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewAutoCall" />
+
+        <View
+            android:id="@+id/viewThird"
+            android:layout_width="800dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="35dp"
+            android:background="@color/gray4c"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewAutoCallDescription" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewOpenAppList"
@@ -220,9 +187,10 @@
             android:text="@string/settings_open_app_list"
             android:textColor="@color/white"
             android:textSize="28sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewFourth" />
+            app:layout_constraintTop_toBottomOf="@id/viewThird" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

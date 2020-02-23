@@ -6,6 +6,8 @@
 
     <string name="fragment_config">欢迎模式技能配置</string>
     <string name="fragment_custom_greeter">自定义用户欢迎语</string>
+    <string name="fragment_greet_user">和用户打招呼</string>
+    <string name="fragment_custom_voice_greeter">自定义语音打招呼语</string>
 
     <string name="feature_walk">前往</string>
     <string name="feature_play">更多</string>
@@ -43,4 +45,16 @@
     <string name="settings_location_announcements_describe">temi将播报他要去某个地点，以及何时到达</string>
     <string name="go_to_start_tts">我要去%s了</string>
     <string name="go_to_complete_tts">我到%s了</string>
+    <string name="press_for_assistance">点击请求帮助</string>
+    <string name="ask_us">咨询我们</string>
+    <string name="settings_call_page_interface">电话界面</string>
+    <string name="settings_call_page_description">当temi识别到前面有人时它将显示电话呼叫界面</string>
+    <string name="settings_auto_call">自动呼叫</string>
+    <string name="settings_auto_call_description">开启后temi将在无交互3秒后自动呼叫它的主人</string>
+    <string name="greet_user_display_message">显示的信息</string>
+    <string name="greet_user_display_message_description">当temi前面有人时它会识别出来并用显示的信息向用户打招呼</string>
+    <string name="greet_user_displayed_message_text">显示的信息文本</string>
+    <string name="greet_user_voice_greeting_message">语音招呼语</string>
+    <string name="greet_user_voice_greeter_description">开启后temi会用语音打招呼</string>
+    <string name="greeter_message_for_video_call">欢迎来到temi。如果需要帮助，请点击电话按钮。</string>
 </resources>
