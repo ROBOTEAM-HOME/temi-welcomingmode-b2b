@@ -26,7 +26,11 @@ class CustomGreeterFragment private constructor() : BaseFragment() {
         customizeType = arguments?.getString(CUSTOMIZE_TYPE)!!
         val customizeGreeter = getCustomizeMessage(customizeType)
         activityCallback.apply {
-            setTitle(getString(R.string.fragment_custom_greeter))
+            if (customizeType == CUSTOMIZE_DISPLAY_GREETER) {
+                setTitle(getString(R.string.fragment_custom_greeter))
+            } else if (customizeType == CUSTOMIZE_VOICE_GREETER) {
+                setTitle(getString(R.string.fragment_custom_voice_greeter))
+            }
             setVisibilityOfDone(true)
             setBackClickListener(View.OnClickListener { close() })
             setEnableOfDone(customizeGreeter.isNotEmpty())
