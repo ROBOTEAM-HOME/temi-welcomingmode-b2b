@@ -55,8 +55,8 @@ class CallActivity : AppCompatActivity(), OnDetectionStateChangedListener, Robot
         startAnimationOfIcon()
         startAnimationOfCircles(imageViewCircleSmall, 1f, 2.2f, 1000)
         startAnimationOfCircles(imageViewCircleBig, 1f, 1.7f, 1000)
-        imageViewVideoCall.setOnClickListener { starVideoCall() }
-        imageViewVideoCallBg.setOnClickListener { starVideoCall() }
+        imageViewVideoCall.setOnClickListener { startVideoCall() }
+        imageViewVideoCallBg.setOnClickListener { startVideoCall() }
         imageButtonClose.setOnClickListener { close() }
         val delay = if (DELAY_CALL - DELAY_FOR_ACTIVE < 0) {
             0L
@@ -173,7 +173,7 @@ class CallActivity : AppCompatActivity(), OnDetectionStateChangedListener, Robot
 
     }
 
-    private fun starVideoCall() {
+    private fun startVideoCall() {
         val adminInfo = robot.adminInfo
         if (adminInfo == null) {
             Timber.e("Admin info is null.")
@@ -235,7 +235,7 @@ class CallActivity : AppCompatActivity(), OnDetectionStateChangedListener, Robot
             .doOnError { Timber.e(it) }
             .subscribe {
                 Timber.d("Timer of auto call ends, start video call..")
-                starVideoCall()
+                startVideoCall()
             }
     }
 

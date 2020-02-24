@@ -128,10 +128,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         Timber.i("onUserInteraction, isInteracting=$isInteracting")
         // Wakeup will cause user interaction
         if (isInteracting) {
-            if (!textViewGreeting.isVisible
-//                && supportFragmentManager.fragments.count() == 0
-                && detectionState != OnDetectionStateChangedListener.DETECTED
-            ) {
+            if (!textViewGreeting.isVisible && detectionState != OnDetectionStateChangedListener.DETECTED) {
                 Timber.d("onUserInteraction, interaction=true. active default")
                 activeDefault()
             }
