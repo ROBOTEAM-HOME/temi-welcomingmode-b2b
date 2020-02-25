@@ -9,10 +9,15 @@ import timber.log.Timber
 data class SettingsModel(
     var isUsingGreeterUser: Boolean = true,
     var isUsingDefaultMessage: Boolean = true,
-    var defaultMessage: String = "",
     var customMessage: String = "",
+    var isUsingDisplayMessage: Boolean = true,
+    var displayMessage: String = "",
     var isUsingVoiceGreeter: Boolean = true,
-    var isUsingLocationAnnouncements: Boolean = true
+    var voiceGreetingMessage: String = "",
+    var isUsingLocationAnnouncements: Boolean = true,
+    var greeterMessageForVideoCall: String = "",
+    var isUsingCallPageInterface: Boolean = true,
+    var isUsingAutoCall: Boolean = true
 ) {
 
     companion object {
@@ -26,20 +31,25 @@ data class SettingsModel(
                     Context.MODE_PRIVATE
                 )
             val settings = sharedPreferences?.getString(
-                Constants.PREF_KEY_SETTINGS,
-                gson.toJson(
-                    SettingsModel(
-                        isUsingGreeterUser = true,
-                        isUsingDefaultMessage = true,
-                        defaultMessage = context.getString(R.string.greeting),
-                        customMessage = "",
-                        isUsingVoiceGreeter = true,
-                        isUsingLocationAnnouncements = true
-                    )
-                )
+                Constants.PREF_KEY_SETTINGS, gson.toJson(SettingsModel())
             )
+
             Timber.d("Settings-get, $settings")
             return gson.fromJson<SettingsModel>(settings, SettingsModel::class.java)
+                .apply {
+                    // If robot installed and ran this skill without new configuration data before,
+                    // We should set the default data for it here.
+                    if (displayMessage.isBlank()) {
+                        displayMessage = context.getString(R.string.greeting)
+                    }
+                    if (voiceGreetingMessage.isBlank()) {
+                        voiceGreetingMessage = context.getString(R.string.greeting)
+                    }
+                    if (greeterMessageForVideoCall.isBlank()) {
+                        greeterMessageForVideoCall =
+                            context.getString(R.string.greeter_message_for_video_call)
+                    }
+                }
         }
 
         fun saveSettings(

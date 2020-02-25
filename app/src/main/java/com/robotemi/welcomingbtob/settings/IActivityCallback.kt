@@ -15,4 +15,8 @@ interface IActivityCallback {
     fun setBackClickListener(listener: View.OnClickListener)
 
     fun startFragment(fragment: Fragment)
+
+    fun getSettings(): SettingsModel
+
+    fun saveSettings(settingsModel: SettingsModel, callback: (settings: SettingsModel) -> Unit)
 }

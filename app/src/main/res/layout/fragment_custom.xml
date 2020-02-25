@@ -18,19 +18,19 @@
         android:layout_gravity="center"
         android:background="@drawable/shape_input"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingStart="33dp"
+        android:paddingEnd="38dp">
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/editTextGreeterMessage"
             android:layout_width="0dp"
             android:layout_height="49dp"
-            android:layout_marginStart="33dp"
             android:layout_weight="1"
             android:background="@color/transparent"
             android:ellipsize="end"
             android:hint="@string/custom_input_hint"
             android:inputType="text"
-            android:maxLength="24"
             android:maxLines="1"
             android:textColor="@color/white"
             android:textColorHint="@color/gray5a"
@@ -43,8 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="38dp"
-            android:layout_marginEnd="38dp"
-            android:text="@string/custom_max_length"
             android:textAllCaps="true"
             android:textColor="@color/gray200"
             android:textSize="30sp" />

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.robotemi.sdk.Robot
+import com.robotemi.welcomingbtob.BaseFragment
 import com.robotemi.welcomingbtob.IActivityCallback
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter
@@ -15,15 +16,13 @@ import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
 import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
 import org.koin.android.ext.android.inject
 
-abstract class FeatureBaseFragment : Fragment() {
+abstract class FeatureBaseFragment : BaseFragment() {
 
     protected lateinit var adapter: FeatureListAdapter<Any>
 
     private val activityCallback by lazy { context as IActivityCallback }
 
     protected val robot: Robot by inject()
-
-    abstract fun getLayoutResId(): Int
 
     abstract fun configureTextViews()
 

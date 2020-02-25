@@ -71,6 +71,7 @@ class PlayFragment : FeatureBaseFragment(), OnBeWithMeStatusChangedListener {
                 startSkill(SKILL_PACKAGE_CAMERA, nlpResult)
             }
             getString(R.string.feature_follow) -> robot.beWithMe()
+            getString(R.string.feature_stop_follow) -> robot.stopMovement()
             getString(R.string.feature_play_music) -> startSkill(SKILL_PACKAGE_MUSIC, null)
         }
     }

@@ -17,6 +17,7 @@ import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener.Companion.
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener.Companion.START
 import com.robotemi.sdk.listeners.OnRobotReadyListener
 import com.robotemi.sdk.listeners.OnUserInteractionChangedListener
+import com.robotemi.welcomingbtob.call.CallActivity
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import com.robotemi.welcomingbtob.settings.SettingsActivity
 import com.robotemi.welcomingbtob.settings.SettingsModel
@@ -32,19 +33,29 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallback,
     OnUserInteractionChangedListener, OnDetectionStateChangedListener,
-    OnGoToLocationStatusChangedListener {
+    OnGoToLocationStatusChangedListener, Robot.TtsListener {
+
+    companion object {
+        internal const val DELAY_FOR_ACTIVE = 2L
+        internal const val REQUEST_CODE_FOR_CALL_ACTIVITY = 1
+    }
+
+    private var ttsStatus: TtsRequest.Status = TtsRequest.Status.COMPLETED
 
     private val robot: Robot by inject()
 
     private var disposableAction: Disposable = Disposables.disposed()
 
-    private var detectionState = 0
+    private var detectionState = OnDetectionStateChangedListener.IDLE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.d("Main Activity - onCreate()")
+
         setContentView(R.layout.activity_main)
         btnOpenHomeList.setOnLongClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
+            activeDefault()
             true
         }
         imageButtonClose.setOnClickListener {
@@ -60,7 +71,11 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         robot.addOnUserInteractionChangedListener(this)
         robot.addOnDetectionStateChangedListener(this)
         robot.addOnGoToLocationStatusChangedListener(this)
+        robot.addTtsListener(this)
         toggleActivityClickListener(true)
+        if (textViewGreeting.isVisible) {
+            textViewGreeting.visibility = View.GONE
+        }
     }
 
     override fun onPause() {
@@ -69,27 +84,52 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         robot.removeOnUserInteractionChangedListener(this)
         robot.removeDetectionStateChangedListener(this)
         robot.removeOnGoToLocationStatusChangedListener(this)
+        robot.removeTtsListener(this)
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Timber.d("onActivityResult - requestCode=$requestCode, resultCode=$resultCode, data=$data")
+        if (data == null) {
+            activeDefault()
+            return
+        }
+        when (requestCode) {
+            REQUEST_CODE_FOR_CALL_ACTIVITY -> {
+                detectionState =
+                    data.getIntExtra(CallActivity.EXTRA_DETECTION_STATE, detectionState)
+                if (resultCode == CallActivity.RESULT_CODE_FOR_FINISH_BY_DETECTION_LOST) {
+                    handleIdle()
+                } else {
+                    activeDefault()
+                }
+            }
+            else -> {
+                activeDefault()
+            }
+        }
+    }
+
     override fun toggleActivityClickListener(enable: Boolean) {
-        if (enable) {
-            constraintLayoutParent.setOnClickListener {
+        constraintLayoutParent.setOnClickListener {
+            if (enable) {
                 constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
                 startFragment(FeatureListFragment.newInstance())
             }
-        } else {
-            constraintLayoutParent.setOnClickListener(null)
+            robot.stopMovement()
         }
     }
 
     override fun onUserInteraction(isInteracting: Boolean) {
         Timber.i("onUserInteraction, isInteracting=$isInteracting")
+        // Wakeup will cause user interaction
         if (isInteracting) {
-            if (!textViewGreeting.isVisible && supportFragmentManager.fragments.count() == 0) {
-                startFragment(FeatureListFragment.newInstance())
+            if (!textViewGreeting.isVisible && detectionState != OnDetectionStateChangedListener.DETECTED) {
+                Timber.d("onUserInteraction, interaction=true. active default")
+                activeDefault()
             }
         } else {
             handleIdle()
@@ -121,10 +161,9 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         }
     }
 
-    override fun onUserInteraction() {
-        Timber.d("onUserInteraction - tap")
-        super.onUserInteraction()
-        robot.stopMovement()
+    override fun onTtsStatusChanged(ttsRequest: TtsRequest) {
+        Timber.d("onTtsStatusChanged, ttsRequest=$ttsRequest")
+        ttsStatus = ttsRequest.status
     }
 
     override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
@@ -141,22 +180,16 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
 
     private fun handleActive() {
         removeFragments()
-        val settingsModel = SettingsModel.getSettings(this)
+        val settingsModel = getSettings()
         var delay = 0L
-        val greetMessage =
-            if (settingsModel.isUsingDefaultMessage || settingsModel.customMessage.isEmpty()) {
-                settingsModel.defaultMessage
-            } else {
-                settingsModel.customMessage
-            }
-        if (settingsModel.isUsingGreeterUser) {
-            textViewGreeting.text = greetMessage
+        if (settingsModel.isUsingDisplayMessage) {
+            textViewGreeting.text = settingsModel.displayMessage
             textViewGreeting.visibility = View.VISIBLE
-            delay = 2L
+            delay = DELAY_FOR_ACTIVE
         }
         if (settingsModel.isUsingVoiceGreeter) {
             robot.cancelAllTtsRequests()
-            robot.speak(TtsRequest.create(greetMessage, false))
+            robot.speak(TtsRequest.create(settingsModel.voiceGreetingMessage, false))
         }
         constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
         if (!disposableAction.isDisposed) {
@@ -164,9 +197,25 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         }
         disposableAction = Completable.timer(delay, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { Timber.d("Timer for active starts, ${delay}s left.") }
             .subscribe {
-                startFragment(FeatureListFragment.newInstance())
+                Timber.d("Timer for active ends, active something..")
+                if (settingsModel.isUsingCallPageInterface) {
+                    activeCall()
+                } else {
+                    activeDefault()
+                }
             }
+    }
+
+    private fun activeCall() {
+        val intent = Intent(this, CallActivity::class.java)
+        intent.putExtra(CallActivity.EXTRA_TTS_STATUS, ttsStatus)
+        startActivityForResult(intent, REQUEST_CODE_FOR_CALL_ACTIVITY)
+    }
+
+    private fun activeDefault() {
+        startFragment(FeatureListFragment.newInstance())
     }
 
     private fun handleIdle() {
@@ -201,8 +250,10 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         removeFragments()
     }
 
+    private fun getSettings() = SettingsModel.getSettings(this)
+
     private fun speak(speech: String) {
-        if (!SettingsModel.getSettings(this).isUsingLocationAnnouncements) {
+        if (!getSettings().isUsingLocationAnnouncements) {
             return
         }
         robot.cancelAllTtsRequests()
