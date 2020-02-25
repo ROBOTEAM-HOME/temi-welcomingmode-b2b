@@ -72,9 +72,9 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
-        android:gravity="center_horizontal"
+        android:layout_height="110dp"
+        android:layout_marginTop="63dp"
+        android:gravity="center"
         android:lineSpacingExtra="55sp"
         android:text="@string/press_for_assistance"
         android:textColor="@color/white"

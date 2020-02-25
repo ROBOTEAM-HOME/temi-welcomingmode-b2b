@@ -93,13 +93,6 @@ class CallActivity : AppCompatActivity(), OnDetectionStateChangedListener, Robot
      * Finish CallActivity by user's finger.
      */
     private fun close() {
-        robot.cancelAllTtsRequests()
-        robot.speak(
-            TtsRequest.create(
-                getString(R.string.greeter_message_for_video_call),
-                false
-            )
-        )
         val intent = Intent()
         intent.putExtra(EXTRA_DETECTION_STATE, detectionState)
         setResult(RESULT_CODE_FOR_FINISH_BY_CLOSE_BUTTON, intent)

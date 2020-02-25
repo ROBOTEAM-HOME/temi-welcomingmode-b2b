@@ -114,13 +114,12 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
     }
 
     override fun toggleActivityClickListener(enable: Boolean) {
-        if (enable) {
-            constraintLayoutParent.setOnClickListener {
+        constraintLayoutParent.setOnClickListener {
+            if (enable) {
                 constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
                 startFragment(FeatureListFragment.newInstance())
             }
-        } else {
-            constraintLayoutParent.setOnClickListener(null)
+            robot.stopMovement()
         }
     }
 
