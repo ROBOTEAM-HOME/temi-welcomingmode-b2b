@@ -198,7 +198,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         disposableAction = Completable.timer(delay, TimeUnit.SECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { Timber.d("Timer for active starts, ${delay}s left.") }
-            .doOnSubscribe { Timber.d("Timer for active starts, ${delay}s left.") }
             .subscribe {
                 Timber.d("Timer for active ends, active something..")
                 if (settingsModel.isUsingCallPageInterface) {

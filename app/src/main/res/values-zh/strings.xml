@@ -50,7 +50,7 @@
     <string name="settings_call_page_interface">电话界面</string>
     <string name="settings_call_page_description">当temi识别到前面有人时它将显示电话呼叫界面</string>
     <string name="settings_auto_call">自动呼叫</string>
-    <string name="settings_auto_call_description">开启后temi将在无交互3秒后自动呼叫它的主人</string>
+    <string name="settings_auto_call_description">开启后temi将在无交互5秒后自动呼叫它的主人</string>
     <string name="greet_user_display_message">显示的信息</string>
     <string name="greet_user_display_message_description">当temi前面有人时它会识别出来并用显示的信息向用户打招呼</string>
     <string name="greet_user_displayed_message_text">显示的信息文本</string>

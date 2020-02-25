@@ -50,7 +50,7 @@
     <string name="settings_call_page_interface">Call page interface</string>
     <string name="settings_call_page_description">temi will show the call screen when it will recognize the person in front of it</string>
     <string name="settings_auto_call">Auto call</string>
-    <string name="settings_auto_call_description">When enabled, temi will automatically call its owner after 3 seconds of non-interaction</string>
+    <string name="settings_auto_call_description">When enabled, temi will automatically call its owner after 5 seconds of non-interaction</string>
     <string name="greet_user_display_message">Display message</string>
     <string name="greet_user_display_message_description">temi will recognize when a person is in front of it and greet its’ user with a displayed message</string>
     <string name="greet_user_displayed_message_text">Displayed message text</string>
