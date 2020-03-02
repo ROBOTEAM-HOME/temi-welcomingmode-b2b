@@ -65,6 +65,7 @@ class SequencesFragment : BaseFragment() {
                 holder.setText(R.id.tvContent, t.name)
                 holder.setOnClickListener(R.id.tvContent, View.OnClickListener {
                     Toast.makeText(requireContext(), "Start Sequence..", Toast.LENGTH_SHORT).show()
+                    robot.startSequence(t.id)
                 })
             }
 
