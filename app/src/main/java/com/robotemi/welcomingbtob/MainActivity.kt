@@ -11,12 +11,9 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.robotemi.sdk.Robot
 import com.robotemi.sdk.TtsRequest
-import com.robotemi.sdk.listeners.OnDetectionStateChangedListener
-import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener
+import com.robotemi.sdk.listeners.*
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener.Companion.COMPLETE
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener.Companion.START
-import com.robotemi.sdk.listeners.OnRobotReadyListener
-import com.robotemi.sdk.listeners.OnUserInteractionChangedListener
 import com.robotemi.welcomingbtob.call.CallActivity
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
 import com.robotemi.welcomingbtob.sequence.SequencesFragment
@@ -34,7 +31,7 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallback,
     OnUserInteractionChangedListener, OnDetectionStateChangedListener,
-    OnGoToLocationStatusChangedListener, Robot.TtsListener {
+    OnGoToLocationStatusChangedListener, Robot.TtsListener, OnSequenceStatusChangedListener {
 
     companion object {
         internal const val DELAY_FOR_ACTIVE = 2L
@@ -79,6 +76,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         robot.addOnDetectionStateChangedListener(this)
         robot.addOnGoToLocationStatusChangedListener(this)
         robot.addTtsListener(this)
+        robot.addOnSequenceStatusChangedListener(this)
         toggleActivityClickListener(true)
         if (textViewGreeting.isVisible) {
             textViewGreeting.visibility = View.GONE
@@ -92,6 +90,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         robot.removeDetectionStateChangedListener(this)
         robot.removeOnGoToLocationStatusChangedListener(this)
         robot.removeTtsListener(this)
+        robot.removeOnSequenceStatusChangedListener(this)
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
         }
@@ -289,6 +288,15 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         when (status) {
             START -> speak(String.format(getString(R.string.go_to_start_tts), locationName))
             COMPLETE -> speak(String.format(getString(R.string.go_to_complete_tts), locationName))
+        }
+    }
+
+    override fun onSequenceStatusChanged(status: String) {
+        Timber.d("onSequenceStatusChanged - status=$status")
+        when (status) {
+            OnSequenceStatusChangedListener.START -> handleIdle()
+            OnSequenceStatusChangedListener.COMPLETE,
+            OnSequenceStatusChangedListener.ERROR -> handleActive()
         }
     }
 }

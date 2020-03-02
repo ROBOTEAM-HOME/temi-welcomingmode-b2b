@@ -79,12 +79,10 @@ class SequencesFragment : BaseFragment() {
             }
 
             override fun onSuccess(sequenceList: MutableList<SequenceModel>) {
-                Handler(Looper.getMainLooper()).post {
-                    Timber.d("fetchSequences - onSuccess, size = ${sequenceList.size}")
-                    mSequenceList.clear()
-                    mSequenceList.addAll(sequenceList)
-                    recyclerViewSequences?.adapter?.notifyDataSetChanged()
-                }
+                Timber.d("fetchSequences - onSuccess, size = ${sequenceList.size}")
+                mSequenceList.clear()
+                mSequenceList.addAll(sequenceList)
+                recyclerViewSequences?.adapter?.notifyDataSetChanged()
             }
         })
     }
