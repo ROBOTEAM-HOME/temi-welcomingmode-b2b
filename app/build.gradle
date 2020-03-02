@@ -69,7 +69,8 @@ dependencies {
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
-    implementation 'com.robotemi:sdk:0.10.54'
+//    implementation 'com.robotemi:sdk:0.10.54'
+    implementation files('src/sdk-debug.aar')
     // App Center
     releaseImplementation 'com.microsoft.appcenter:appcenter-analytics:2.5.0'
     releaseImplementation 'com.microsoft.appcenter:appcenter-crashes:2.5.0'

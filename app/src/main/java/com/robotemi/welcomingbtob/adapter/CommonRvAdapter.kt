@@ -1,10 +1,10 @@
-package com.robotemi.welcomingbtob.featurelist.adapter
+package com.robotemi.welcomingbtob.adapter
 
 import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class FeatureListAdapter<T> constructor(
+abstract class CommonRvAdapter<T> constructor(
     private val context: Context,
     private val layoutId: Int,
     private val data: List<T>

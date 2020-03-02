@@ -2,6 +2,7 @@ package com.robotemi.welcomingbtob.settings
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import com.robotemi.sdk.Robot
 import com.robotemi.welcomingbtob.BaseFragment
 import com.robotemi.welcomingbtob.R
@@ -22,6 +23,7 @@ class ConfigurationFragment : BaseFragment() {
         activityCallback.apply {
             setTitle(getString(R.string.fragment_config))
             setVisibilityOfDone(false)
+            setVisibilityOfCustomToggle(false)
             setBackClickListener(View.OnClickListener { activity?.finish() })
         }
         refreshUI(SettingsModel.getSettings(activity!!))
@@ -30,47 +32,30 @@ class ConfigurationFragment : BaseFragment() {
 
     private fun refreshUI(settingsModel: SettingsModel) {
         settingsModel.apply {
-            if (isUsingDisplayMessage || isUsingVoiceGreeter) {
-                // User greeter
-                textViewGreetUserToggle.text = getString(R.string.custom_toggle_on)
-                textViewGreetUserToggle.isEnabled = true
-            } else {
-                // No greeter
-                textViewGreetUserToggle.text = getString(R.string.custom_toggle_off)
-                textViewGreetUserToggle.isEnabled = false
-            }
+            tvStartingScreenVal.text = startingScreenSelected
+            tvGreetUserToggle.setChecked(isUsingDisplayMessage || isUsingVoiceGreeter)
             customToggleLocationAnnouncements.setToggle(isUsingLocationAnnouncements)
-            customToggleCallPage.setToggle(isUsingCallPageInterface)
-            customToggleAutoCall.setToggle(isUsingCallPageInterface && isUsingAutoCall)
+            tvCallButtonToggle.setChecked(isUsingCallPageInterface)
         }
     }
 
     private fun initListener() {
+        llForStartingScreenConfig.setOnClickListener {
+            activityCallback.startFragment(StartingScreenConfigFragment.newInstance())
+        }
+
         // Greet user configuration
-        linearLayoutForGreetUserConfig.setOnClickListener {
+        llForGreetUserConfig.setOnClickListener {
             activityCallback.startFragment(GreetUserConfigFragment.newInstance())
+        }
+
+        llForCallButtonConfig.setOnClickListener {
+            activityCallback.startFragment(CallButtonFragment.newInstance())
         }
 
         customToggleLocationAnnouncements.setToggleListener(object : CustomToggle.ToggleListener {
             override fun onToggle(on: Boolean) {
                 saveSettings(getSettings().apply { isUsingLocationAnnouncements = on })
-            }
-        })
-
-        customToggleCallPage.setToggleListener(object : CustomToggle.ToggleListener {
-            override fun onToggle(on: Boolean) {
-                saveSettings(getSettings().apply {
-                    isUsingCallPageInterface = on
-                    if (!on) {
-                        isUsingAutoCall = false
-                    }
-                })
-            }
-        })
-
-        customToggleAutoCall.setToggleListener(object : CustomToggle.ToggleListener {
-            override fun onToggle(on: Boolean) {
-                saveSettings(getSettings().apply { isUsingAutoCall = on })
             }
         })
 
@@ -86,6 +71,18 @@ class ConfigurationFragment : BaseFragment() {
         activityCallback.saveSettings(settings) {
             refreshUI(settings)
         }
+    }
+
+    /**
+     * For text view with toggle indicator
+     */
+    private fun TextView.setChecked(checked: Boolean) {
+        text = if (checked) {
+            getString(R.string.custom_toggle_on)
+        } else {
+            getString(R.string.custom_toggle_off)
+        }
+        isEnabled = checked
     }
 
     companion object {

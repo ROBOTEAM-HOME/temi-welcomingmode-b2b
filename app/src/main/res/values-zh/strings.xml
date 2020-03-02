@@ -48,7 +48,7 @@
     <string name="press_for_assistance">点击请求帮助</string>
     <string name="ask_us">咨询我们</string>
     <string name="settings_call_page_interface">电话界面</string>
-    <string name="settings_call_page_description">当temi识别到前面有人时它将显示电话呼叫界面</string>
+    <string name="settings_call_button_description">当temi识别到前面有人时它将显示电话呼叫界面</string>
     <string name="settings_auto_call">自动呼叫</string>
     <string name="settings_auto_call_description">开启后temi将在无交互5秒后自动呼叫它的主人</string>
     <string name="greet_user_display_message">显示的信息</string>
@@ -57,4 +57,14 @@
     <string name="greet_user_voice_greeting_message">语音招呼语</string>
     <string name="greet_user_voice_greeter_description">开启后temi会用语音打招呼</string>
     <string name="greeter_message_for_video_call">欢迎来到temi。如果需要帮助，请点击电话按钮。</string>
+    <string name="sequence_title">选择temi应该做什么</string>
+    <string name="settings_starting_screen">开始界面</string>
+    <string name="starting_screen_default">默认</string>
+    <string name="starting_screen_default_description">欢迎模式B2B使用的默认界面包括三个按钮：前往，电话，更多</string>
+    <string name="starting_screen_sequence">导航导览</string>
+    <string name="starting_screen_sequence_description">将显示导航导览列表界面</string>
+    <string name="settings_start_screen_description">当temi识别到某个人或用户点击屏幕时将显示这个界面</string>
+    <string name="settings_on_person_detection">在人体检测时：</string>
+    <string name="settings_on_person_detection_description">在人体检测时，temi将执行以下一个或几个命令：</string>
+    <string name="settings_call_button">电话按钮</string>
 </resources>

@@ -5,7 +5,7 @@ import com.bumptech.glide.Glide
 import com.robotemi.sdk.UserInfo
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureBaseFragment
-import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
+import com.robotemi.welcomingbtob.adapter.ViewHolder
 import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
 
 class CallFragment : FeatureBaseFragment() {

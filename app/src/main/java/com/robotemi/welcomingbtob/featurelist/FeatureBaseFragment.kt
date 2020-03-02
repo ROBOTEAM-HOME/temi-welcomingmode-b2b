@@ -4,21 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.robotemi.sdk.Robot
 import com.robotemi.welcomingbtob.BaseFragment
 import com.robotemi.welcomingbtob.IActivityCallback
 import com.robotemi.welcomingbtob.R
-import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter
-import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
+import com.robotemi.welcomingbtob.adapter.CommonRvAdapter
+import com.robotemi.welcomingbtob.adapter.ViewHolder
 import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
 import org.koin.android.ext.android.inject
 
 abstract class FeatureBaseFragment : BaseFragment() {
 
-    protected lateinit var adapter: FeatureListAdapter<Any>
+    protected lateinit var adapter: CommonRvAdapter<Any>
 
     private val activityCallback by lazy { context as IActivityCallback }
 
@@ -68,7 +67,7 @@ abstract class FeatureBaseFragment : BaseFragment() {
     }
 
     open fun getFeatureAdapter() =
-        object : FeatureListAdapter<Any>(context!!, getCardLayoutId(), getFeatureList()) {
+        object : CommonRvAdapter<Any>(context!!, getCardLayoutId(), getFeatureList()) {
             override fun convert(holder: ViewHolder, featureObj: Any) {
                 handleListMedia(featureObj, holder)
                 holder.setOnClickListener(

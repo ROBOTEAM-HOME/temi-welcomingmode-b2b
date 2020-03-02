@@ -9,15 +9,15 @@ import com.robotemi.sdk.constants.SdkConstants
 import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.featurelist.FeatureBaseFragment
-import com.robotemi.welcomingbtob.featurelist.adapter.FeatureListAdapter
-import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
+import com.robotemi.welcomingbtob.adapter.CommonRvAdapter
+import com.robotemi.welcomingbtob.adapter.ViewHolder
 import com.robotemi.welcomingbtob.utils.Constants
 import kotlinx.android.synthetic.main.fragment_sub_feature_list.*
 
 class PlayFragment : FeatureBaseFragment(), OnBeWithMeStatusChangedListener {
 
-    override fun getFeatureAdapter(): FeatureListAdapter<Any> =
-        object : FeatureListAdapter<Any>(context!!, getCardLayoutId(), getFeatureList()) {
+    override fun getFeatureAdapter(): CommonRvAdapter<Any> =
+        object : CommonRvAdapter<Any>(context!!, getCardLayoutId(), getFeatureList()) {
             override fun convert(holder: ViewHolder, featureObj: Any) {
                 handleListMedia(featureObj, holder)
                 val linearLayout = holder.getView<LinearLayout>(R.id.linearLayout)

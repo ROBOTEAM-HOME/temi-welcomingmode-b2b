@@ -1,4 +1,4 @@
-package com.robotemi.welcomingbtob.featurelist.adapter
+package com.robotemi.welcomingbtob.adapter
 
 import android.content.Context
 import android.util.SparseArray

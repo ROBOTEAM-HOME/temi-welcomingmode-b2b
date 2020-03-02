@@ -2,7 +2,7 @@ package com.robotemi.welcomingbtob.featurelist
 
 import androidx.fragment.app.Fragment
 import com.robotemi.welcomingbtob.R
-import com.robotemi.welcomingbtob.featurelist.adapter.ViewHolder
+import com.robotemi.welcomingbtob.adapter.ViewHolder
 import com.robotemi.welcomingbtob.featurelist.call.CallFragment
 import com.robotemi.welcomingbtob.featurelist.play.PlayFragment
 import com.robotemi.welcomingbtob.featurelist.walk.WalkFragment

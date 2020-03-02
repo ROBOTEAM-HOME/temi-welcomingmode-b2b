@@ -48,7 +48,7 @@
     <string name="ask_us">Ask us</string>
     <string name="press_for_assistance">Press for assistance</string>
     <string name="settings_call_page_interface">Call page interface</string>
-    <string name="settings_call_page_description">temi will show the call screen when it will recognize the person in front of it</string>
+    <string name="settings_call_button_description">temi will show the call screen when it will recognize the person in front of it</string>
     <string name="settings_auto_call">Auto call</string>
     <string name="settings_auto_call_description">When enabled, temi will automatically call its owner after 5 seconds of non-interaction</string>
     <string name="greet_user_display_message">Display message</string>
@@ -57,4 +57,14 @@
     <string name="greet_user_voice_greeting_message">Voice greeting message</string>
     <string name="greet_user_voice_greeter_description">When enabled temi will also greet by voice</string>
     <string name="greeter_message_for_video_call">Welcome to temi. Press call button if you need any help</string>
+    <string name="sequence_title">Choose what temi should do</string>
+    <string name="settings_starting_screen">Starting screen</string>
+    <string name="starting_screen_default">Default</string>
+    <string name="starting_screen_default_description">Welcoming default screen that includes three buttons: walk, call, play</string>
+    <string name="starting_screen_sequence">Sequence</string>
+    <string name="starting_screen_sequence_description">Sequence list screen will appear</string>
+    <string name="settings_start_screen_description">This screen will be shown when temi recognize a person or when the user taps on screen</string>
+    <string name="settings_on_person_detection">On person detection:</string>
+    <string name="settings_on_person_detection_description">On person detection temi will perform one or a couple of the following commands:</string>
+    <string name="settings_call_button">Call button</string>
 </resources>

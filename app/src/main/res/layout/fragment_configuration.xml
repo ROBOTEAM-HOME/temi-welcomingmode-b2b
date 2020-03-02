@@ -7,17 +7,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/black"
         android:orientation="vertical"
         android:paddingStart="242dp"
         android:paddingTop="60dp"
         android:paddingEnd="238dp">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewGreetUser"
+            android:id="@+id/tvStartingScreen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/settings_greet_user"
+            android:text="@string/settings_starting_screen"
             android:textColor="@color/white"
             android:textSize="28sp"
             android:textStyle="bold"
@@ -25,17 +24,97 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:id="@+id/linearLayoutForGreetUserConfig"
+            android:id="@+id/llForStartingScreenConfig"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/textViewGreetUser"
+            app:layout_constraintBottom_toBottomOf="@id/tvStartingScreen"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textViewGreetUser">
+            app:layout_constraintTop_toTopOf="@id/tvStartingScreen">
 
             <TextView
-                android:id="@+id/textViewGreetUserToggle"
+                android:id="@+id/tvStartingScreenVal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/starting_screen_default"
+                android:textColor="@color/gray200"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="21dp"
+                android:background="@null"
+                android:src="@drawable/ic_next" />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStartingScreenDescription"
+            android:layout_width="604dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/settings_start_screen_description"
+            android:textColor="@color/gray200"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvStartingScreen" />
+
+        <View
+            android:id="@+id/viewFirst"
+            android:layout_width="800dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="35dp"
+            android:background="@color/gray4c"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvStartingScreenDescription" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvOnPersonDetection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:text="@string/settings_on_person_detection"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/viewFirst" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvOnPersonDetectionDescription"
+            android:layout_width="604dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/settings_on_person_detection_description"
+            android:textColor="@color/gray200"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvOnPersonDetection" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvGreetUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="41dp"
+            android:text="@string/settings_greet_user"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvOnPersonDetectionDescription" />
+
+        <LinearLayout
+            android:id="@+id/llForGreetUserConfig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/tvGreetUser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvGreetUser">
+
+            <TextView
+                android:id="@+id/tvGreetUserToggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/custom_toggle_on"
@@ -51,7 +130,7 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewGreetUserDescription"
+            android:id="@+id/tvGreetUserDescription"
             android:layout_width="604dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -59,19 +138,11 @@
             android:textColor="@color/gray200"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewGreetUser" />
+            app:layout_constraintTop_toBottomOf="@id/tvGreetUser" />
 
-        <View
-            android:id="@+id/viewFirst"
-            android:layout_width="800dp"
-            android:layout_height="1dp"
-            android:layout_marginTop="35dp"
-            android:background="@color/gray4c"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewGreetUserDescription" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewLocationAnnouncements"
+            android:id="@+id/tvLocationAnnouncements"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
@@ -80,7 +151,7 @@
             android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewFirst" />
+            app:layout_constraintTop_toBottomOf="@id/viewSecond" />
 
         <com.robotemi.welcomingbtob.widgets.CustomToggle
             android:id="@+id/customToggleLocationAnnouncements"
@@ -88,10 +159,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="104dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textViewLocationAnnouncements" />
+            app:layout_constraintTop_toTopOf="@id/tvLocationAnnouncements" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewLocationAnnouncementsDescription"
+            android:id="@+id/tvLocationAnnouncementsDescription"
             android:layout_width="604dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -99,7 +170,7 @@
             android:textColor="@color/gray200"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewLocationAnnouncements" />
+            app:layout_constraintTop_toBottomOf="@id/tvLocationAnnouncements" />
 
         <View
             android:id="@+id/viewSecond"
@@ -108,66 +179,55 @@
             android:layout_marginTop="35dp"
             android:background="@color/gray4c"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewLocationAnnouncementsDescription" />
+            app:layout_constraintTop_toBottomOf="@id/tvCallButtonDescription" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewCallPage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:text="@string/settings_call_page_interface"
-            android:textColor="@color/white"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewSecond" />
-
-        <com.robotemi.welcomingbtob.widgets.CustomToggle
-            android:id="@+id/customToggleCallPage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textViewCallPage" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewCallPageDescription"
-            android:layout_width="604dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/settings_call_page_description"
-            android:textColor="@color/gray200"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewCallPage" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewAutoCall"
+            android:id="@+id/tvCallButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="37dp"
-            android:text="@string/settings_auto_call"
+            android:text="@string/settings_call_button"
             android:textColor="@color/white"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewCallPageDescription" />
+            app:layout_constraintTop_toBottomOf="@id/tvGreetUserDescription" />
 
-        <com.robotemi.welcomingbtob.widgets.CustomToggle
-            android:id="@+id/customToggleAutoCall"
+        <LinearLayout
+            android:id="@+id/llForCallButtonConfig"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/tvCallButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textViewAutoCall" />
+            app:layout_constraintTop_toTopOf="@id/tvCallButton">
+
+            <TextView
+                android:id="@+id/tvCallButtonToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/custom_toggle_on"
+                android:textColor="@color/color_text_view_toggle_indicator"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="21dp"
+                android:background="@null"
+                android:src="@drawable/ic_next" />
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewAutoCallDescription"
+            android:id="@+id/tvCallButtonDescription"
             android:layout_width="604dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="@string/settings_auto_call_description"
+            android:text="@string/settings_call_button_description"
             android:textColor="@color/gray200"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewAutoCall" />
+            app:layout_constraintTop_toBottomOf="@id/tvCallButton" />
 
         <View
             android:id="@+id/viewThird"
@@ -176,7 +236,7 @@
             android:layout_marginTop="35dp"
             android:background="@color/gray4c"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewAutoCallDescription" />
+            app:layout_constraintTop_toBottomOf="@id/tvLocationAnnouncementsDescription" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/textViewOpenAppList"

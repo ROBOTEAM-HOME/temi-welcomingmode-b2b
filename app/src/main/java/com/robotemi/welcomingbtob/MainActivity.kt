@@ -19,6 +19,7 @@ import com.robotemi.sdk.listeners.OnRobotReadyListener
 import com.robotemi.sdk.listeners.OnUserInteractionChangedListener
 import com.robotemi.welcomingbtob.call.CallActivity
 import com.robotemi.welcomingbtob.featurelist.FeatureListFragment
+import com.robotemi.welcomingbtob.sequence.SequencesFragment
 import com.robotemi.welcomingbtob.settings.SettingsActivity
 import com.robotemi.welcomingbtob.settings.SettingsModel
 import com.robotemi.welcomingbtob.utils.Constants.Companion.HOME_BASE_FROM_ROBOX
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
     companion object {
         internal const val DELAY_FOR_ACTIVE = 2L
         internal const val REQUEST_CODE_FOR_CALL_ACTIVITY = 1
+        internal const val REQUEST_CODE_FOR_SETTINGS_ACTIVITY = 2
     }
 
     private var ttsStatus: TtsRequest.Status = TtsRequest.Status.COMPLETED
@@ -54,12 +56,17 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
 
         setContentView(R.layout.activity_main)
         btnOpenHomeList.setOnLongClickListener {
-            startActivity(Intent(this, SettingsActivity::class.java))
-            activeDefault()
+            startActivityForResult(
+                Intent(this, SettingsActivity::class.java),
+                REQUEST_CODE_FOR_SETTINGS_ACTIVITY
+            )
+            if (textViewGreeting.isVisible) {
+                activeStartScreen()
+            }
             true
         }
         imageButtonClose.setOnClickListener {
-            startFragment(FeatureListFragment.newInstance())
+            activeStartScreen()
             imageButtonClose.visibility = View.GONE
             constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
         }
@@ -94,7 +101,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         super.onActivityResult(requestCode, resultCode, data)
         Timber.d("onActivityResult - requestCode=$requestCode, resultCode=$resultCode, data=$data")
         if (data == null) {
-            activeDefault()
+            activeStartScreen()
             return
         }
         when (requestCode) {
@@ -104,11 +111,17 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
                 if (resultCode == CallActivity.RESULT_CODE_FOR_FINISH_BY_DETECTION_LOST) {
                     handleIdle()
                 } else {
-                    activeDefault()
+                    activeStartScreen()
+                }
+            }
+
+            REQUEST_CODE_FOR_SETTINGS_ACTIVITY -> {
+                if (resultCode == SettingsActivity.RESULT_CODE_FOR_UPDATED_STARTING_SCREEN) {
+                    activeStartScreen()
                 }
             }
             else -> {
-                activeDefault()
+                activeStartScreen()
             }
         }
     }
@@ -116,8 +129,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
     override fun toggleActivityClickListener(enable: Boolean) {
         constraintLayoutParent.setOnClickListener {
             if (enable) {
-                constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
-                startFragment(FeatureListFragment.newInstance())
+                activeStartScreen()
             }
             robot.stopMovement()
         }
@@ -129,7 +141,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         if (isInteracting) {
             if (!textViewGreeting.isVisible && detectionState != OnDetectionStateChangedListener.DETECTED) {
                 Timber.d("onUserInteraction, interaction=true. active default")
-                activeDefault()
+                activeStartScreen()
             }
         } else {
             handleIdle()
@@ -203,7 +215,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
                 if (settingsModel.isUsingCallPageInterface) {
                     activeCall()
                 } else {
-                    activeDefault()
+                    activeStartScreen()
                 }
             }
     }
@@ -214,8 +226,11 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         startActivityForResult(intent, REQUEST_CODE_FOR_CALL_ACTIVITY)
     }
 
-    private fun activeDefault() {
-        startFragment(FeatureListFragment.newInstance())
+    private fun activeStartScreen() {
+        when (getSettings().startingScreenSelected) {
+            getString(R.string.starting_screen_default) -> startFragment(FeatureListFragment.newInstance())
+            getString(R.string.starting_screen_sequence) -> startFragment(SequencesFragment.newInstance())
+        }
     }
 
     private fun handleIdle() {

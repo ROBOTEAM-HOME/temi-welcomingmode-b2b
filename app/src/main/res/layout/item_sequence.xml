@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tvContent"
+    android:layout_width="272dp"
+    android:layout_height="272dp"
+    android:layout_marginEnd="25dp"
+    android:layout_marginBottom="25dp"
+    android:background="@drawable/selector_feature_card"
+    android:gravity="top"
+    android:maxLines="3"
+    android:paddingStart="26dp"
+    android:paddingTop="38dp"
+    android:paddingEnd="26dp"
+    android:paddingBottom="69dp"
+    android:textColor="@color/white"
+    android:textSize="40sp"
+    tools:text="Explore a whole new worasdfasfasdfasasdfasdfassdfasfdasfdld…" />

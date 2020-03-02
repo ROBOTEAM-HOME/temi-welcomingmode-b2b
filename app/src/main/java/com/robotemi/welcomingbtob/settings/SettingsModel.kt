@@ -8,8 +8,6 @@ import timber.log.Timber
 
 data class SettingsModel(
     var isUsingGreeterUser: Boolean = true,
-    var isUsingDefaultMessage: Boolean = true,
-    var customMessage: String = "",
     var isUsingDisplayMessage: Boolean = true,
     var displayMessage: String = "",
     var isUsingVoiceGreeter: Boolean = true,
@@ -17,7 +15,8 @@ data class SettingsModel(
     var isUsingLocationAnnouncements: Boolean = true,
     var greeterMessageForVideoCall: String = "",
     var isUsingCallPageInterface: Boolean = true,
-    var isUsingAutoCall: Boolean = true
+    var isUsingAutoCall: Boolean = true,
+    var startingScreenSelected: String = ""
 ) {
 
     companion object {
@@ -49,6 +48,9 @@ data class SettingsModel(
                         greeterMessageForVideoCall =
                             context.getString(R.string.greeter_message_for_video_call)
                     }
+                    if (startingScreenSelected.isBlank()) {
+                        startingScreenSelected = context.getString(R.string.starting_screen_default)
+                    }
                 }
         }
 
@@ -57,9 +59,6 @@ data class SettingsModel(
             settingsModel: SettingsModel,
             callback: ISaveSettingsCallback?
         ) {
-            if (settingsModel.customMessage.isEmpty()) {
-                settingsModel.isUsingDefaultMessage = true
-            }
             val sharedPreferences =
                 context.getSharedPreferences(
                     context.getString(R.string.app_name),
