@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.d("Main Activity - onCreate()")
-
         setContentView(R.layout.activity_main)
         btnOpenHomeList.setOnLongClickListener {
             startActivityForResult(
@@ -67,6 +66,7 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
             imageButtonClose.visibility = View.GONE
             constraintLayoutParent.setBackgroundResource(R.drawable.bg_dark_overlay)
         }
+        robot.addOnSequenceStatusChangedListener(this)
     }
 
     override fun onResume() {
@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         robot.addOnDetectionStateChangedListener(this)
         robot.addOnGoToLocationStatusChangedListener(this)
         robot.addTtsListener(this)
-        robot.addOnSequenceStatusChangedListener(this)
         toggleActivityClickListener(true)
         if (textViewGreeting.isVisible) {
             textViewGreeting.visibility = View.GONE
@@ -90,10 +89,14 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
         robot.removeDetectionStateChangedListener(this)
         robot.removeOnGoToLocationStatusChangedListener(this)
         robot.removeTtsListener(this)
-        robot.removeOnSequenceStatusChangedListener(this)
         if (!disposableAction.isDisposed) {
             disposableAction.dispose()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        robot.removeOnSequenceStatusChangedListener(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -228,7 +231,10 @@ class MainActivity : AppCompatActivity(), OnRobotReadyListener, IActivityCallbac
     private fun activeStartScreen() {
         when (getSettings().startingScreenSelected) {
             getString(R.string.starting_screen_default) -> startFragment(FeatureListFragment.newInstance())
-            getString(R.string.starting_screen_sequence) -> startFragment(SequencesFragment.newInstance())
+            getString(R.string.starting_screen_sequence) -> {
+                constraintLayoutParent.setBackgroundResource(0)
+                startFragment(SequencesFragment.newInstance())
+            }
         }
     }
 
