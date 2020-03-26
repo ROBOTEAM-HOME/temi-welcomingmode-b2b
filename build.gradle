@@ -1,6 +1,7 @@
 apply from: 'buildsystem/bitrise.gradle'
 
 ext {
+    globalApplicationId = isBitrise ? "com.robotemi.welcomingbtob" : "com.robotemi.welcomingbtob.external"
     globalVersionCode = isBitrise ? Integer.parseInt(bitrise.io.buildNumber) : 1
     globalVersionName = String.valueOf(globalVersionCode)
 }
