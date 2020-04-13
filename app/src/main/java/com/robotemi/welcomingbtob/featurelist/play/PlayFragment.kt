@@ -100,12 +100,10 @@ class PlayFragment : FeatureBaseFragment(), OnBeWithMeStatusChangedListener {
     private fun startSkill(packageNameWithoutSuffix: String, nlpResult: NlpResult?) {
         val wakeupWord = robot.wakeupWord
         val packageName = StringBuilder(packageNameWithoutSuffix)
-        if (wakeupWord.toLowerCase() == Constants.WAKEUP_WORD_ALEXA.toLowerCase()
-            || wakeupWord.toLowerCase() == Constants.WAKEUP_WORD_HEY_TEMI.toLowerCase()
-        ) {
-            packageName.append(Constants.SUFFIX_USA)
-        } else {
+        if (wakeupWord.equals(Constants.WAKEUP_WORD_DING_DANG, true)) {
             packageName.append(Constants.SUFFIX_CHINA)
+        } else {
+            packageName.append(Constants.SUFFIX_USA)
         }
         val intent = context?.packageManager?.getLaunchIntentForPackage(packageName.toString())
         intent?.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_TASK_ON_HOME

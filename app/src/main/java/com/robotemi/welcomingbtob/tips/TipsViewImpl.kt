@@ -12,6 +12,7 @@ import com.robotemi.sdk.Robot
 import com.robotemi.welcomingbtob.R
 import com.robotemi.welcomingbtob.utils.AnimationUtils
 import com.robotemi.welcomingbtob.utils.Constants
+import java.util.*
 
 class TipsViewImpl : RelativeLayout {
 
@@ -54,8 +55,9 @@ class TipsViewImpl : RelativeLayout {
             context.getString(R.string.admin)
         }
         val tips = mutableListOf<String>()
-        when (robot.wakeupWord.toLowerCase()) {
-            Constants.WAKEUP_WORD_ALEXA -> {
+        when (robot.wakeupWord.toLowerCase(Locale.ENGLISH)) {
+            Constants.WAKEUP_WORD_ALEXA,
+            Constants.WAKEUP_WORD_ALEXA_JAPAN -> {
                 tips.clear()
                 tips.add(String.format("Try “Alexa, tell my temi to go to %s”", locationForTips))
                 tips.add("Try “Alexa, tell my temi to follow me”")
@@ -64,24 +66,22 @@ class TipsViewImpl : RelativeLayout {
                 tips.add("Try “Alexa, tell my temi to take a video”")
                 tips.add("Try “Alexa, tell my temi to take a GIF”")
             }
-            Constants.WAKEUP_WORD_HEY_TEMI -> {
-                tips.clear()
-                tips.add(String.format("Try “Hey temi, go to %s”", locationForTips))
-                tips.add("Try “Hey temi, follow me”")
-                tips.add(String.format("Try “Hey temi, call %s”", callForTips))
-                tips.add("Try “Hey temi, to take a selfie”")
-                tips.add("Try “Hey temi, to take a video”")
-                tips.add("Try “Hey temi, to take a GIF”")
-                tips.add("Try “Hey temi, play music on iHeart”")
-            }
-            else -> {
-                tips.clear()
+            Constants.WAKEUP_WORD_DING_DANG -> {
                 tips.add(String.format("“叮当叮当，去%s”", locationForTips))
                 tips.add("“叮当叮当，跟着我”")
                 tips.add(String.format("“叮当叮当，打电话给%s”", callForTips))
                 tips.add("“叮当叮当，来张自拍”")
                 tips.add("“叮当叮当，拍视频”")
-                tips.add("“叮当叮当，今天天气”")
+                tips.add("“叮当叮当，今天天气怎么样”")
+            }
+            else -> {
+                tips.add(String.format("Try “Hi temi, go to %s”", locationForTips))
+                tips.add("Try “Hi temi, follow me”")
+                tips.add(String.format("Try “Hey temi, call %s”", callForTips))
+                tips.add("Try “Hi temi, to take a selfie”")
+                tips.add("Try “Hi temi, to take a video”")
+                tips.add("Try “Hi temi, to take a GIF”")
+                tips.add("Try “Hi temi, play music on iHeart”")
             }
         }
         tips.shuffle()
