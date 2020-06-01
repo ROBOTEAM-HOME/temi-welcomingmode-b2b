@@ -1,14 +1,18 @@
 # temi-welcomingmode-b2b
+This is an example skill to teach developers how to use tēmi's Welcoming Mode.
 
-| SDK Version | Robox OS | Launcher OS |
-|-------------|----------|-------------|
-|<b>Not supported yet</b>|<b>115+</b>|<b>Not supported yet</b>|
 
-## Synopsis
-This project is a Welcoming Mode B2B skill and as an example to teach developers how to use the Welcoming Mode of tēmi in their own App.
+## Installation
+```
+adb install -r -t /path/to/welcomingmode-b2b.apk
+```
+
+You can find releases [here](https://github.com/ray-hrst/temi-welcomingmode-b2b/releases)
+
 
 ## Development
 RxKotlin, Koin, temi SDK
+
 
 ## Usage flow
 
