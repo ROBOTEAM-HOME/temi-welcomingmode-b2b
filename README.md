@@ -1,8 +1,8 @@
 # temi-welcomingmode-b2b
 
 | SDK Version | Robox OS | Launcher OS |
-|-------------|----------|-------------|
-|<b>Not supported yet</b>|<b>115+</b>|<b>Not supported yet</b>|
+|:-----------:|:--------:|:-----------:|
+|<b>0.10.53+</b>|<b>115+</b>|<b>11969(-chinaTencent)+</b>|
 
 ## Synopsis
 This project is a Welcoming Mode B2B skill and as an example to teach developers how to use the Welcoming Mode of tēmi in their own App.
