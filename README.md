@@ -1,4 +1,3 @@
-
 # temi Welcoming Mode B2B
 This is an example skill that uses temi's Welcoming Mode.
 
