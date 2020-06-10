@@ -1,42 +1,10 @@
 
 # temi Welcoming Mode B2B
-This is an example skill that uses tēmi's Welcoming Mode.
-
-
-## Installation
-```
-adb install -r -t /path/to/welcomingmode-b2b.apk
-```
-
-You can find releases [here](https://github.com/ray-hrst/temi-welcomingmode-b2b/releases)
-
-
-## How to Modify
-* All Japanese text should appear in:
-	*  `app/src/main/res/values-ja-rJP/strings.xml`.
-* To remove a `feature` or `button` edit: 
-	* `app/src/main/res/values/arrays.xml`.
-* To change the behaviour of a `feature`, edit:
-	*  `app/src/main/java/com/robotemi/welcomingbtob/featurelist/FeatureListFragment.kt`. 
-	* For example, a feature could be used to launch another app:
-		```
-	  	protected void launchApp(String packageName) {
-	        Intent mIntent = getPackageManager().getLaunchIntentForPackage(packageName);
-
-	        if (mIntent != null) {
-	            try {
-	                startActivity(mIntent);
-	            } catch (ActivityNotFoundException err) {
-	                Toast t = Toast.makeText(getApplicationContext(), R.string.app_not_found, Toast.LENGTH_SHORT);
-	                t.show();
-	            }
-	        }
-	    }
-		```
+This is an example skill that uses temi's Welcoming Mode.
 
 
 ## Setup
-Clone and compile from source or download an [pre-built APK](https://github.com/ray-hrst/temi-welcomingmode-b2b/releases).
+Clone and compile from source.
 
 On temi,
 * Go to `Settings` > `Kiosk mode` and turn on kiosk mode
@@ -53,11 +21,11 @@ A long press in the top-right corner of the screen will open a hidden `Settings`
 
   ![Hello](/captures/hello.png)
 
-* A feature list with 3 buttons (`WALK`, `CALL`, `PLAY`) should appear by default on the screen when a person is or the screen is touched.
+* A feature list with 3 buttons (`WALK`, `CALL`, `PLAY`) should appear by default on the screen when a person is detected and/or when the screen is touched.
 
   ![Feature list](/captures/feature_list.png)
 
-* Selecting `WALK` will show the user pre-saved locations. temi will go to the selected location.
+* Selecting `WALK` will show all predefined locations. Selecting a location will command temi to go to that location.
 
   ![Walk](/captures/walk.png)
 
@@ -65,13 +33,13 @@ A long press in the top-right corner of the screen will open a hidden `Settings`
 
   ![CALL](/captures/call.png)
 
-* Selecting `PLAY` will show you some of temi's features, such as `Photos` and `Follow me`.
+* Selecting `PLAY` will display some of temi's features, such as `Photos` and `Follow me`.
 
   ![PLAY](/captures/play.png)
 
 
 ## Dependencies
-* RxKotlin
-* Koin
-* temi SDK
+* [RxKotlin](https://github.com/ReactiveX/RxKotlin)
+* [Koin](https://github.com/InsertKoinIO/koin)
+* [temi SDK](https://github.com/robotemi/sdk)
 
