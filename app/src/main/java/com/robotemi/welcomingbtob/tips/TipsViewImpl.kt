@@ -56,7 +56,15 @@ class TipsViewImpl : RelativeLayout {
         }
         val tips = mutableListOf<String>()
         when (robot.wakeupWord.toLowerCase(Locale.ENGLISH)) {
-            Constants.WAKEUP_WORD_ALEXA,
+            Constants.WAKEUP_WORD_ALEXA -> {
+                tips.clear()
+                tips.add(String.format("Try “Alexa, tell my temi to go to %s”", locationForTips))
+                tips.add("Try “Alexa, tell my temi to follow me”")
+                tips.add(String.format("Try “Alexa, tell my temi to call %s”", callForTips))
+                tips.add("Try “Alexa, tell my temi to take a selfie”")
+                tips.add("Try “Alexa, tell my temi to take a video”")
+                tips.add("Try “Alexa, tell my temi to take a GIF”")
+            }
             Constants.WAKEUP_WORD_DING_DANG -> {
                 tips.add(String.format("“叮当叮当，去%s”", locationForTips))
                 tips.add("“叮当叮当，跟着我”")
