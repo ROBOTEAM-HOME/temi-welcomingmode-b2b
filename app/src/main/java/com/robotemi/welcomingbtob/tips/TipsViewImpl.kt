@@ -56,8 +56,7 @@ class TipsViewImpl : RelativeLayout {
         }
         val tips = mutableListOf<String>()
         when (robot.wakeupWord.toLowerCase(Locale.ENGLISH)) {
-            Constants.WAKEUP_WORD_ALEXA,
-            Constants.WAKEUP_WORD_ALEXA_JAPAN -> {
+            Constants.WAKEUP_WORD_ALEXA -> {
                 tips.clear()
                 tips.add(String.format("Try “Alexa, tell my temi to go to %s”", locationForTips))
                 tips.add("Try “Alexa, tell my temi to follow me”")
@@ -75,13 +74,14 @@ class TipsViewImpl : RelativeLayout {
                 tips.add("“叮当叮当，今天天气怎么样”")
             }
             else -> {
-                tips.add(String.format("Try “Hi temi, go to %s”", locationForTips))
-                tips.add("Try “Hi temi, follow me”")
-                tips.add(String.format("Try “Hey temi, call %s”", callForTips))
-                tips.add("Try “Hi temi, to take a selfie”")
-                tips.add("Try “Hi temi, to take a video”")
-                tips.add("Try “Hi temi, to take a GIF”")
-                tips.add("Try “Hi temi, play music on iHeart”")
+                // WAKEUP_WORD_HEY_TEMI
+                tips.add(String.format(resources.getString(R.string.tips_go_to), locationForTips))
+                tips.add(resources.getString(R.string.tips_follow_me))
+                tips.add(resources.getString(R.string.tips_photo))
+                tips.add(resources.getString(R.string.tips_video))
+                tips.add(resources.getString(R.string.tips_sequence))
+//                tips.add(String.format(resources.getString(R.string.tips_call), callForTips)) // unreliable intent (particularly in Japanese)
+//                tips.add(resources.getString(R.string.tips_radio)) // unable to stop iHeart
             }
         }
         tips.shuffle()

@@ -57,4 +57,12 @@
     <string name="greet_user_voice_greeting_message">Voice greeting message</string>
     <string name="greet_user_voice_greeter_description">When enabled temi will also greet by voice</string>
     <string name="greeter_message_for_video_call">Welcome to temi. Press call button if you need any help</string>
+
+    <string name="tips_go_to">"Try “Hey temi, go to %1$s”"</string>
+    <string name="tips_follow_me">"Try “Hey temi, follow me”"</string>
+    <string name="tips_photo">"Try “Hey temi, take a selfie”"</string>
+    <string name="tips_video">"Try “Hey temi, take a video”"</string>
+    <string name="tips_sequence">"Try “Hey temi, take a sequence of photos”"</string>
+<!--    <string name="tips_call">"Try “Hey temi, call %1$s”"</string>-->
+<!--    <string name="tips_radio">"Try “Hey temi, play music on iHeart”"</string>-->
 </resources>

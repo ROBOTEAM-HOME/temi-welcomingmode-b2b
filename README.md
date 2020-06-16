@@ -1,49 +1,44 @@
-# temi-welcomingmode-b2b
+# temi Welcoming Mode B2B
+This is an example skill that uses temi's Welcoming Mode.
 
-| SDK Version | Robox OS | Launcher OS |
-|:-----------:|:--------:|:-----------:|
-|<b>0.10.53+</b>|<b>115+</b>|<b>11969(-chinaTencent)+</b>|
 
-## Synopsis
-This project is a Welcoming Mode B2B skill and as an example to teach developers how to use the Welcoming Mode of tēmi in their own App.
+## Setup
+Clone and compile from source.
 
-## Development
-RxKotlin, Koin, temi SDK
+On temi,
+* Go to `Settings` > `Kiosk mode` and turn on kiosk mode
+* Select this skill from the list of skills
+* Go to `Settings` > `General Settings` and turn on `Welcoming Mode`
+* Return to home page
 
-## Usage flow
+### Hidden Settings Menu
+A long press in the top-right corner of the screen will open a hidden `Settings` menu, which will also allow the user to exit the App and return to temi's Launcher.
 
-### Start this skill in temi
 
-1. Clone this project to your computer and run it to temi.
-
-2. On temi - go to Settings -> Kiosk mode -> Turn on the kiosk mode from the top right corner.
-
-3. Select this skill from the list of skills.
-
-4. Return back to Settings -> General Settings -> Turn on the Welcoming Mode.
-
-5. Return to home page.
-
-### Enjoy
-
-1. When some body is detected by temi, "Hello" will be showing on the screen.
+## Behaviour
+* When a person is detected by temi, "Hello" will appear on the screen.
 
   ![Hello](/captures/hello.png)
 
-2. A feature list with 3 buttons ("WALK", "CALL", "PLAY") would apper on the screen if some body is detected or screen be clicked.
+* A feature list with 3 buttons (`WALK`, `CALL`, `PLAY`) should appear by default on the screen when a person is detected and/or when the screen is touched.
 
   ![Feature list](/captures/feature_list.png)
 
-3. Click "WALK", screen will show you the location list you saved. And temi will go to that location if you click the button with location name.
+* Selecting `WALK` will show all predefined locations. Selecting a location will command temi to go to that location.
 
   ![Walk](/captures/walk.png)
 
-4. Click "CALL", screen will show you the administrator information with username and avatar, you can start a video call with the administrator by clicking the button.
+* Selecting `CALL` will show the user administrator information (i.e. username and avatar), you can start a video call with the administrator by selecting the user's avatar.
 
   ![CALL](/captures/call.png)
 
-5. Click "PLAY", screen will show you the best features of temi such as "Take a selfi" and "Follow me". you also can enjoy these features by clicking the corresponding buttons.
+* Selecting `PLAY` will display some of temi's features, such as `Photos` and `Follow me`.
 
   ![PLAY](/captures/play.png)
 
-6. Lastly, you can long press the top right corner of the screen to return to the App list of temi Launcher.
+
+## Dependencies
+* [RxKotlin](https://github.com/ReactiveX/RxKotlin)
+* [Koin](https://github.com/InsertKoinIO/koin)
+* [temi SDK](https://github.com/robotemi/sdk)
+
