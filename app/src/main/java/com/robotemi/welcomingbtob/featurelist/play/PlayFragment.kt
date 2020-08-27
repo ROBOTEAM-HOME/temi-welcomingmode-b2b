@@ -72,7 +72,7 @@ class PlayFragment : FeatureBaseFragment(), OnBeWithMeStatusChangedListener {
             }
             getString(R.string.feature_follow) -> robot.beWithMe()
             getString(R.string.feature_stop_follow) -> robot.stopMovement()
-            getString(R.string.feature_play_music) -> startSkill(SKILL_PACKAGE_MUSIC, null)
+            getString(R.string.feature_play_music) -> playMusic()
         }
     }
 
@@ -116,12 +116,23 @@ class PlayFragment : FeatureBaseFragment(), OnBeWithMeStatusChangedListener {
         startActivity(intent)
     }
 
+    private fun playMusic() {
+        val wakeupWord = robot.wakeupWord
+        if (wakeupWord.equals(Constants.WAKEUP_WORD_DING_DANG, true)) {
+            robot.startDefaultNlu(NLU_QUERY_DINGDANG_PLAY_MUSIC)
+        } else {
+            startSkill(SKILL_PACKAGE_MUSIC, null)
+        }
+    }
+
     companion object {
         private const val SKILL_PACKAGE_CAMERA = "com.roboteam.teamy.camera"
 
         private const val SKILL_PACKAGE_MUSIC = "com.roboteam.teamy.iheart"
 
         private const val SKILL_CAMERA_ACTION_TAKE_PICTURE = "camera.take.picture"
+
+        private const val NLU_QUERY_DINGDANG_PLAY_MUSIC = "播放音乐"
 
         fun newInstance() = PlayFragment()
     }
