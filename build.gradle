@@ -6,7 +6,7 @@ ext {
     globalVersionName = String.valueOf(globalVersionCode)
 }
 buildscript {
-    ext.kotlin_version = '1.3.61'
+    ext.kotlin_version = '1.6.20'
     repositories {
         google()
         jcenter()
